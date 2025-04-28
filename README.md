@@ -1,1 +1,1 @@
-# AI-Based-Virtual-Interview-Preparation-Assistant
+# AI Based Virtual Interview Preparation Assistant
