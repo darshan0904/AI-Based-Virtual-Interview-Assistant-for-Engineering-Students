@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Path - Smart Mock Interviews</title>
+    <style>
+        body {
+            background-image: url('https://www.interview-expert.com/beta-old/uploads/blogs/1692166939__Tips%20For%20Ai%20Job%20Interviews%20(1).jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            color: #ffffff;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Overlay for readability */
+            z-index: -1;
+        }
+        .navbar {
+            background-color: #1a252f;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .navbar-links {
+            display: flex;
+            gap: 20px;
+        }
+        .navbar-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        .navbar-links a:hover {
+            color: #2196F3;
+        }
+        .main-content {
+            text-align: center;
+            padding: 80px 20px;
+            animation: fadeIn 1s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .main-content h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .option-box {
+            background: rgba(255, 255, 255, 0.95);
+            width: 300px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            cursor: pointer;
+            animation: fadeIn 1s ease;
+            text-decoration: none;
+            color: #333;
+        }
+        .option-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+        .option-box.resume-builder {
+            border-left: 5px solid #2196F3;
+        }
+        .option-box.resume-builder:hover {
+            background: rgba(33, 150, 243, 0.1);
+        }
+        .option-box.interview-prep {
+            border-left: 5px solid #4CAF50;
+        }
+        .option-box.interview-prep:hover {
+            background: rgba(76, 175, 80, 0.1);
+        }
+        .option-box h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .option-box p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .navbar-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .main-content h1 {
+                font-size: 28px;
+            }
+            .options-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .option-box {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">Smart Mock Interviews</div>
+        <div class="navbar-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('info') }}">Info</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+    <section class="main-content">
+        <h1>Choose Your Path</h1>
+        <div class="options-container">
+            <a href="{{ url_for('resume_builder') }}" class="option-box resume-builder">
+                <h2>Help Me Build My Resume</h2>
+                <p>Create a professional resume tailored to your career goals with our AI-powered resume builder.</p>
+            </a>
+            <a href="{{ url_for('select_domain') }}" class="option-box interview-prep">
+                <h2>Help Me Prepare for My Interview</h2>
+                <p>Practice realistic mock interviews with our AI chatbot, complete with instant feedback.</p>
+            </a>
+        </div>
+    </section>
+</body>
+</html>
