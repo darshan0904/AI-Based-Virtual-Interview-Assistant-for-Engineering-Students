@@ -1,0 +1,121 @@
+body {
+    background: linear-gradient(to bottom right, #1e1b4b, #4c1d95, #db2777);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#line-dot-canvas {
+    /* position: fixed; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.3;
+}
+
+#domain-selection {
+    position: relative;
+}
+
+.question-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e5e7eb;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+.question-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.option-box {
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+.fill-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(79, 70, 229, 0.2);
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+.animate-fill {
+    animation: fillAnimation 0.5s ease-out forwards;
+}
+
+@keyframes fillAnimation {
+    0% { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
+}
+
+button {
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.animate-slide-left {
+    animation: slideLeft 1s ease-out;
+}
+
+@keyframes slideLeft {
+    0% { transform: translateX(100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+.animate-pop-up {
+    animation: popUp 1s ease-out;
+}
+
+@keyframes popUp {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+select {
+    background-image: none;
+}
+
+#questions-container {
+    max-height: none;
+    overflow-y: visible;
+}
+
+@media (max-width: 768px) {
+    .question-card {
+        max-width: 100%;
+        padding: 1rem;
+    }
+}

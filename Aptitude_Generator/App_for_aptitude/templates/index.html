@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aptitude Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="flex flex-col items-center justify-start min-h-screen p-6 overflow-y-auto relative"
+  >
+    <!-- Background Canvases for Each Screen -->
+    <canvas
+      id="domain-bg-canvas"
+      class="fixed inset-0 pointer-events-none z-0 bg-gradient-to-br from-blue-900 via-teal-800 to-green-700"
+    ></canvas>
+    <canvas
+      id="loading-bg-canvas"
+      class="fixed inset-0 pointer-events-none z-0 bg-gradient-to-br from-gray-600 via-teal-500 to-gray-700 hidden"
+    ></canvas>
+    <canvas
+      id="quiz-bg-canvas"
+      class="fixed inset-0 pointer-events-none z-0 bg-gradient-to-br from-indigo-800 via-cyan-800 to-blue-700 hidden"
+    ></canvas>
+    <canvas
+      id="result-bg-canvas"
+      class="fixed inset-0 pointer-events-none z-0 bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-700 hidden"
+    ></canvas>
+
+    <!-- Domain Selection Screen -->
+    <div
+      id="domain-selection"
+      class="bg-white bg-opacity-95 rounded-3xl shadow-2xl p-10 max-w-md w-full z-10 relative overflow-hidden"
+    >
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/7595/7595571.png"
+        alt="Verified Checkmark Image"
+        class="w-20 h-20 mx-auto mb-6"
+      />
+      <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-6">
+        Aptitude Test
+      </h1>
+      <p class="text-gray-600 mb-6 text-center text-lg">
+        Select or enter your domain to begin.
+      </p>
+      <div class="relative mb-4">
+        <select
+          id="domain"
+          class="w-full p-3 pl-10 border rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-300 bg-gray-50 text-gray-800 appearance-none"
+          onchange="toggleInput('domain')"
+        >
+          <option value="" disabled selected>Choose a domain</option>
+          {% for domain in domains %}
+          <option value="{{ domain }}">{{ domain }}</option>
+          {% endfor %}
+        </select>
+        <svg
+          class="absolute left-3 top-3 h-5 w-5 text-gray-500"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
+        </svg>
+      </div>
+      <p class="text-gray-600 mb-2 text-center">
+        Or enter a domain (e.g., ISE):
+      </p>
+      <input
+        id="domain_input"
+        type="text"
+        class="w-full p-3 border rounded-xl mb-6 focus:outline-none focus:ring-4 focus:ring-indigo-300 bg-gray-50 text-gray-800"
+        placeholder="Enter custom domain"
+        oninput="toggleInput('domain_input')"
+      />
+      <button
+        onclick="startTest()"
+        class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition duration-300 text-lg font-semibold shadow-lg"
+      >
+        Start Test
+      </button>
+    </div>
+
+    <!-- Loading Screen -->
+    <div
+      id="loading-screen"
+      class="hidden flex-col items-center justify-center h-screen text-white z-10 animate-slide-left"
+    >
+      <div
+        id="quote-container"
+        class="loading-quote text-3xl font-semibold mb-6 text-center max-w-2xl px-4"
+      ></div>
+    </div>
+
+    <div
+      id="quiz-screen"
+      class="hidden w-full min-h-screen flex items-start justify-center z-10 py-6"
+    >
+      <div
+        class="mx-auto max-w-2xl w-full bg-white bg-opacity-95 rounded-3xl shadow-2xl p-6"
+      >
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="text-4xl font-extrabold text-indigo-900">Aptitude Test</h1>
+          <div class="flex items-center space-x-4">
+            <div
+              id="progress"
+              class="text-lg font-semibold text-white bg-indigo-900 px-4 py-2 rounded-full"
+            >
+              0/25
+            </div>
+            <div
+              id="timer"
+              class="text-2xl font-semibold text-white bg-indigo-900 px-6 py-3 rounded-full animate-pulse"
+            >
+              10:00
+            </div>
+          </div>
+        </div>
+
+        <!-- Questions -->
+        <div
+          id="questions-container"
+          class="w-full flex flex-col items-center space-y-6"
+        >
+          <!-- Questions will be injected here -->
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center mt-8">
+          <button
+            onclick="submitTest()"
+            class="w-full max-w-md bg-green-600 text-white p-4 rounded-xl hover:bg-green-700 transition duration-300 text-lg font-semibold shadow-lg"
+          >
+            Submit Test
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div
+      id="result-screen"
+      class="hidden bg-white bg-opacity-95 rounded-3xl shadow-2xl p-10 max-w-2xl w-full mx-auto z-10 animate-pop-up"
+    >
+<img
+  src="https://cdn-icons-png.flaticon.com/512/942/942748.png"
+  alt="Quiz Completed Icon"
+  class="w-20 h-20 mx-auto mb-6"
+/>
+      <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-8">
+        Test Results
+      </h1>
+      <div id="result-details" class="text-gray-700 mb-8 text-lg"></div>
+      <button
+        onclick="toggleIncorrect()"
+        class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-xl mb-6 hover:from-indigo-700 hover:to-purple-700 transition duration-300 text-lg font-semibold shadow-lg"
+      >
+        View Incorrect Answers
+      </button>
+      <div id="incorrect-answers" class="hidden text-gray-700 mb-8"></div>
+      <button
+        onclick="restartTest()"
+        class="w-full bg-gradient-to-r from-gray-600 to-gray-700 text-white p-4 rounded-xl hover:from-gray-700 hover:to-gray-800 transition duration-300 text-lg font-semibold shadow-lg"
+      >
+        Restart Test
+      </button>
+    </div>
+
+    <script id="domain-data" type="application/json">
+      {{ domains | tojson | safe }}
+    </script>
+    <script>
+      const supportedDomains = JSON.parse(
+        document.getElementById("domain-data").textContent
+      );
+      const quotes = [
+        "If anxiety had a loading screen… this would be it ☠️👽☠️",
+        "You vs. AI in a 1v1 mental duel. May the best brain win 🧠⚔️",
+        "Downloading questions. Uploading imposter syndrome 🤖👾🤖",
+        "Activating grind mode: Questions loading, confidence uploading 🚀📈",
+        "Pulling questions from the AI multiverse 🤖 Just don't glitch 💾",
+        "Hang tight, your IQ upgrade is on the way 👀💡",
+        "Success is not the absence of obstacles, but the courage to push through them.⚡💯",
+        "Your potential is limitless when you believe in your abilities.🗿🔥",
+      ];
+      let timerInterval;
+      const answers = Array(25).fill("");
+
+      // Background Animation Management
+      const canvases = {
+        domain: document.getElementById("domain-bg-canvas"),
+        loading: document.getElementById("loading-bg-canvas"),
+        quiz: document.getElementById("quiz-bg-canvas"),
+        result: document.getElementById("result-bg-canvas"),
+      };
+
+      function resizeCanvas(canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      class ConstellationParticle {
+        constructor(canvas) {
+          this.canvas = canvas;
+          this.ctx = canvas.getContext('2d');
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 1;
+          this.vy = (Math.random() - 0.5) * 1;
+          this.radius = Math.random() * 2 + 1;
+          this.brightness = Math.random();
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > this.canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > this.canvas.height) this.vy *= -1;
+          this.brightness = Math.sin(performance.now() * 0.005 + this.x) * 0.5 + 0.5;
+        }
+        draw() {
+          this.ctx.beginPath();
+          this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          this.ctx.fillStyle = `rgba(255, 255, 255, ${this.brightness})`;
+          this.ctx.fill();
+        }
+      }
+
+      let constellationParticles = [];
+      function animateConstellation() {
+        const ctx = canvases.domain.getContext('2d');
+        ctx.clearRect(0, 0, canvases.domain.width, canvases.domain.height);
+
+        if (constellationParticles.length < 100) constellationParticles.push(new ConstellationParticle(canvases.domain));
+        constellationParticles = constellationParticles.filter(p => p.x >= 0 && p.x <= canvases.domain.width && p.y >= 0 && p.y <= canvases.domain.height);
+
+        constellationParticles.forEach(p => {
+          p.update();
+          p.draw();
+          constellationParticles.forEach(otherP => {
+            if (p !== otherP) {
+              const dx = p.x - otherP.x;
+              const dy = p.y - otherP.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              if (distance < 150) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(otherP.x, otherP.y);
+                const brightness = (p.brightness + otherP.brightness) / 2;
+                ctx.strokeStyle = `rgba(255, 255, 255, ${brightness * (1 - distance / 150)})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+              }
+            }
+          });
+        });
+
+        requestAnimationFrame(animateConstellation);
+      }
+      // Loading Screen: Spinning Dashed Line Loader
+      function animateSpinningLoader() {
+        const ctx = canvases.loading.getContext("2d");
+        ctx.clearRect(0, 0, canvases.loading.width, canvases.loading.height);
+
+        const centerX = canvases.loading.width / 2;
+        const centerY = canvases.loading.height / 2;
+        const radius = 50;
+        const time = performance.now() * 0.002;
+
+        ctx.beginPath();
+        ctx.setLineDash([10, 15]);
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+        ctx.lineWidth = 5;
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(time);
+        ctx.beginPath();
+        ctx.setLineDash([10, 15]);
+        ctx.arc(0, 0, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+        ctx.lineWidth = 5;
+        ctx.stroke();
+        ctx.restore();
+
+        requestAnimationFrame(animateSpinningLoader);
+      }
+
+      // Quiz Screen: Gentle Drift
+      class DriftingParticle {
+        constructor(canvas) {
+          this.canvas = canvas;
+          this.ctx = canvas.getContext("2d");
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 0.2;
+          this.vy = (Math.random() - 0.5) * 0.2;
+          this.radius = Math.random() * 2 + 1;
+          this.life = 1;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > this.canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > this.canvas.height) this.vy *= -1;
+          this.life = Math.max(0, this.life - 0.001);
+        }
+        draw() {
+          this.ctx.beginPath();
+          this.ctx.arc(this.x, this.y, this.radius * this.life, 0, Math.PI * 2);
+          this.ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.5})`;
+          this.ctx.fill();
+        }
+      }
+
+      let driftingParticles = [];
+      function animateGentleDrift() {
+        const ctx = canvases.quiz.getContext("2d");
+        ctx.clearRect(0, 0, canvases.quiz.width, canvases.quiz.height);
+
+        if (driftingParticles.length < 50)
+          driftingParticles.push(new DriftingParticle(canvases.quiz));
+        driftingParticles = driftingParticles.filter((p) => p.life > 0);
+
+        driftingParticles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+
+        requestAnimationFrame(animateGentleDrift);
+      }
+
+// Result Screen: Starry Sparkle (cleaned + faster)
+function animateStars() {
+  const ctx = canvases.result.getContext("2d");
+  ctx.clearRect(0, 0, canvases.result.width, canvases.result.height);
+
+  // Add new star sometimes
+  if (Math.random() < 0.05) {
+    const x = Math.random() * canvases.result.width;
+    const y = Math.random() * canvases.result.height;
+    const star = {
+      x,
+      y,
+      radius: Math.random() * 2 + 1,
+      opacity: 0,
+      phase: "fadeIn"
+    };
+    canvases.result.stars = canvases.result.stars || [];
+    canvases.result.stars.push(star);
+  }
+
+  const stars = canvases.result.stars || [];
+  for (let i = stars.length - 1; i >= 0; i--) {
+    const star = stars[i];
+
+    // Animate opacity
+    if (star.phase === "fadeIn") {
+      star.opacity += 0.1;
+      if (star.opacity >= 1) {
+        star.opacity = 1;
+        star.phase = "fadeOut";
+        star.delay = 30; // short delay before fadeOut
+      }
+    } else if (star.phase === "fadeOut") {
+      if (star.delay > 0) {
+        star.delay--;
+      } else {
+        star.opacity -= 0.1;
+        if (star.opacity <= 0) {
+          stars.splice(i, 1); // remove faded star
+          continue;
+        }
+      }
+    }
+
+    // Draw the star
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+    ctx.fill();
+  }
+
+  canvases.result.stars = stars;
+  requestAnimationFrame(animateStars);
+}
+
+
+
+      // Initialize Canvases
+      Object.values(canvases).forEach((canvas) => resizeCanvas(canvas));
+      window.addEventListener("resize", () =>
+        Object.values(canvases).forEach(resizeCanvas)
+      );
+
+      document.addEventListener("DOMContentLoaded", () => {
+        animateConstellation();
+        animateSpinningLoader();
+        animateGentleDrift();
+        animateStars();
+      });
+
+      // Update Background Based on Screen
+      function updateBackground() {
+        Object.keys(canvases).forEach((key) =>
+          canvases[key].classList.add("hidden")
+        );
+        if (
+          !document
+            .getElementById("domain-selection")
+            .classList.contains("hidden")
+        ) {
+          canvases.domain.classList.remove("hidden");
+        } else if (
+          !document
+            .getElementById("loading-screen")
+            .classList.contains("hidden")
+        ) {
+          canvases.loading.classList.remove("hidden");
+        } else if (
+          !document.getElementById("quiz-screen").classList.contains("hidden")
+        ) {
+          canvases.quiz.classList.remove("hidden");
+        } else if (
+          !document.getElementById("result-screen").classList.contains("hidden")
+        ) {
+          canvases.result.classList.remove("hidden");
+        }
+      }
+      setInterval(updateBackground, 100);
+      updateBackground();
+
+      function toggleInput(activeInput) {
+        const domainSelect = document.getElementById("domain");
+        const domainInput = document.getElementById("domain_input");
+        if (activeInput === "domain" && domainSelect.value) {
+          domainInput.value = "";
+          domainInput.disabled = true;
+        } else if (activeInput === "domain_input" && domainInput.value) {
+          domainSelect.value = "";
+          domainSelect.disabled = true;
+        } else {
+          domainInput.disabled = false;
+          domainSelect.disabled = false;
+        }
+      }
+
+      function displayRandomQuote() {
+        const quoteContainer = document.getElementById("quote-container");
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        quoteContainer.textContent = randomQuote;
+      }
+
+      function updateProgress() {
+        const answered = answers.filter((a) => a !== "").length;
+        document.getElementById("progress").textContent = `${answered}/25`;
+      }
+
+      async function startTest() {
+        const domainSelect = document.getElementById("domain").value;
+        const domainInput = document
+          .getElementById("domain_input")
+          .value.trim()
+          .toUpperCase();
+        const domain = domainInput || domainSelect;
+        if (!domain) {
+          alert("Please select or enter a valid domain (e.g., ISE)");
+          return;
+        }
+        sessionStorage.setItem("domain", domain);
+        document.getElementById("domain-selection").classList.add("hidden");
+        document.getElementById("loading-screen").classList.remove("hidden");
+        displayRandomQuote();
+
+        try {
+          const response = await fetch("/start_test", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `domain=${encodeURIComponent(
+              domain
+            )}&domain_input=${encodeURIComponent(domainInput)}`,
+          });
+          const data = await response.json();
+          if (data.error) {
+            alert(data.error);
+            document.getElementById("loading-screen").classList.add("hidden");
+            document
+              .getElementById("domain-selection")
+              .classList.remove("hidden");
+            return;
+          }
+
+          setTimeout(() => {
+            document.getElementById("loading-screen").classList.add("hidden");
+            document.getElementById("quiz-screen").classList.remove("hidden");
+            loadQuestions(data.questions);
+            startTimer();
+            updateProgress();
+          }, 3000);
+        } catch (error) {
+          alert("Error starting test");
+          document.getElementById("loading-screen").classList.add("hidden");
+          document
+            .getElementById("domain-selection")
+            .classList.remove("hidden");
+        }
+      }
+
+      function startTimer() {
+        let timeLeft = 10 * 60;
+        const timerDisplay = document.getElementById("timer");
+
+        timerInterval = setInterval(() => {
+          const minutes = Math.floor(timeLeft / 60);
+          const seconds = timeLeft % 60;
+          timerDisplay.textContent = `${minutes}:${
+            seconds < 10 ? "0" : ""
+          }${seconds}`;
+
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            submitTest();
+          }
+          timeLeft--;
+        }, 1000);
+      }
+
+      function loadQuestions(questions) {
+        const container = document.getElementById("questions-container");
+        container.innerHTML = "";
+        questions.forEach((q, i) => {
+          const card = document.createElement("div");
+          card.className =
+            "question-card bg-white p-6 rounded-xl shadow-md mb-6 w-full text-center";
+          card.innerHTML = `
+                  <div class="mb-4">
+                      <label class="block text-lg font-semibold text-gray-800 mb-3">${
+                        i + 1
+                      }. ${q.question}</label>
+                      <div class="space-y-4 flex flex-col items-start">
+                          ${q.options
+                            .map(
+                              (opt, j) => `
+                              <div class="option-box p-2 bg-gray-100 border rounded-lg cursor-pointer relative overflow-hidden w-full" onclick="selectOption(${i}, ${j}, this)">
+                                  <input type="checkbox" id="q${i}o${j}" name="question${i}" value="${String.fromCharCode(
+                                65 + j
+                              )}" class="hidden">
+                                  <label for="q${i}o${j}" class="text-sm text-gray-700 w-full text-left flex items-center">
+                                      <span class="w-8 inline-block font-semibold">${String.fromCharCode(
+                                        65 + j
+                                      )}.</span> ${opt}
+                                  </label>
+                                  <span class="fill-effect"></span>
+                              </div>
+                          `
+                            )
+                            .join("")}
+                      </div>
+                  </div>
+              `;
+          container.appendChild(card);
+        });
+        container.scrollTop = 0;
+      }
+
+      function selectOption(qIndex, optIndex, element) {
+        answers[qIndex] = String.fromCharCode(65 + optIndex);
+        const checkboxes = document.getElementsByName(`question${qIndex}`);
+        checkboxes.forEach((cb) => {
+          const div = cb.parentElement;
+          div.classList.remove("bg-indigo-200");
+          div.querySelector(".fill-effect").classList.remove("animate-fill");
+          document.getElementById(cb.id).checked = false;
+        });
+        element.classList.add("bg-indigo-200");
+        element.querySelector(".fill-effect").classList.add("animate-fill");
+        document.getElementById(`q${qIndex}o${optIndex}`).checked = true;
+        updateProgress();
+      }
+
+      async function submitTest() {
+        clearInterval(timerInterval);
+        const response = await fetch("/submit_test", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ answers }),
+        });
+        const result = await response.json();
+        document.getElementById("quiz-screen").classList.add("hidden");
+        document.getElementById("result-screen").classList.remove("hidden");
+        document.getElementById("result-details").innerHTML = `
+              <p class="mb-2"><strong>General Aptitude:</strong> ${
+                result.scores["General Aptitude"]
+              }/10</p>
+              <p class="mb-2"><strong>Logical Reasoning:</strong> ${
+                result.scores["Logical Reasoning"]
+              }/5</p>
+              <p class="mb-2"><strong>Verbal Communication:</strong> ${
+                result.scores["Verbal Communication"]
+              }/5</p>
+              <p class="mb-2"><strong>${sessionStorage.getItem(
+                "domain"
+              )}:</strong> ${
+          result.scores[sessionStorage.getItem("domain")]
+        }/5</p>
+              <p class="text-xl font-semibold"><strong>Total:</strong> ${
+                result.total_score
+              }/25</p>
+          `;
+        if (result.incorrect_questions.length) {
+          document.getElementById("incorrect-answers").innerHTML =
+            result.incorrect_questions
+              .map(
+                (item, i) => `
+                  <div class="mb-6 border-l-4 border-indigo-500 pl-4">
+                      <p class="font-semibold">${i + 1}. Topic: ${
+                  item.topic
+                }</p>
+                      <p><strong>Question:</strong> ${item.question}</p>
+                      <p><strong>Your Answer:</strong> ${item.user_answer}</p>
+                      <p><strong>Correct Answer:</strong> ${
+                        item.correct_answer
+                      }</p>
+                  </div>
+              `
+              )
+              .join("");
+        }
+      }
+
+      function toggleIncorrect() {
+        const incorrectDiv = document.getElementById("incorrect-answers");
+        incorrectDiv.classList.toggle("hidden");
+      }
+
+      function restartTest() {
+        clearInterval(timerInterval);
+        document.getElementById("result-screen").classList.add("hidden");
+        document.getElementById("domain-selection").classList.remove("hidden");
+        answers.fill("");
+        document.getElementById("domain").value = "";
+        document.getElementById("domain_input").value = "";
+        document.getElementById("domain").disabled = false;
+        document.getElementById("domain_input").disabled = false;
+        updateProgress();
+      }
+    </script>
+  </body>
+</html>
