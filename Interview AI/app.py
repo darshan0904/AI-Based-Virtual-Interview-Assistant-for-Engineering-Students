@@ -1,22 +1,52 @@
 from flask import Flask, render_template, request
-import os
+import requests
+import json
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
-# Simulated Gemini API response for Backend Developer role in Software Engineering
+# Function to generate questions using Gemini API
 def generate_questions(domain, role):
-    if domain == "Software Engineering" and role == "Backend Developer":
-        return [
+    # Replace with your Gemini API key
+    api_key = "YOUR_GEMINI_API_KEY"  # Insert your API key here: "AIzaSyBw2QL2aLi1G0wcKFDL2w8izuoEZ2PCFtw"
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+    headers = {
+        "Content-Type": "application/json"
+    }
+    prompt = f"Generate 2 technical interview questions for a {role} in the {domain} domain. For each question, provide a list of 3-5 keywords that should be present in a good answer. Format the response as a JSON array of objects, each with 'text' (the question) and 'keywords' (a list of keywords)."
+
+    payload = {
+        "contents": [
             {
-                "text": "What is the difference between REST and GraphQL APIs?",
-                "keywords": ["rest", "graphql", "query", "endpoint", "http", "schema"]
-            },
-            {
-                "text": "How do you handle database migrations in a production environment?",
-                "keywords": ["migration", "database", "schema", "rollback", "production", "versioning"]
+                "parts": [
+                    {"text": prompt}
+                ]
             }
         ]
-    return []
+    }
+
+    try:
+        response = requests.post(url, headers=headers, data=json.dumps(payload))
+        response.raise_for_status()
+        result = response.json()
+
+        # Extract the generated questions from the response
+        generated_text = result.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+        questions = json.loads(generated_text)  # Assuming Gemini returns a valid JSON string
+
+        return questions
+    except Exception as e:
+        # Fallback questions in case the API call fails
+        return [
+            {
+                "text": f"What is the difference between REST and GraphQL APIs? (Generated for {role} in {domain})",
+                "keywords": ["rest", "graphql", "query", "endpoint", "schema"]
+            },
+            {
+                "text": f"How do you handle database migrations in a production environment? (Generated for {role} in {domain})",
+                "keywords": ["migration", "database", "schema", "rollback", "production"]
+            }
+        ]
 
 @app.route("/", methods=["GET", "POST"])
 def interview():
@@ -29,7 +59,7 @@ def interview():
     domain = request.form.get("domain", "Software Engineering")
     role = request.form.get("role", "Backend Developer")
 
-    # Fetch questions (simulating Gemini API)
+    # Fetch questions using Gemini API
     questions = generate_questions(domain, role)
 
     if not questions:
