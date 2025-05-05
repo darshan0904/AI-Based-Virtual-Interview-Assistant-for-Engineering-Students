@@ -1,106 +1,64 @@
 from flask import Flask, render_template, request
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates", static_folder="static")
 
-# Sample question and keywords for evaluation
-questions = [
-    {
-        "text": "Explain the difference between a stack and a queue in data structures.",
-        "keywords": ["stack", "queue", "LIFO", "FIFO", "last in first out", "first in first out"]
-    }
-]
-
-# HTML template as a string
-HTML_TEMPLATE = '''
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Mock Interview</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
-        #avatar {
-            width: 200px;
-            height: auto;
-            margin: 20px auto;
-        }
-        #question, #feedback {
-            font-size: 18px;
-            margin: 20px 0;
-        }
-        #userInput {
-            width: 80%;
-            max-width: 500px;
-            padding: 10px;
-            font-size: 16px;
-            margin: 10px 0;
-        }
-        #submitBtn {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        #submitBtn:hover {
-            background-color: #0056b3;
-        }
-        #score {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>AI Mock Interview</h1>
-    <img id="avatar" src="https://xai-artifact-1.s3.us-west-2.amazonaws.com/artifact_images/artifact_1725136188589.png" alt="AI Avatar">
-    <div id="question">{{ question }}</div>
-    <form method="POST" action="/">
-        <textarea id="userInput" name="answer" placeholder="Type your answer here..." rows="5"></textarea>
-        <br>
-        <button id="submitBtn" type="submit">Submit Answer</button>
-    </form>
-    {% if feedback %}
-        <div id="feedback">{{ feedback }}</div>
-        <div id="score">Your Score: {{ score }}/100</div>
-    {% endif %}
-</body>
-</html>
-'''
+# Simulated Gemini API response for Backend Developer role in Software Engineering
+def generate_questions(domain, role):
+    if domain == "Software Engineering" and role == "Backend Developer":
+        return [
+            {
+                "text": "What is the difference between REST and GraphQL APIs?",
+                "keywords": ["rest", "graphql", "query", "endpoint", "http", "schema"]
+            },
+            {
+                "text": "How do you handle database migrations in a production environment?",
+                "keywords": ["migration", "database", "schema", "rollback", "production", "versioning"]
+            }
+        ]
+    return []
 
 @app.route("/", methods=["GET", "POST"])
 def interview():
-    question = questions[0]["text"]
     feedback = None
     score = None
+    current_question = None
+    question_index = int(request.form.get("question_index", 0))
 
-    if request.method == "POST":
+    # Get domain and role from form (default to Software Engineering and Backend Developer)
+    domain = request.form.get("domain", "Software Engineering")
+    role = request.form.get("role", "Backend Developer")
+
+    # Fetch questions (simulating Gemini API)
+    questions = generate_questions(domain, role)
+
+    if not questions:
+        return render_template("index.html", error="No questions available for this domain and role.")
+
+    # Ensure question_index is within bounds
+    if question_index >= len(questions):
+        question_index = 0
+
+    current_question = questions[question_index]["text"]
+
+    if request.method == "POST" and "answer" in request.form:
         user_answer = request.form.get("answer", "").lower()
-        current_question = questions[0]
+        current_q = questions[question_index]
 
         # Simple keyword matching to simulate NLP
-        correct_count = sum(1 for keyword in current_question["keywords"] if keyword in user_answer)
+        correct_count = sum(1 for keyword in current_q["keywords"] if keyword in user_answer)
 
-        # Simulate confidence score based on answer length (mocking facial recognition/expression analysis)
+        # Simulate confidence score based on answer length
         confidence_score = 80 if len(user_answer) > 50 else 40
 
-        # Calculate score based on correctness and confidence
-        correctness_score = (correct_count / len(current_question["keywords"])) * 100
+        # Calculate score
+        correctness_score = (correct_count / len(current_q["keywords"])) * 100
         score = round((correctness_score * 0.6) + (confidence_score * 0.4))
 
         # Provide feedback
         feedback = ""
         if correctness_score < 50:
-            feedback += "Your answer missed some key concepts. Make sure to mention terms like LIFO for stacks and FIFO for queues. "
+            feedback += f"Your answer missed some key concepts. Make sure to mention terms like {', '.join(current_q['keywords'][:3])}. "
         else:
             feedback += "Good job covering the main concepts! "
 
@@ -109,7 +67,18 @@ def interview():
         else:
             feedback += "You seemed confident in your delivery—nice work!"
 
-    return render_template_string(HTML_TEMPLATE, question=question, feedback=feedback, score=score)
+        # Move to the next question
+        question_index += 1
+
+    return render_template(
+        "index.html",
+        question=current_question,
+        feedback=feedback,
+        score=score,
+        question_index=question_index,
+        domain=domain,
+        role=role
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
