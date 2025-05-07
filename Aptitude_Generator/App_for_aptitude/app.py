@@ -10,6 +10,7 @@ app.secret_key = 'super-secret-key-123'
 
 try:
     genai.configure(api_key="Lo Nin API aki run madu, edu hange run agalla 😂😁")
+    
 except Exception as e:
     print(f"Failed to configure Gemini API: {e}")
     sys.exit(1)
