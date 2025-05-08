@@ -6,49 +6,56 @@
 }
 
 /* Layout Utilities */
-.min-h-screen {
+body {
     min-height: 100vh;
-}
-
-.flex {
     display: flex;
-}
-
-.items-center {
     align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
-.justify-center {
+.container {
+    width: 100%;
+    max-width: 512px;
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 32px;
+}
+
+.form-container, .loading-container, .transition-container, .interview-container, .thank-you-container {
+    display: none;
+}
+
+.form-container.visible, .loading-container.visible, .transition-container.visible, .interview-container.visible, .thank-you-container.visible {
+    display: block;
+}
+
+.fixed-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-.grid {
-    display: grid;
+.absolute-container {
+    position: absolute;
 }
 
-.gap-6 {
-    gap: 1.5rem;
-}
-
-.w-full {
-    width: 100%;
-}
-
-.max-w-lg {
-    max-width: 32rem;
-}
-
-.mx-4 {
-    margin-left: 1rem;
-    margin-right: 1rem;
-}
-
-.p-8 {
-    padding: 2rem;
-}
-
-.p-4 {
-    padding: 1rem;
+.webcam-feed {
+    position: absolute;
+    bottom: 64px;
+    right: 16px;
+    width: 128px;
+    height: 96px;
+    background-color: #2d3748;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .text-center {
@@ -56,55 +63,39 @@
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
-.fixed {
-    position: fixed;
-}
-
-.inset-0 {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.absolute {
+.absolute-top-left {
     position: absolute;
-}
-
-.top-0 {
     top: 0;
-}
-
-.left-0 {
     left: 0;
 }
 
-.bottom-16 {
-    bottom: 4rem;
+.bottom-spacing {
+    bottom: 64px;
 }
 
-.right-4 {
-    right: 1rem;
+.right-spacing {
+    right: 16px;
 }
 
-.mx-auto {
+.margin-auto {
     margin-left: auto;
     margin-right: auto;
 }
 
-.h-screen {
+.full-height {
     height: 100vh;
 }
 
-.w-32 {
-    width: 8rem;
+.full-width {
+    width: 100%;
 }
 
-.h-24 {
-    height: 6rem;
+.webcam-dimensions {
+    width: 128px;
+    height: 96px;
 }
 
 .overflow-hidden {
@@ -115,11 +106,11 @@
     cursor: pointer;
 }
 
-.rounded-lg {
-    border-radius: 0.5rem;
+.rounded {
+    border-radius: 8px;
 }
 
-.shadow-lg {
+.shadow {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
@@ -127,9 +118,9 @@
     color: #fff;
 }
 
-.text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
+.text-large {
+    font-size: 18px;
+    line-height: 28px;
 }
 
 .whitespace-normal {
@@ -140,22 +131,22 @@
     word-wrap: break-word;
 }
 
-.bg-gray-800 {
+.bg-dark-gray {
     background-color: #2d3748;
 }
 
-.bg-gray-900 {
+.bg-darker-gray {
     background-color: #1a202c;
 }
 
-.bg-opacity-75 {
-    background-opacity: 0.75;
+.bg-opacity {
+    opacity: 0.75;
 }
 
 /* Form Elements */
 input, select {
     border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
+    border-radius: 8px;
     outline: none;
     transition: border-color 0.3s ease;
 }
@@ -206,20 +197,22 @@ input:not(:placeholder-shown) + .floating-label {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Typewriter Effect for Transcript Bar */
-.typewriter {
-    overflow: hidden;
-    white-space: nowrap;
-    animation: typing 2s steps(40, end);
-}
-
-@keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
+/* YouTube-style Captions */
+.youtube-captions {
+    color: #000;
+    font-size: 20px;
+    text-align: center;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
 }
 
 /* Floating Action Button (FAB) */
 .fab {
+    padding: 16px;
+    border-radius: 8px;
     transition: all 0.3s ease;
 }
 
@@ -228,15 +221,15 @@ input:not(:placeholder-shown) + .floating-label {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.bg-indigo-500 {
+.bg-indigo {
     background-color: #6366f1;
 }
 
-.bg-indigo-600 {
+.bg-indigo-dark {
     background-color: #4f46e5;
 }
 
-.bg-green-500 {
+.bg-green {
     background-color: #10b981;
 }
 
@@ -282,8 +275,8 @@ input:not(:placeholder-shown) + .floating-label {
 }
 
 .spinner {
-    width: 4rem;
-    height: 4rem;
+    width: 64px;
+    height: 64px;
     border: 4px solid #6366f1;
     border-top: 4px solid transparent;
     border-radius: 50%;
@@ -296,9 +289,9 @@ input:not(:placeholder-shown) + .floating-label {
 }
 
 .loading-text {
-    margin-top: 1rem;
+    margin-top: 16px;
     color: #fff;
-    font-size: 1.125rem;
+    font-size: 18px;
 }
 
 /* Interview Page Animation: Gradient Shift */
@@ -326,7 +319,7 @@ input:not(:placeholder-shown) + .floating-label {
 
 .transition-text {
     color: #fff;
-    font-size: 1.125rem;
+    font-size: 18px;
 }
 
 /* Thank You Page Animation: Sparkle */
@@ -343,11 +336,13 @@ input:not(:placeholder-shown) + .floating-label {
 
 /* GIF Styling */
 #ai-animation {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 517px;
+    height: 517px;
     object-fit: contain;
-    object-position: center;
-    background: #000;
 }
 
 /* Upload Label Styling */
@@ -356,10 +351,10 @@ input:not(:placeholder-shown) + .floating-label {
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 1rem;
+    padding: 16px;
     background-color: #6366f1;
     color: #fff;
-    border-radius: 0.5rem;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -369,18 +364,18 @@ input:not(:placeholder-shown) + .floating-label {
 }
 
 .upload-label svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-left: 0.5rem;
+    width: 24px;
+    height: 24px;
+    margin-left: 8px;
 }
 
 /* Start Interview Button */
 .start-btn {
     width: 100%;
-    padding: 1rem;
+    padding: 16px;
     background-color: #4f46e5;
     color: #fff;
-    border-radius: 0.5rem;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -392,9 +387,9 @@ input:not(:placeholder-shown) + .floating-label {
 
 /* Thank You Page Styling */
 .thank-you-title {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
 }
 
 .thank-you-text {
@@ -403,28 +398,47 @@ input:not(:placeholder-shown) + .floating-label {
 
 /* Button Bar for Interview Page */
 .button-bar {
-    position: absolute;
-    bottom: 1rem;
+    position: fixed;
+    bottom: 20px;
     left: 0;
     right: 0;
+    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
-.transcript-bar {
-    flex-grow: 1;
-    max-width: 50%;
+#repeat-btn {
+    position: absolute;
+    left: 20px;
+}
+
+#next-btn {
+    position: absolute;
+    right: 20px;
+}
+
+#transcript-bar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 60%;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 640px) {
-    #webcam-feed {
+    .webcam-feed {
         width: 100px;
         height: 75px;
     }
-    .transcript-bar {
-        max-width: 40%;
+    .youtube-captions {
+        max-width: 80%;
+        font-size: 16px;
+    }
+    #ai-animation {
+        width: 305px;
+        height: 305px;
     }
 }
