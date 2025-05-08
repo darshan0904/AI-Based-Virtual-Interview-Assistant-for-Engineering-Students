@@ -199,14 +199,14 @@ input:not(:placeholder-shown) + .floating-label {
 
 /* YouTube-style Captions */
 .youtube-captions {
-    color: #000;
-    font-size: 20px;
+    color: #fff; /* White text */
+    font-size: 24px; /* Increased font size */
     text-align: center;
     white-space: normal;
     word-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.5;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8); /* Dark shadow for contrast */
 }
 
 /* Floating Action Button (FAB) */
@@ -294,16 +294,57 @@ input:not(:placeholder-shown) + .floating-label {
     font-size: 18px;
 }
 
-/* Interview Page Animation: Gradient Shift */
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+/* Interview Page Styling */
 .interview-bg {
-    background: linear-gradient(270deg, #f3e7ff, #d3c7ff, #f3e7ff, #d3c7ff);
-    background-size: 400% 400%;
-    animation: gradientShift 12s ease infinite;
+    background: #1c2526; /* Carbon black background */
+}
+
+.gif-container {
+    position: relative;
+    width: 100%;
+    height: 70vh; /* Control how much of the GIF is visible */
+    background: #1c2526; /* Carbon black background behind GIF */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Crop the GIF */
+}
+
+#ai-animation {
+    width: 80vw; /* 80% of the viewport width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain;
+}
+
+/* Button Bar for Interview Page */
+.button-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+#repeat-btn {
+    position: absolute;
+    left: 20px;
+}
+
+#next-btn {
+    position: absolute;
+    right: 20px;
+}
+
+#transcript-bar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 60%;
 }
 
 /* Transition Page Animation: Fade */
@@ -332,17 +373,6 @@ input:not(:placeholder-shown) + .floating-label {
     background: linear-gradient(270deg, #86efac, #34d399, #86efac, #34d399);
     background-size: 400% 400%;
     animation: sparkle 8s ease infinite;
-}
-
-/* GIF Styling */
-#ai-animation {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 517px;
-    height: 517px;
-    object-fit: contain;
 }
 
 /* Upload Label Styling */
@@ -396,37 +426,6 @@ input:not(:placeholder-shown) + .floating-label {
     color: #4b5563;
 }
 
-/* Button Bar for Interview Page */
-.button-bar {
-    position: fixed;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    box-sizing: border-box;
-}
-
-#repeat-btn {
-    position: absolute;
-    left: 20px;
-}
-
-#next-btn {
-    position: absolute;
-    right: 20px;
-}
-
-#transcript-bar {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 60%;
-}
-
 /* Responsive Adjustments */
 @media (max-width: 640px) {
     .webcam-feed {
@@ -435,10 +434,13 @@ input:not(:placeholder-shown) + .floating-label {
     }
     .youtube-captions {
         max-width: 80%;
-        font-size: 16px;
+        font-size: 18px; /* Adjusted for smaller screens */
     }
     #ai-animation {
-        width: 305px;
-        height: 305px;
+        width: 80vw; /* Still 80% of viewport width */
+        height: auto;
+    }
+    .gif-container {
+        height: 50vh;
     }
 }

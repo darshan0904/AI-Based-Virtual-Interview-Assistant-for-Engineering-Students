@@ -57,7 +57,9 @@
     </div>
 
     <div id="interview-container" class="hidden full-width full-height interview-bg">
-        <img id="ai-animation" src="/static/talking.gif" alt="AI Animation">
+        <div class="gif-container">
+            <img id="ai-animation" src="/static/talking.gif" alt="AI Animation">
+        </div>
         <div id="webcam-feed" class="webcam-feed">
             <video id="user-video" autoplay style="width: 100%; height: 100%; object-fit: contain;"></video>
         </div>
@@ -216,21 +218,28 @@
         }
 
         webcamFeed.addEventListener('click', () => {
-            if (isAISmall) {
+            if (!isAISmall) {
+                // AI becomes small, user video becomes full-screen
                 aiAnimation.src = questionAudio && !questionAudio.ended ? TALKING_GIF : LISTENING_GIF;
-                aiAnimation.classList.remove('full-width', 'full-height', 'object-contain');
-                aiAnimation.classList.add('absolute-top-left', 'full-width', 'full-height', 'object-cover', 'object-position-center-30');
-                userVideo.classList.remove('absolute-top-left', 'full-width', 'full-height', 'object-contain');
-                userVideo.classList.add('full-width', 'full-height', 'object-contain');
-                webcamFeed.appendChild(userVideo);
-                document.getElementById('interview-container').insertBefore(aiAnimation, webcamFeed);
-            } else {
-                userVideo.classList.remove('full-width', 'full-height', 'object-contain');
-                userVideo.classList.add('absolute-top-left', 'full-width', 'full-height', 'object-contain');
-                aiAnimation.classList.remove('absolute-top-left', 'full-width', 'full-height', 'object-cover', 'object-position-center-30');
-                aiAnimation.classList.add('full-width', 'full-height', 'object-contain');
+                aiAnimation.style.width = '128px'; // Match webcam-feed size
+                aiAnimation.style.height = '96px';
+                aiAnimation.style.objectFit = 'contain'; // Ensure proper scaling
+                userVideo.style.width = '100%';
+                userVideo.style.height = '100%';
+                userVideo.style.objectFit = 'contain';
                 webcamFeed.appendChild(aiAnimation);
                 document.getElementById('interview-container').insertBefore(userVideo, webcamFeed);
+            } else {
+                // AI becomes full-screen (80% of viewport), user video becomes small
+                aiAnimation.src = questionAudio && !questionAudio.ended ? TALKING_GIF : LISTENING_GIF;
+                aiAnimation.style.width = '80vw'; // Restore to 80% of viewport
+                aiAnimation.style.height = 'auto';
+                aiAnimation.style.objectFit = 'contain';
+                userVideo.style.width = '100%'; // Match webcam-feed size
+                userVideo.style.height = '100%';
+                userVideo.style.objectFit = 'contain';
+                webcamFeed.appendChild(userVideo);
+                document.getElementById('interview-container').insertBefore(aiAnimation, webcamFeed);
             }
             isAISmall = !isAISmall;
         });
