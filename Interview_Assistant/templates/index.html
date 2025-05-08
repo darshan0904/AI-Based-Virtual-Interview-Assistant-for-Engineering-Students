@@ -123,7 +123,7 @@
                     echoCancellation: true,
                     noiseSuppression: true,
                     autoGainControl: true,
-                    sampleRate: 48000,
+                    sampleRate: 44100, // Standard for WAV compatibility
                     channelCount: 1
                 }
             })
@@ -131,20 +131,31 @@
                 userVideo.srcObject = stream;
 
                 const audioStream = new MediaStream(stream.getAudioTracks());
-                mediaRecorderAudio = new MediaRecorder(audioStream, { mimeType: 'audio/webm', timeslice: 1000 });
+                mediaRecorderAudio = new MediaRecorder(audioStream, { 
+                    mimeType: 'audio/webm;codecs=opus',
+                    audioBitsPerSecond: 128000 // Higher bitrate for quality
+                });
                 mediaRecorderAudio.ondataavailable = e => {
                     if (e.data.size > 0) {
                         if (!allAudioChunks[currentQuestion]) allAudioChunks[currentQuestion] = [];
                         allAudioChunks[currentQuestion].push(e.data);
-                        console.log(`Audio chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}`);
+                        console.log(`Audio chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}, type: ${e.data.type}`);
+                    } else {
+                        console.warn(`Empty audio chunk for question ${currentQuestion + 1}`);
                     }
                 };
                 mediaRecorderAudio.onstop = () => {
-                    console.log(`Audio recording stopped for question ${currentQuestion + 1}`);
+                    console.log(`Audio recording stopped for question ${currentQuestion + 1}, chunks: ${allAudioChunks[currentQuestion]?.length || 0}`);
+                };
+                mediaRecorderAudio.onerror = (e) => {
+                    console.error(`MediaRecorder audio error for question ${currentQuestion + 1}:`, e);
                 };
 
                 const videoStream = new MediaStream(stream.getVideoTracks());
-                mediaRecorderVideo = new MediaRecorder(videoStream, { mimeType: 'video/webm', timeslice: 1000 });
+                mediaRecorderVideo = new MediaRecorder(videoStream, { 
+                    mimeType: 'video/webm',
+                    videoBitsPerSecond: 2500000
+                });
                 mediaRecorderVideo.ondataavailable = e => {
                     if (e.data.size > 0) {
                         if (!allVideoChunks[currentQuestion]) allVideoChunks[currentQuestion] = [];
@@ -190,7 +201,6 @@
                     userAnswer = (finalTranscript + interimTranscript).trim() || "No response recorded";
                     transcriptBar.textContent = userAnswer;
                     console.log(`Speech recognition result for question ${currentQuestion + 1} - Final:`, finalTranscript, "Interim:", interimTranscript);
-                    console.log("Updated userAnswer:", userAnswer);
                 };
                 recognition.onerror = event => {
                     console.error("Speech recognition error for question", currentQuestion + 1, ":", event.error);
@@ -204,7 +214,6 @@
                     if (!userAnswer) {
                         userAnswer = "Speech recognition failed";
                         transcriptBar.textContent = userAnswer;
-                        console.log("Set userAnswer to fallback due to error:", userAnswer);
                     }
                 };
                 recognition.onend = () => {
@@ -213,7 +222,6 @@
                     if (!userAnswer) {
                         userAnswer = "No response recorded";
                         transcriptBar.textContent = userAnswer;
-                        console.log("Set userAnswer to fallback on end:", userAnswer);
                     }
                 };
             } catch (err) {
@@ -535,8 +543,8 @@
                 questionAudio.onended = () => {
                     aiAnimation.src = LISTENING_GIF;
                     if (recognition) recognition.start();
-                    if (mediaRecorderAudio) mediaRecorderAudio.start(1000);
-                    if (mediaRecorderVideo) mediaRecorderVideo.start(1000);
+                    if (mediaRecorderAudio) mediaRecorderAudio.start();
+                    if (mediaRecorderVideo) mediaRecorderVideo.start();
                 };
             })
             .catch(err => {
@@ -571,8 +579,8 @@
             questionAudio.onended = () => {
                 aiAnimation.src = LISTENING_GIF;
                 if (recognition) recognition.start();
-                if (mediaRecorderAudio) mediaRecorderAudio.start(1000);
-                if (mediaRecorderVideo) mediaRecorderVideo.start(1000);
+                if (mediaRecorderAudio) mediaRecorderAudio.start();
+                if (mediaRecorderVideo) mediaRecorderVideo.start();
             };
         });
 
@@ -601,8 +609,8 @@
             setTimeout(() => {
                 showContainer('interview-container', 'interview-bg');
 
-                const audioFile = `${username}_q${currentQuestion + 1}_audio.wav`;
-                const videoFile = `${username}_q${currentQuestion + 1}_video.mp4`;
+                const audioFile = `${username}_q${currentQuestion + 1}_audio.webm`; // Note: Using .webm extension
+                const videoFile = `${username}_q${currentQuestion + 1}_video.webm`;
 
                 transcriptContent += `Question ${currentQuestion + 1}: ${questions[currentQuestion]}\n`;
                 transcriptContent += `User Answer: ${capturedAnswer}\n`;
@@ -614,15 +622,17 @@
 
                 const formData = new FormData();
                 if (allAudioChunks[currentQuestion] && allAudioChunks[currentQuestion].length > 0) {
-                    const audioBlob = new Blob(allAudioChunks[currentQuestion], { type: 'audio/webm' });
+                    const audioBlob = new Blob(allAudioChunks[currentQuestion], { type: 'audio/webm;codecs=opus' });
                     if (audioBlob.size === 0) {
                         console.error(`Empty audio blob for question ${currentQuestion + 1}`);
                     } else {
                         formData.append('audio', audioBlob, audioFile);
-                        console.log(`Audio saved for question ${currentQuestion + 1}, size: ${audioBlob.size}`);
+                        console.log(`Audio saved for question ${currentQuestion + 1}, size: ${audioBlob.size}, type: ${audioBlob.type}`);
+                        // Note: Server should convert this WebM to WAV for NLP analysis
                     }
                 } else {
                     console.error(`No audio chunks recorded for question ${currentQuestion + 1}`);
+                    formData.append('audio', new Blob(), audioFile); // Empty blob to indicate failure
                 }
                 if (allVideoChunks[currentQuestion] && allVideoChunks[currentQuestion].length > 0) {
                     const videoBlob = new Blob(allVideoChunks[currentQuestion], { type: 'video/webm' });
@@ -668,19 +678,21 @@
         function saveAllRecordings() {
             for (let i = 0; i < Math.min(questions.length, 15); i++) {
                 const formData = new FormData();
-                const audioFile = `${username}_q${i + 1}_audio.wav`;
-                const videoFile = `${username}_q${i + 1}_video.mp4`;
+                const audioFile = `${username}_q${i + 1}_audio.webm`;
+                const videoFile = `${username}_q${i + 1}_video.webm`;
 
                 if (allAudioChunks[i] && allAudioChunks[i].length > 0) {
-                    const audioBlob = new Blob(allAudioChunks[i], { type: 'audio/webm' });
+                    const audioBlob = new Blob(allAudioChunks[i], { type: 'audio/webm;codecs=opus' });
                     if (audioBlob.size === 0) {
                         console.error(`Empty audio blob for question ${i + 1} during final save`);
                     } else {
                         formData.append('audio', audioBlob, audioFile);
-                        console.log(`Final audio saved for question ${i + 1}, size: ${audioBlob.size}`);
+                        console.log(`Final audio saved for question ${i + 1}, size: ${audioBlob.size}, type: ${audioBlob.type}`);
+                        // Note: Server should convert this WebM to WAV for NLP analysis
                     }
                 } else {
                     console.error(`No audio chunks for question ${i + 1} during final save`);
+                    formData.append('audio', new Blob(), audioFile); // Empty blob to indicate failure
                 }
                 if (allVideoChunks[i] && allVideoChunks[i].length > 0) {
                     const videoBlob = new Blob(allVideoChunks[i], { type: 'video/webm' });
