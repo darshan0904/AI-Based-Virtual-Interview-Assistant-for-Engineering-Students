@@ -329,7 +329,7 @@ def generate_questions(session_id):
     def fetch_questions(prompt, category, count):
         try:
             response = requests.post(
-                "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCVyhDktWeeV7rvUxz1GBSKNQCPBTvK8uY",
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDQW2Db-ZryHQ04iXgl4Is5aK9ANJy7i5A",
                 json={"contents": [{"parts": [{"text": prompt}]}]}
             )
             response.raise_for_status()
@@ -374,23 +374,28 @@ def next_question(session_id):
     if session_id not in sessions:
         return jsonify({"end": True})
 
-    data = request.json
-    question = data.get('question')
-    sanitized_username = sessions[session_id]['sanitized_name']
+    session_data = sessions[session_id]
+    current_question_idx = session_data['current_question']
+    questions = session_data['questions']
+    
+    if current_question_idx >= len(questions):
+        return jsonify({"end": True})
+
+    question = questions[current_question_idx]
+    sanitized_username = session_data['sanitized_name']
 
     engine = pyttsx3.init()
     engine.setProperty('rate', 150)
-    audio_filename = f"question_{sanitized_username}_{sessions[session_id]['current_question'] + 1}.wav"
+    audio_filename = f"question_{sanitized_username}_{current_question_idx + 1}.wav"
     audio_path = os.path.join(IMP_QUESTION_FOLDER, audio_filename)
     engine.save_to_file(question, audio_path)
     engine.runAndWait()
 
-    sessions[session_id]['current_question'] += 1
-
     ai_answer = generate_ai_answer(session_id, question)
 
+    session_data['current_question'] += 1
     audio_url = f"/imp/questions/{audio_filename}"
-    return jsonify({"question": question, "audio": audio_url, "ai_answer": ai_answer})
+    return jsonify({"ai_answer": ai_answer, "audio": audio_url})
 
 @app.route('/imp/questions/<filename>')
 def serve_imp_question(filename):
@@ -407,14 +412,11 @@ def record_response(session_id):
 
     audio = request.files.get('audio')
     video = request.files.get('video')
+    transcript = request.form.get('transcript')
 
     session_data = sessions[session_id]
     current_question = session_data['current_question']
     sanitized_username = session_data['sanitized_name']
-    username = session_data['name']
-    domain = session_data['domain']
-    questions = session_data['questions']
-    domains = session_data['domains']
     user_folder = session_data['user_folder']
 
     audio_filename = f"{sanitized_username}_q{current_question}_audio.wav"
@@ -433,40 +435,10 @@ def record_response(session_id):
         "video": video_filename if video else None,
     })
 
-    transcript = request.form.get('transcript', '')
-    app.logger.info(f"Received transcript for question {current_question}: {transcript}")
-    transcript_lines = transcript.split('\n')
-    user_answer = "No response recorded"
-    for line in transcript_lines:
-        if line.startswith(f"Question {current_question}:"):
-            continue
-        if line.startswith("User Answer:"):
-            user_answer = line.split(":", 1)[1].strip()
-            break
-
-    question_idx = current_question
-    question = questions[question_idx - 1] if question_idx - 1 < len(questions) else "No question available"
-    q_domain = domains[question_idx - 1] if question_idx - 1 < len(domains) else "Unknown"
-    audio_file = audio_filename if audio else "Not recorded"
-    video_file = video_filename if video else "Not recorded"
-    ai_answer = generate_ai_answer(session_id, question)
-
-    transcript_entry = (
-        f"Question {question_idx}: {question}\n"
-        f"User Answer: {user_answer}\n"
-        f"AI Answer: {ai_answer}\n"
-        f"Domain: {q_domain}\n"
-        f"Audio File: {audio_file}\n"
-        f"Video File: {video_file}\n\n"
-        f"{'=' * 80}\n\n"
-    )
-
     transcript_path = os.path.join(user_folder, "transcript.txt")
-    app.logger.info(f"Appending to transcript at {transcript_path}")
-    app.logger.info(f"Transcript entry:\n{transcript_entry}")
     try:
         with open(transcript_path, 'a', encoding='utf-8') as f:
-            f.write(transcript_entry)
+            f.write(transcript)
         app.logger.info(f"Successfully appended to transcript for question {current_question}")
     except Exception as e:
         app.logger.error(f"Failed to append to transcript file: {str(e)}")
@@ -483,7 +455,7 @@ def generate_ai_answer(session_id, question):
     
     try:
         response = requests.post(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCVyhDktWeeV7rvUxz1GBSKNQCPBTvK8uY",
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDQW2Db-ZryHQ04iXgl4Is5aK9ANJy7i5A",
             json={"contents": [{"parts": [{"text": prompt}]}]}
         )
         response.raise_for_status()

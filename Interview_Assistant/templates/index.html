@@ -80,7 +80,6 @@
     <script>
         const TALKING_GIF = "/static/talking.gif";
         const LISTENING_GIF = "/static/listening.gif";
-        const GEMINI_API_KEY = "AIzaSyCVyhDktWeeV7rvUxz1GBSKNQCPBTvK8uY";
         let sessionId, questions = [], currentQuestion = 0;
         let mediaRecorderAudio, mediaRecorderVideo, audioChunks = [], videoChunks = [];
         let aiAnimation = document.getElementById('ai-animation');
@@ -147,7 +146,8 @@
                     console.log("Speech recognition started for question", currentQuestion + 1);
                     isRecording = true;
                     userAnswer = "";
-                    startDynamicSubtitles(aiAnswer);
+                    // Remove the "Listening to your answer..." placeholder
+                    transcriptBar.textContent = "";
                 };
                 recognition.onresult = event => {
                     let interimTranscript = '';
@@ -155,12 +155,12 @@
                     for (let i = event.resultIndex; i < event.results.length; i++) {
                         const transcript = event.results[i][0].transcript;
                         if (event.results[i].isFinal) {
-                            finalTranscript += transcript;
+                            finalTranscript += transcript + ' ';
                         } else {
                             interimTranscript += transcript;
                         }
                     }
-                    userAnswer = finalTranscript || interimTranscript || "No response recorded";
+                    userAnswer = (finalTranscript + interimTranscript).trim() || "No response recorded";
                     startDynamicSubtitles(userAnswer);
                     console.log(`Speech recognition result for question ${currentQuestion + 1} - Final:`, finalTranscript, "Interim:", interimTranscript);
                     console.log("Updated userAnswer:", userAnswer);
@@ -219,23 +219,21 @@
 
         webcamFeed.addEventListener('click', () => {
             if (!isAISmall) {
-                // AI becomes small, user video becomes full-screen
                 aiAnimation.src = questionAudio && !questionAudio.ended ? TALKING_GIF : LISTENING_GIF;
-                aiAnimation.style.width = '128px'; // Match webcam-feed size
+                aiAnimation.style.width = '128px';
                 aiAnimation.style.height = '96px';
-                aiAnimation.style.objectFit = 'contain'; // Ensure proper scaling
+                aiAnimation.style.objectFit = 'contain';
                 userVideo.style.width = '100%';
                 userVideo.style.height = '100%';
                 userVideo.style.objectFit = 'contain';
                 webcamFeed.appendChild(aiAnimation);
                 document.getElementById('interview-container').insertBefore(userVideo, webcamFeed);
             } else {
-                // AI becomes full-screen (80% of viewport), user video becomes small
                 aiAnimation.src = questionAudio && !questionAudio.ended ? TALKING_GIF : LISTENING_GIF;
-                aiAnimation.style.width = '80vw'; // Restore to 80% of viewport
-                aiAnimation.style.height = 'auto';
+                aiAnimation.style.width = '100%';
+                aiAnimation.style.height = '100%';
                 aiAnimation.style.objectFit = 'contain';
-                userVideo.style.width = '100%'; // Match webcam-feed size
+                userVideo.style.width = '100%';
                 userVideo.style.height = '100%';
                 userVideo.style.objectFit = 'contain';
                 webcamFeed.appendChild(userVideo);
@@ -460,6 +458,11 @@
             const questionTextForAudio = questionText.replace(/[*"().,:;?!-]/g, ' ').trim();
             startDynamicSubtitles(questionText);
 
+            if (questionAudio) {
+                questionAudio.pause();
+                questionAudio.currentTime = 0;
+            }
+
             fetch(`/next_question/${sessionId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -477,11 +480,6 @@
                 }
 
                 aiAnswer = data.ai_answer;
-
-                if (questionAudio) {
-                    questionAudio.pause();
-                    questionAudio.currentTime = 0;
-                }
 
                 console.log("Audio URL:", data.audio);
                 questionAudio = new Audio();
@@ -513,6 +511,7 @@
             const questionTextForAudio = questionText.replace(/[*"().,:;?!-]/g, ' ').trim();
             console.log("Full question text on repeat:", questionText);
             startDynamicSubtitles(questionText);
+
             if (questionAudio) {
                 questionAudio.pause();
                 questionAudio.currentTime = 0;
@@ -542,7 +541,6 @@
             }
             if (subtitleInterval) clearInterval(subtitleInterval);
 
-            // Force stop recording and reset flag
             isRecording = false;
 
             if (questionAudio) {
@@ -564,9 +562,10 @@
                 transcriptContent += `Question ${currentQuestion + 1}: ${questions[currentQuestion]}\n`;
                 transcriptContent += `User Answer: ${capturedAnswer}\n`;
                 transcriptContent += `AI Answer: ${aiAnswer}\n`;
-                transcriptContent += `Domain: ${currentQuestion === 0 ? domain : "N/A"}\n`;
+                transcriptContent += `Domain: ${currentQuestion < 2 ? "Introduction" : currentQuestion < 5 ? "Resume-Based" : currentQuestion < 9 ? "Role-Specific" : currentQuestion < 12 ? "Behavioral" : "Situational"}\n`;
                 transcriptContent += `Audio File: ${audioFile}\n`;
                 transcriptContent += `Video File: ${videoFile}\n\n`;
+                transcriptContent += `================================================================================\n\n`;
 
                 const formData = new FormData();
                 if (audioChunks.length > 0) {
