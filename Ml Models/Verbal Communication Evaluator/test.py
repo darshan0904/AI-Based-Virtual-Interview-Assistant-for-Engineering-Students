@@ -1,23 +1,23 @@
-from fluency_predictor import SpeechRatingPredictor
+from fluency_predictor import AudioRatingProcessor
 
 def main():
-    # Initialize predictor
-    predictor = SpeechRatingPredictor(
+    # Initialize the AudioRatingProcessor
+    processor = AudioRatingProcessor(
         model_path="Fluency and Pronunciation Rating model.keras",
-        scaler_path="mfcc_scaler.pkl",
-        sample_rate=22050
+        scaler_path="mfcc_scaler.pkl"
     )
-    
-    # Specify the path to your sample audio file
-    audio_file = "motivation.mp3"  # Replace with the actual path to your audio file
-    
+
+    # Path to the audio file you want to test
+    audio_file = "converted.wav"  # Replace with actual audio file path
+
     # Make prediction
-    result = predictor.predict(audio_file)
-    
-    # Print results
-    if "error" in result:
-        print(result["error"])
+    result = processor.predict_audio_rating(audio_file)
+
+    # Print the result
+    if isinstance(result, str):
+        print(result)
     else:
+        print("Prediction Results:")
         print(f"Pronunciation Score: {result['Pronunciation Score']}")
         print(f"Fluency Score: {result['Fluency Score']}")
 
