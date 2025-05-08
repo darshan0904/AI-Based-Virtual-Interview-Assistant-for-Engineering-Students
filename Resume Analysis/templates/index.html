@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resume Analyzer</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <label for="candidate_name">Candidate Name (Optional):</label>
+        <input type="text" id="candidate_name" name="candidate_name" placeholder="e.g., John Doe">
+
+        <label for="job_role">Job Role:</label>
+        <input type="text" id="job_role" name="job_role" required placeholder="e.g., Software Engineer">
+
+        <label for="resume_file">Upload Resume (PDF):</label>
+        <input type="file" id="resume_file" name="resume_file" accept=".pdf" required>
+
+        <button type="submit">Analyze Resume</button>
+    </form>
+</body>
+</html>
