@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Evaluation Report</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        .evaluation-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .evaluation-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .candidate-info {
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            color: #e2e8f0;
+        }
+        .score-section {
+            margin-bottom: 20px;
+        }
+        .score-label {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .score-value {
+            font-size: 1.2em;
+            color: #34d399;
+        }
+        .progress-bar {
+            height: 20px;
+            background: #4b5563;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #34d399, #10b981);
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="form-bg">
+    <div class="evaluation-container glassmorphism">
+        <h1 class="evaluation-title">Interview Evaluation Report</h1>
+        <div class="candidate-info">
+            <p><strong>Name:</strong> {{ results.name }}</p>
+            <p><strong>Role:</strong> {{ results.role }}</p>
+            <p><strong>Domain:</strong> {{ results.domain }}</p>
+            <p><strong>Engineering Field:</strong> {{ results.engineering }}</p>
+        </div>
+        <div class="score-section">
+            <div class="score-label">Communication Skills</div>
+            <div class="score-value">{{ results.communication_skills }} / 10</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ results.communication_skills * 10 }}%"></div>
+            </div>
+        </div>
+        <div class="score-section">
+            <div class="score-label">Confidence</div>
+            <div class="score-value">{{ results.confidence }} / 10</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ results.confidence * 10 }}%"></div>
+            </div>
+        </div>
+        <div class="score-section">
+            <div class="score-label">Domain Knowledge</div>
+            <div class="score-value">{{ results.domain_knowledge }} / 10</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ results.domain_knowledge * 10 }}%"></div>
+            </div>
+        </div>
+        <div class="score-section">
+            <div class="score-label">Critical Thinking</div>
+            <div class="score-value">{{ results.critical_thinking }} / 10</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ results.critical_thinking * 10 }}%"></div>
+            </div>
+        </div>
+        <a href="/" class="start-btn" style="display: block; text-align: center; margin-top: 30px;">Back to Home</a>
+    </div>
+</body>
+</html>

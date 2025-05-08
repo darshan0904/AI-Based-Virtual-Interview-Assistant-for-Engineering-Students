@@ -1,0 +1,36 @@
+Question 1: Rahul D V, could you tell me a little about yourself and your background?
+Domain: Introduction
+
+Question 2: What has been the most significant experience in your career journey so far?
+Domain: Introduction
+
+Question 3: Rahul D V, describe a scenario where you had to optimize a database query involving complex joins and large datasets, detailing your approach and the performance improvements achieved.
+Domain: Role-Specific
+
+Question 4: Explain your experience with different message queuing systems like Kafka or RabbitMQ, highlighting a situation where you chose one over another and justifying your decision based on specific system requirements.
+Domain: Role-Specific
+
+Question 5: How would you design a highly available and scalable RESTful API for a system processing thousands of concurrent requests, considering aspects like load balancing, caching, and database sharding?
+Domain: Role-Specific
+
+Question 6: Discuss your experience with implementing and managing containerized applications using Docker and Kubernetes, focusing on a specific challenge encountered during deployment or scaling and your solution.
+Domain: Role-Specific
+
+Question 7: Describe a time you had to debug a complex issue within a team, explaining your collaborative approach and the technical solution you implemented.
+Domain: Behavioral
+
+Question 8: Tell me about a situation where you had to adapt your coding style or approach to align with a team's existing codebase or preferred technology stack.
+Domain: Behavioral
+
+Question 9: Give an example of a time you identified a more efficient or elegant solution to a technical problem after an initial team discussion and implementation.
+Domain: Behavioral
+
+Question 10: Describe your approach to designing a scalable and fault-tolerant system for processing high-volume, real-time data streams.
+Domain: Situational
+
+Question 11: Explain how you would troubleshoot a production issue where a specific API endpoint experiences intermittent latency spikes without impacting other services.
+Domain: Situational
+
+Question 12: How would you design a database schema for a complex application involving many-to-many relationships and requiring efficient data retrieval with consideration for future scalability?
+Domain: Situational
+

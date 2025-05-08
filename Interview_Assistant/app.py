@@ -5,6 +5,9 @@ import pyttsx3
 import uuid
 import re
 import PyPDF2
+from fluency_predictor import AudioRatingProcessor
+from voice_confidence_predictor import VoiceConfidencePredictor
+from interview_evaluator import InterviewEvaluator
 
 app = Flask(__name__)
 
@@ -77,7 +80,7 @@ DOMAINS = {
         "Automation & Robotics",
         "Optoelectronics"
     ],
-    "Chemical Engineering": [
+    "Chemical Engineering ": [
         "Process Engineering",
         "Pharmaceuticals",
         "Petrochemicals",
@@ -115,7 +118,8 @@ DOMAINS = {
         "Human Factors",
         "Production Planning",
         "Data Analytics",
-        "Cost Engineering"
+
+"System Engineering"
     ],
     "Environmental Engineering": [
         "Water Treatment",
@@ -306,7 +310,8 @@ def generate_questions(session_id):
 
     prompts = [
         (f"Generate exactly 2 basic introduction questions for a candidate named {name}. Focus on their personal background, interests, or general experience, such as asking about themselves or their career journey, not specific to any role or domain. Format each question as a single line without numbering.", "Introduction", 2),
-        (f"Generate exactly 4 technically challenging role-specific interview questions for a candidate named {name}, applying for the role of {role} in {domain}. Focus on in-depth core concepts, advanced tools, or complex problem-solving skills relevant to the role, ensuring the questions assess deep technical knowledge and expertise. Format each question as a single line without numbering.", "Role-Specific", 4),
+        (f"Generate exactly 4 technically challenging role-specific, Role-Specific", 4)
+        (f"System: specific interview questions for a candidate named {name}, applying for the role of {role} in {domain}. Focus on in-depth core concepts, advanced tools, or complex problem-solving skills relevant to the role, ensuring the questions assess deep technical knowledge and expertise. Format each question as a single line without numbering.", "Role-Specific", 4),
         (f"Generate exactly 3 behavioral interview questions for a candidate applying for the role of {role} in {domain}. Focus on teamwork, problem-solving, and adaptability, with a technical slant to assess their approach to technical challenges. Format each question as a single line without numbering.", "Behavioral", 3),
         (f"Generate exactly 3 situational or hypothetical interview questions for a candidate applying for the role of {role} in {domain}. Focus on complex technical scenarios they might face in the role, requiring deep technical understanding to answer effectively. Format each question as a single line without numbering.", "Situational", 3)
     ]
@@ -446,6 +451,82 @@ def record_response(session_id):
 
     return jsonify({"status": "success"})
 
+@app.route('/evaluate/<session_id>', methods=['GET'])
+def evaluate_interview(session_id):
+    if session_id not in sessions:
+        return jsonify({"error": "Session not found"}), 404
+
+    session_data = sessions[session_id]
+    audio_folder = session_data['audio_folder']
+    transcript_path = os.path.join(session_data['user_folder'], 'transcript.txt')
+    role = session_data['role']
+
+    # Initialize evaluators
+    audio_processor = AudioRatingProcessor(
+        model_path="Fluency and Pronunciation Rating model.keras",
+        scaler_path="mfcc_scaler.pkl"
+    )
+
+    # Evaluate Communication Skills
+    communication_scores = []
+    audio_files = [f for f in os.listdir(audio_folder) if f.endswith('.wav')]
+    for audio_file in audio_files:
+        audio_path = os.path.join(audio_folder, audio_file)
+        try:
+            result = audio_processor.predict_audio_rating(audio_path)
+            if isinstance(result, dict):
+                avg_score = (result['Pronunciation Score'] + result['Fluency Score']) / 2
+                communication_scores.append(avg_score)
+        except Exception as e:
+            app.logger.error(f"Error processing audio {audio_file}: {str(e)}")
+            continue
+
+    communication_score = sum(communication_scores) / len(communication_scores) if communication_scores else 5.0  # Default to 5 if no scores
+
+    # Evaluate Confidence
+    confidence_counts = {'Confident': 0, 'Not Confident': 0}
+    for audio_file in audio_files:
+        audio_path = os.path.join(audio_folder, audio_file)
+        try:
+            predictor = VoiceConfidencePredictor(audio_path)
+            result = predictor.predict()
+            if result["label"] is not None:
+                label = 'Confident' if result['label'] == 'Confident' else 'Not Confident'
+                confidence_counts[label] += 1
+        except Exception as e:
+            app.logger.error(f"Error predicting confidence for {audio_file}: {str(e)}")
+            continue
+
+    total_responses = sum(confidence_counts.values())
+    confidence_score = (confidence_counts['Confident'] / total_responses * 10) if total_responses > 0 else 5.0  # Default to 5 if no responses
+
+    # Evaluate Domain Knowledge and Critical Thinking
+    domain_knowledge_score = 5.0  # Default
+    critical_thinking_score = 5.0  # Default
+    try:
+        with open(transcript_path, 'r', encoding='utf-8') as f:
+            transcript_content = f.read()
+        evaluator = InterviewEvaluator(role, transcript_content)
+        scores = evaluator.eval()
+        domain_knowledge_score = scores.get('domain_knowledge', 5.0)
+        critical_thinking_score = scores.get('critical_thinking', 5.0)
+    except Exception as e:
+        app.logger.error(f"Error evaluating transcript: {str(e)}")
+
+    # Prepare evaluation results
+    evaluation_results = {
+        'communication_skills': round(communication_score, 2),
+        'confidence': round(confidence_score, 2),
+        'domain_knowledge': round(domain_knowledge_score, 2),
+        'critical_thinking': round(critical_thinking_score, 2),
+        'name': session_data['name'],
+        'role': role,
+        'domain': session_data['domain'],
+        'engineering': session_data['engineering']
+    }
+
+    return render_template('evaluation.html', results=evaluation_results)
+
 def generate_ai_answer(session_id, question):
     domain = sessions[session_id]['domains'][sessions[session_id]['current_question'] - 1]
     if domain == "Introduction":
@@ -471,4 +552,4 @@ def generate_ai_answer(session_id, question):
         return "Unable to generate AI answer due to an error."
 
 if __name__ == '__main__':
-    app.run(debug=True,port=9393)
+    app.run(debug=True, port=9393)

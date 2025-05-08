@@ -1,0 +1,45 @@
+Question 1: Tell me a little about yourself, test.
+Domain: Introduction
+
+Question 2: What are some things you're passionate about outside of work, test?
+Domain: Introduction
+
+Question 3: In your Eye-Tracking Cursor Control System project, how did you handle the calibration process to ensure accurate cursor movement, considering potential variations in lighting and individual eye characteristics?
+Domain: Resume-Based
+
+Question 4: Can you describe the specific challenges you faced in creating responsive websites using HTML and CSS, and how you addressed issues related to cross-browser compatibility and different screen sizes?
+Domain: Resume-Based
+
+Question 5: Considering your experience with MongoDB and SQL, explain a scenario where you would choose one database system over the other for a specific frontend application, justifying your decision based on performance, scalability, and data structure considerations.
+Domain: Resume-Based
+
+Question 6: test, describe your experience optimizing complex React applications for performance, specifically addressing challenges related to large component trees and inefficient state management.
+Domain: Role-Specific
+
+Question 7: Explain how you would approach debugging a memory leak in a single-page application built with Vue.js, outlining the tools and techniques you'd utilize to isolate and resolve the issue.
+Domain: Role-Specific
+
+Question 8: How would you architect a frontend application to handle offline functionality and data synchronization with a backend service, considering aspects like conflict resolution and data consistency?
+Domain: Role-Specific
+
+Question 9: Describe a situation where you had to integrate a third-party JavaScript library with unexpected behavior, and detail your process of identifying the root cause and implementing a robust solution.
+Domain: Role-Specific
+
+Question 10: Describe a time you had to explain a complex technical concept to a non-technical teammate to achieve a shared goal.
+Domain: Behavioral
+
+Question 11: Tell me about a time you encountered a significant bug in a frontend application during a sprint; how did you approach debugging and collaborating with your team to resolve it?
+Domain: Behavioral
+
+Question 12: Explain a situation where you had to adapt your approach to a frontend project due to changing requirements or unexpected technical limitations; what was your solution and what did you learn?
+Domain: Behavioral
+
+Question 13: Describe how you would handle a performance bottleneck in a single-page application caused by excessive DOM manipulation.
+Domain: Situational
+
+Question 14: Explain your approach to ensuring accessibility and cross-browser compatibility when building a complex interactive component using modern JavaScript frameworks.
+Domain: Situational
+
+Question 15: How would you debug and resolve a rendering issue in a component library that only manifests itself on specific devices or browsers, and what tools and strategies would you employ?
+Domain: Situational
+
