@@ -4,41 +4,718 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose an Option</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Montserrat:wght@600;800&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        body.dark {
+            color: #ffffff;
+            background: #1f2a44;
+        }
+        body.light {
+            color: #333333;
+            background: #f5f5f5;
+        }
+        body.chrome-dark {
+            color: #ffffff;
+            background: #202124;
+        }
+        body.chrome-light {
+            color: #202124;
+            background: #ffffff;
+        }
+        #background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transition: transform 0.1s ease;
+        }
+        body.dark #background-canvas {
+            background: linear-gradient(135deg, #1f2a44 0%, #2c3e50 100%);
+        }
+        body.light #background-canvas {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f5f5f5 100%);
+        }
+        body.chrome-dark #background-canvas {
+            background: #202124;
+        }
+        body.chrome-light #background-canvas {
+            background: #ffffff;
+        }
+        #wave-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.2;
+        }
+        .navbar {
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease;
+            border-bottom: 2px solid transparent;
+            animation: gradientShift 5s ease infinite;
+        }
+        body.dark .navbar {
+            background: rgba(31, 42, 68, 0.9);
+            background: linear-gradient(90deg, #00ddeb, #ff007a);
+            background-size: 200%;
+        }
+        body.light .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            background: linear-gradient(90deg, #80d8ff, #ff80b3);
+            background-size: 200%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        body.chrome-dark .navbar {
+            background: #303134;
+            background: linear-gradient(90deg, #303134, #3c4043);
+            background-size: 200%;
+        }
+        body.chrome-light .navbar {
+            background: #f1f3f4;
+            background: linear-gradient(90deg, #f1f3f4, #ffffff);
+            background-size: 200%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body.dark .navbar .logo {
+            background: linear-gradient(90deg, #00ddeb, #ff007a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        body.light .navbar .logo {
+            background: linear-gradient(90deg, #80d8ff, #ff80b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        body.chrome-dark .navbar .logo {
+            color: #8ab4f8;
+        }
+        body.chrome-light .navbar .logo {
+            color: #1a73e8;
+        }
+        .navbar .nav-links {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .nav-links a {
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        body.dark .navbar .nav-links a {
+            color: #ffffff;
+        }
+        body.light .navbar .nav-links a {
+            color: #333333;
+        }
+        body.chrome-dark .navbar .nav-links a {
+            color: #8ab4f8;
+        }
+        body.chrome-light .navbar .nav-links a {
+            color: #1a73e8;
+        }
+        body.dark .navbar .nav-links a:hover {
+            color: #00ddeb;
+            transform: scale(1.1);
+        }
+        body.light .navbar .nav-links a:hover {
+            color: #80d8ff;
+            transform: scale(1.1);
+        }
+        body.chrome-dark .navbar .nav-links a:hover {
+            color: #a1c4fd;
+            transform: scale(1.1);
+        }
+        body.chrome-light .navbar .nav-links a:hover {
+            color: #4285f4;
+            transform: scale(1.1);
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: 15px;
+            transition: transform 0.3s ease;
+        }
+        body.dark .theme-toggle {
+            color: #ffffff;
+        }
+        body.light .theme-toggle {
+            color: #333333;
+        }
+        body.chrome-dark .theme-toggle {
+            color: #8ab4f8;
+        }
+        body.chrome-light .theme-toggle {
+            color: #1a73e8;
+        }
+        .theme-toggle:hover {
+            transform: rotate(360deg);
+        }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 20px;
+            padding-top: 120px;
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            border-bottom: 3px solid;
+            animation: fadeIn 1s ease;
+        }
+        body.dark .main-content {
+            border-image: linear-gradient(90deg, #00ddeb, #ff007a) 1;
+        }
+        body.light .main-content {
+            border-image: linear-gradient(90deg, #80d8ff, #ff80b3) 1;
+        }
+        body.chrome-dark .main-content {
+            border-image: linear-gradient(90deg, #8ab4f8, #3c4043) 1;
+        }
+        body.chrome-light .main-content {
+            border-image: linear-gradient(90deg, #1a73e8, #f1f3f4) 1;
+        }
+        .main-content h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body.dark .main-content h1 {
+            background: linear-gradient(90deg, #ffffff, #00ddeb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(0, 221, 235, 0.7);
+        }
+        body.light .main-content h1 {
+            background: linear-gradient(90deg, #333333, #80d8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(128, 216, 255, 0.5);
+        }
+        body.chrome-dark .main-content h1 {
+            color: #8ab4f8;
+            text-shadow: 0 0 5px rgba(138, 180, 248, 0.3);
+        }
+        body.chrome-light .main-content h1 {
+            color: #1a73e8;
+            text-shadow: 0 0 3px rgba(26, 115, 232, 0.2);
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .option-card {
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            animation: fadeIn 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        body.dark .option-card {
+            background: rgba(31, 42, 68, 0.95);
+            border: 3px solid transparent;
+            border-image: linear-gradient(90deg, #00ddeb, #ff007a) 1;
+        }
+        body.light .option-card {
+            background: #ffffff;
+            border: 3px solid transparent;
+            border-image: linear-gradient(90deg, #80d8ff, #ff80b3) 1;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        body.chrome-dark .option-card {
+            background: #303134;
+            border: 2px solid #3c4043;
+        }
+        body.chrome-light .option-card {
+            background: #f1f3f4;
+            border: 2px solid #dadce0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .option-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        body.dark .option-card:hover {
+            box-shadow: 0 0 20px rgba(0, 221, 235, 0.7);
+        }
+        body.light .option-card:hover {
+            box-shadow: 0 0 15px rgba(128, 216, 255, 0.5);
+        }
+        body.chrome-dark .option-card:hover {
+            box-shadow: 0 0 15px rgba(138, 180, 248, 0.3);
+        }
+        body.chrome-light .option-card:hover {
+            box-shadow: 0 0 15px rgba(26, 115, 232, 0.2);
+        }
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: 0.5s;
+            opacity: 0;
+        }
+        body.dark .option-card::before {
+            background: linear-gradient(90deg, transparent, rgba(0, 221, 235, 0.2), transparent);
+        }
+        body.light .option-card::before {
+            background: linear-gradient(90deg, transparent, rgba(128, 216, 255, 0.2), transparent);
+        }
+        body.chrome-dark .option-card::before {
+            background: linear-gradient(90deg, transparent, rgba(138, 180, 248, 0.2), transparent);
+        }
+        body.chrome-light .option-card::before {
+            background: linear-gradient(90deg, transparent, rgba(26, 115, 232, 0.1), transparent);
+        }
+        .option-card:hover::before {
+            opacity: 1;
+            left: 100%;
+        }
+        .option-card.sparkle::after {
+            content: '✨';
+            position: absolute;
+            font-size: 20px;
+            top: -10px;
+            right: -10px;
+            animation: sparkle 1s ease-in-out infinite;
+        }
+        .option-card h5 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body.dark .option-card h5 {
+            color: #00ddeb;
+        }
+        body.light .option-card h5 {
+            color: #80d8ff;
+        }
+        body.chrome-dark .option-card h5 {
+            color: #8ab4f8;
+        }
+        body.chrome-light .option-card h5 {
+            color: #1a73e8;
+        }
+        .option-card p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        body.dark .option-card p {
+            color: #d1d5db;
+        }
+        body.light .option-card p {
+            color: #4b5563;
+        }
+        body.chrome-dark .option-card p {
+            color: #d1d5db;
+        }
+        body.chrome-light .option-card p {
+            color: #4b5563;
+        }
+        .option-card a {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 50px;
+            color: #ffffff;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        body.dark .option-card a {
+            background: linear-gradient(90deg, #00ddeb, #ff007a);
+            box-shadow: 0 4px 15px rgba(0, 221, 235, 0.5);
+        }
+        body.light .option-card a {
+            background: linear-gradient(90deg, #80d8ff, #ff80b3);
+            box-shadow: 0 4px 10px rgba(128, 216, 255, 0.3);
+        }
+        body.chrome-dark .option-card a {
+            background: #8ab4f8;
+            box-shadow: 0 4px 15px rgba(138, 180, 248, 0.3);
+        }
+        body.chrome-light .option-card a {
+            background: #1a73e8;
+            box-shadow: 0 4px 10px rgba(26, 115, 232, 0.2);
+        }
+        .option-card a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        .option-card a:hover::before {
+            left: 100%;
+        }
+        body.dark .option-card a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 221, 235, 0.7);
+        }
+        body.light .option-card a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(128, 216, 255, 0.5);
+        }
+        body.chrome-dark .option-card a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(138, 180, 248, 0.5);
+        }
+        body.chrome-light .option-card a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(26, 115, 232, 0.3);
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 40px 15px;
+                padding-top: 80px;
+            }
+            .main-content h1 {
+                font-size: 28px;
+            }
+            .option-card {
+                max-width: 300px;
+            }
+            .navbar .nav-links a {
+                margin-left: 15px;
+                font-size: 14px;
+            }
+            .navbar .logo {
+                font-size: 20px;
+            }
+            .theme-toggle {
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
-<body>
-    <div class="container mt-5">
+<body class="dark">
+    <canvas id="background-canvas"></canvas>
+    <div class="navbar">
+        <div class="logo">IntervuAI</div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </div>
+    <div class="main-content">
+        <canvas id="wave-canvas"></canvas>
         <h1 class="text-center mb-4">Choose Your Interview Preparation Tool</h1>
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Help with Resume</h5>
-                        <p class="card-text">Get assistance in crafting a professional resume.</p>
-                        <a href="{{ resume_url }}" class="btn btn-primary">Go to Resume Help</a>
-                    </div>
-                </div>
+        <div class="card-container">
+            <div class="option-card sparkle">
+                <h5 class="card-title">Help with Resume</h5>
+                <p class="card-text">Get assistance in crafting a professional resume.</p>
+                <a href="{{ resume_url }}" class="btn btn-primary">Go to Resume Help</a>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Prepare for Aptitude Test</h5>
-                        <p class="card-text">Practice and improve your aptitude test skills.</p>
-                        <a href="{{ aptitude_url }}" class="btn btn-primary">Go to Aptitude Test</a>
-                    </div>
-                </div>
+            <div class="option-card sparkle">
+                <h5 class="card-title">Prepare for Aptitude Test</h5>
+                <p class="card-text">Practice and improve your aptitude test skills.</p>
+                <a href="{{ aptitude_url }}" class="btn btn-primary">Go to Aptitude Test</a>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Mock Interview</h5>
-                        <p class="card-text">Experience a simulated interview environment.</p>
-                        <a href="{{ interview_url }}" class="btn btn-primary">Go to Mock Interview</a>
-                    </div>
-                </div>
+            <div class="option-card sparkle">
+                <h5 class="card-title">Mock Interview</h5>
+                <p class="card-text">Experience a simulated interview environment.</p>
+                <a href="{{ interview_url }}" class="btn btn-primary">Go to Mock Interview</a>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Theme toggle functionality with four themes
+        const themes = ['dark', 'light', 'chrome-dark', 'chrome-light'];
+        let currentThemeIndex = 0;
+
+        function toggleTheme() {
+            const body = document.body;
+            // Remove all theme classes
+            themes.forEach(theme => body.classList.remove(theme));
+            // Cycle to the next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            const newTheme = themes[currentThemeIndex];
+            body.classList.add(newTheme);
+            // Update the toggle icon based on the theme
+            document.querySelector('.theme-toggle').textContent = 
+                newTheme.includes('dark') ? '☀️' : '🌙';
+            localStorage.setItem('theme', newTheme);
+
+            // Update particle, wave, and confetti colors based on the new theme
+            updateParticleColors();
+            updateWaveColors();
+            updateConfettiColors();
+        }
+
+        // Load theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        currentThemeIndex = themes.indexOf(savedTheme);
+        if (currentThemeIndex === -1) currentThemeIndex = 0;
+        document.body.classList.add(themes[currentThemeIndex]);
+        document.querySelector('.theme-toggle').textContent = 
+            themes[currentThemeIndex].includes('dark') ? '☀️' : '🌙';
+
+        // Particle background animation with parallax
+        const canvas = document.getElementById('background-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Parallax scrolling
+        let lastScrollY = 0;
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const delta = (scrollY - lastScrollY) * 0.1;
+            canvas.style.transform = `translateY(${scrollY * 0.3}px)`;
+            lastScrollY = scrollY;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() * 1 - 0.5) * 0.5;
+                this.speedY = (Math.random() * 1 - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            
+            draw() {
+                const theme = document.body.classList;
+                if (theme.contains('dark')) {
+                    ctx.fillStyle = `rgba(0, 221, 235, ${this.opacity})`;
+                } else if (theme.contains('light')) {
+                    ctx.fillStyle = `rgba(51, 51, 51, ${this.opacity})`;
+                } else if (theme.contains('chrome-dark')) {
+                    ctx.fillStyle = `rgba(138, 180, 248, ${this.opacity})`;
+                } else {
+                    ctx.fillStyle = `rgba(26, 115, 232, ${this.opacity})`;
+                }
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particlesArray = [];
+        const particleCount = window.innerWidth < 768 ? 50 : 100;
+        for (let i = 0; i < particleCount; i++) {
+            particlesArray.push(new Particle());
+        }
+
+        function updateParticleColors() {
+            particlesArray.forEach(particle => particle.draw());
+        }
+
+        // Confetti particles for celebratory vibe
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = -10;
+                this.size = Math.random() * 5 + 2;
+                this.speedY = Math.random() * 3 + 2;
+                this.rotation = Math.random() * 360;
+                this.spin = Math.random() * 5 - 2.5;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.rotation += this.spin;
+                if (this.y > canvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * canvas.width;
+                    this.speedY = Math.random() * 3 + 2;
+                }
+            }
+
+            draw() {
+                const theme = document.body.classList;
+                this.color = `hsl(${Math.random() * 360}, 100%, ${theme.contains('dark') || theme.contains('chrome-dark') ? '50%' : '70%'})`;
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        const confettiArray = [];
+        for (let i = 0; i < 50; i++) {
+            confettiArray.push(new Confetti());
+        }
+
+        function updateConfettiColors() {
+            confettiArray.forEach(confetti => {
+                const theme = document.body.classList;
+                confetti.color = `hsl(${Math.random() * 360}, 100%, ${theme.contains('dark') || theme.contains('chrome-dark') ? '50%' : '70%'})`;
+            });
+        }
+
+        // Wave animation for main section
+        const waveCanvas = document.getElementById('wave-canvas');
+        const waveCtx = waveCanvas.getContext('2d');
+        waveCanvas.width = window.innerWidth;
+        waveCanvas.height = document.querySelector('.main-content').offsetHeight;
+
+        window.addEventListener('resize', () => {
+            waveCanvas.width = window.innerWidth;
+            waveCanvas.height = document.querySelector('.main-content').offsetHeight;
+        });
+
+        let wavePhase = 0;
+        function drawWave() {
+            waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+            waveCtx.beginPath();
+            waveCtx.moveTo(0, waveCanvas.height / 2);
+            for (let x = 0; x < waveCanvas.width; x++) {
+                const y = Math.sin(x * 0.01 + wavePhase) * 50 + waveCanvas.height / 2;
+                waveCtx.lineTo(x, y);
+            }
+            const theme = document.body.classList;
+            if (theme.contains('dark')) {
+                waveCtx.strokeStyle = 'rgba(0, 221, 235, 0.5)';
+            } else if (theme.contains('light')) {
+                waveCtx.strokeStyle = 'rgba(128, 216, 255, 0.3)';
+            } else if (theme.contains('chrome-dark')) {
+                waveCtx.strokeStyle = 'rgba(138, 180, 248, 0.3)';
+            } else {
+                waveCtx.strokeStyle = 'rgba(26, 115, 232, 0.2)';
+            }
+            waveCtx.lineWidth = 2;
+            waveCtx.stroke();
+            wavePhase += 0.05;
+            requestAnimationFrame(drawWave);
+        }
+        drawWave();
+
+        function updateWaveColors() {
+            const theme = document.body.classList;
+            if (theme.contains('dark')) {
+                waveCtx.strokeStyle = 'rgba(0, 221, 235, 0.5)';
+            } else if (theme.contains('light')) {
+                waveCtx.strokeStyle = 'rgba(128, 216, 255, 0.3)';
+            } else if (theme.contains('chrome-dark')) {
+                waveCtx.strokeStyle = 'rgba(138, 180, 248, 0.3)';
+            } else {
+                waveCtx.strokeStyle = 'rgba(26, 115, 232, 0.2)';
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                for (let j = i + 1; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        const theme = document.body.classList;
+                        if (theme.contains('dark')) {
+                            ctx.strokeStyle = `rgba(255, 0, 122, ${1 - distance / 100})`;
+                        } else if (theme.contains('light')) {
+                            ctx.strokeStyle = `rgba(255, 128, 179, ${1 - distance / 100})`;
+                        } else if (theme.contains('chrome-dark')) {
+                            ctx.strokeStyle = `rgba(138, 180, 248, ${1 - distance / 100})`;
+                        } else {
+                            ctx.strokeStyle = `rgba(26, 115, 232, ${1 - distance / 100})`;
+                        }
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            for (let i = 0; i < confettiArray.length; i++) {
+                confettiArray[i].update();
+                confettiArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
 </body>
 </html>
