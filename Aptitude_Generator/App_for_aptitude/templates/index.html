@@ -40,6 +40,11 @@
       id="domain-selection"
       class="bg-white bg-opacity-95 rounded-3xl shadow-2xl p-10 max-w-md w-full z-10 relative overflow-hidden"
     >
+      {% if user_name %}
+      <p class="text-2xl font-semibold text-center text-gray-900 mb-4">
+        Hello, {{ user_name }}! Welcome to the Aptitude Test
+      </p>
+      {% endif %}
       <img
         src="https://cdn-icons-png.flaticon.com/512/7595/7595571.png"
         alt="Verified Checkmark Image"
@@ -77,16 +82,7 @@
           ></path>
         </svg>
       </div>
-      <p class="text-gray-600 mb-2 text-center">
-        Or enter a domain (e.g., ISE):
-      </p>
-      <input
-        id="domain_input"
-        type="text"
-        class="w-full p-3 border rounded-xl mb-6 focus:outline-none focus:ring-4 focus:ring-indigo-300 bg-gray-50 text-gray-800"
-        placeholder="Enter custom domain"
-        oninput="toggleInput('domain_input')"
-      />
+      
       <button
         onclick="startTest()"
         class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition duration-300 text-lg font-semibold shadow-lg"
@@ -157,11 +153,11 @@
       id="result-screen"
       class="hidden bg-white bg-opacity-95 rounded-3xl shadow-2xl p-10 max-w-2xl w-full mx-auto z-10 animate-pop-up"
     >
-<img
-  src="https://cdn-icons-png.flaticon.com/512/942/942748.png"
-  alt="Quiz Completed Icon"
-  class="w-20 h-20 mx-auto mb-6"
-/>
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/942/942748.png"
+        alt="Quiz Completed Icon"
+        class="w-20 h-20 mx-auto mb-6"
+      />
       <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-8">
         Test Results
       </h1>
@@ -346,64 +342,56 @@
         requestAnimationFrame(animateGentleDrift);
       }
 
-// Result Screen: Starry Sparkle (cleaned + faster)
-function animateStars() {
-  const ctx = canvases.result.getContext("2d");
-  ctx.clearRect(0, 0, canvases.result.width, canvases.result.height);
+      // Result Screen: Starry Sparkle
+      function animateStars() {
+        const ctx = canvases.result.getContext("2d");
+        ctx.clearRect(0, 0, canvases.result.width, canvases.result.height);
 
-  // Add new star sometimes
-  if (Math.random() < 0.05) {
-    const x = Math.random() * canvases.result.width;
-    const y = Math.random() * canvases.result.height;
-    const star = {
-      x,
-      y,
-      radius: Math.random() * 2 + 1,
-      opacity: 0,
-      phase: "fadeIn"
-    };
-    canvases.result.stars = canvases.result.stars || [];
-    canvases.result.stars.push(star);
-  }
-
-  const stars = canvases.result.stars || [];
-  for (let i = stars.length - 1; i >= 0; i--) {
-    const star = stars[i];
-
-    // Animate opacity
-    if (star.phase === "fadeIn") {
-      star.opacity += 0.1;
-      if (star.opacity >= 1) {
-        star.opacity = 1;
-        star.phase = "fadeOut";
-        star.delay = 30; // short delay before fadeOut
-      }
-    } else if (star.phase === "fadeOut") {
-      if (star.delay > 0) {
-        star.delay--;
-      } else {
-        star.opacity -= 0.1;
-        if (star.opacity <= 0) {
-          stars.splice(i, 1); // remove faded star
-          continue;
+        if (Math.random() < 0.05) {
+          const x = Math.random() * canvases.result.width;
+          const y = Math.random() * canvases.result.height;
+          const star = {
+            x,
+            y,
+            radius: Math.random() * 2 + 1,
+            opacity: 0,
+            phase: "fadeIn"
+          };
+          canvases.result.stars = canvases.result.stars || [];
+          canvases.result.stars.push(star);
         }
+
+        const stars = canvases.result.stars || [];
+        for (let i = stars.length - 1; i >= 0; i--) {
+          const star = stars[i];
+          if (star.phase === "fadeIn") {
+            star.opacity += 0.1;
+            if (star.opacity >= 1) {
+              star.opacity = 1;
+              star.phase = "fadeOut";
+              star.delay = 30;
+            }
+          } else if (star.phase === "fadeOut") {
+            if (star.delay > 0) {
+              star.delay--;
+            } else {
+              star.opacity -= 0.1;
+              if (star.opacity <= 0) {
+                stars.splice(i, 1);
+                continue;
+              }
+            }
+          }
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+          ctx.fill();
+        }
+
+        canvases.result.stars = stars;
+        requestAnimationFrame(animateStars);
       }
-    }
 
-    // Draw the star
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-    ctx.fill();
-  }
-
-  canvases.result.stars = stars;
-  requestAnimationFrame(animateStars);
-}
-
-
-
-      // Initialize Canvases
       Object.values(canvases).forEach((canvas) => resizeCanvas(canvas));
       window.addEventListener("resize", () =>
         Object.values(canvases).forEach(resizeCanvas)
@@ -416,7 +404,6 @@ function animateStars() {
         animateStars();
       });
 
-      // Update Background Based on Screen
       function updateBackground() {
         Object.keys(canvases).forEach((key) =>
           canvases[key].classList.add("hidden")

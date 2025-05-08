@@ -9,8 +9,7 @@ app = Flask(__name__)
 app.secret_key = 'super-secret-key-123'
 
 try:
-    genai.configure(api_key="Lo Nin API aki run madu, edu hange run agalla 😂😁")
-    
+    genai.configure(api_key="AIzaSyAA92C3_BnZiH-2V47VV32OdgS6Trpc8FQ")
 except Exception as e:
     print(f"Failed to configure Gemini API: {e}")
     sys.exit(1)
@@ -256,7 +255,8 @@ def generate_verbal_questions(num_questions=5):
 @app.route('/')
 def index():
     session.clear()
-    return render_template('index.html', domains=supported_domains)
+    user_name = request.args.get('name', '')  # Get name from query parameter
+    return render_template('index.html', domains=supported_domains, user_name=user_name)
 
 @app.route('/start_test', methods=['POST'])
 def start_test():
@@ -318,4 +318,4 @@ def submit_test():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True, port=9999)
+    app.run(debug=True, port=5002)
