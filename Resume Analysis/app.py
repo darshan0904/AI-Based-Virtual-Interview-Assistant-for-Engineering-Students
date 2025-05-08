@@ -21,7 +21,7 @@ app = Flask(__name__)
 
 # Load environment variables
 load_dotenv()
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_API_KEY = "AIzaSyAPq3Hf-TsU2HZOH2T37AFpc10uNy6xH-U"
 if not GEMINI_API_KEY:
     raise ValueError("GEMINI_API_KEY not found in environment variables.")
 
