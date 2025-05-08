@@ -24,13 +24,13 @@ You are an AI Interview Evaluator.
 
 Job Role: {self.job_role}
 
-Below is a transcript of an interview (Questions and Candidate's Answers):
+Below is a transcript of an interview (Questions and Candidate's and AAI's Answers):
 --- START TRANSCRIPT ---
 {self.transcript.strip()}
 --- END TRANSCRIPT ---
 
 Your Task:
-Evaluate the candidate's responses based *only* on the provided transcript and score them according to these criteria:
+Evaluate the candidate's answers to the Question responses based *only* on the provided transcript and score them according to these criteria:
 1. Domain Knowledge (0 to 10): Assess the accuracy, depth, and appropriate use of technical concepts relevant to the job role based on the answers.
 2. Problem Solving & Critical Thinking (0 to 10): Evaluate the logic, structure, adaptability, and approach demonstrated in the answers, especially when dealing with hypothetical or debugging scenarios.
 

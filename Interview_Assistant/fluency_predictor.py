@@ -63,7 +63,7 @@ class AudioRatingProcessor:
 
     def predict_audio_rating(self, file_path):
         """Predict pronunciation and fluency scores for an audio file."""
-        file_path = self.convert_to_wav(file_path)
+        # file_path = self.convert_to_wav(file_path)
         segments = self.extract_mfcc(file_path)
         if not segments:
             return "No usable speech found."
