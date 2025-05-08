@@ -21,7 +21,11 @@ class User(db.Model):
 
 @app.route('/')
 def home():
-    return redirect(url_for('login'))
+    return render_template('index.html')
+
+@app.route('/info')
+def info():
+    return render_template('info.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -61,17 +65,81 @@ def login():
             session['user_id'] = user.id
             session['user_name'] = user.name
             flash('Login successful!', 'success')
-            return redirect(url_for('select_domain'))
+            return redirect(url_for('post_login'))
         else:
             flash('Invalid email or password.', 'danger')
             return redirect(url_for('login'))
     return render_template('login.html')
 
+@app.route('/post_login')
+def post_login():
+    if 'user_id' not in session:
+        flash('Please log in first.', 'warning')
+        return redirect(url_for('login'))
+    return render_template('post_login.html')
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'user_id' not in session:
+        flash('Please log in first.', 'warning')
+        return redirect(url_for('login'))
+
+    user = User.query.get(session['user_id'])
+    if not user:
+        flash('User not found. Please log in again.', 'danger')
+        session.clear()
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        # Update name
+        new_name = request.form.get('name')
+        if not new_name:
+            flash('Name is required.', 'danger')
+            return redirect(url_for('profile'))
+        
+        # Handle resume upload
+        resume = request.files.get('resume')
+        resume_path = user.resume_path  # Keep existing path unless a new file is uploaded
+
+        if resume and resume.filename:
+            if allowed_file(resume.filename):
+                filename = secure_filename(resume.filename)
+                resume_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                try:
+                    resume.save(resume_path)
+                except Exception as e:
+                    flash(f'Error saving resume: {str(e)}', 'danger')
+                    return redirect(url_for('profile'))
+            else:
+                flash('Invalid file type. Only PDF, DOC, or DOCX allowed.', 'danger')
+                return redirect(url_for('profile'))
+
+        # Update user in database
+        try:
+            user.name = new_name
+            user.resume_path = resume_path
+            session['user_name'] = new_name  # Update session name
+            db.session.commit()
+            flash('Profile updated successfully!', 'success')
+        except Exception as e:
+            flash(f'Error updating profile: {str(e)}', 'danger')
+        
+        return redirect(url_for('profile'))
+
+    return render_template('profile.html', user=user)
+
+@app.route('/resume_builder')
+def resume_builder():
+    if 'user_id' not in session:
+        flash('Please log in first.', 'warning')
+        return redirect(url_for('login'))
+    return render_template('resume_builder.html')
+
 @app.route('/logout')
 def logout():
     session.clear()
     flash('Logged out successfully.', 'success')
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 @app.route('/select_domain', methods=['GET', 'POST'])
 def select_domain():
@@ -120,13 +188,11 @@ def resume_upload():
     roles = job_roles.get(domain, [])
 
     if request.method == 'POST':
-        # Handle single 'role' from dropdown
         selected_role = request.form.get('role')
         selected_roles = [selected_role] if selected_role else []
 
         resume = request.files.get('resume')
 
-        # Debug: Log form data
         print("Form data:", request.form)
         print("Selected role:", selected_role)
         print("Selected roles (combined):", selected_roles)
@@ -150,11 +216,9 @@ def resume_upload():
                 flash('Invalid file type. Only PDF, DOC, or DOCX allowed.', 'danger')
                 return redirect(url_for('resume_upload'))
 
-        # Save to session
         session['selected_roles'] = selected_roles
         session['resume_path'] = resume_path
 
-        # Save to database
         try:
             user = User.query.get(session['user_id'])
             if not user:
@@ -170,18 +234,6 @@ def resume_upload():
         return redirect(url_for('aptitude_test'))
 
     return render_template('resume_upload.html', domain=domain, roles=roles)
-
-@app.route('/skip_resume')
-def skip_resume():
-    if 'user_id' not in session or 'selected_domain' not in session:
-        flash('Please complete the previous steps first.', 'warning')
-        return redirect(url_for('select_domain'))
-    if not session.get('selected_roles'):
-        flash('Please select a job role before proceeding.', 'warning')
-        return redirect(url_for('resume_upload'))
-    session['resume_path'] = None
-    flash('Resume upload skipped.', 'info')
-    return redirect(url_for('aptitude_test'))
 
 @app.route('/aptitude_test', methods=['GET', 'POST'])
 def aptitude_test():
@@ -291,8 +343,18 @@ def test_results():
 
     return render_template('test_results.html', score=score, total=total, passed=passed)
 
-@app.route('/next_phase')
-def next_phase():
+@app.route('/interview_instructions')
+def interview_instructions():
+    if 'user_id' not in session:
+        flash('Please log in first.', 'warning')
+        return redirect(url_for('login'))
+    if 'test_score' not in session or session['test_score'] < 7:
+        flash('You must pass the aptitude test to access this phase.', 'warning')
+        return redirect(url_for('aptitude_test'))
+    return render_template('interview_instructions.html', name=session.get('user_name'))
+
+@app.route('/permission_request', methods=['GET', 'POST'])
+def permission_request():
     if 'user_id' not in session:
         flash('Please log in first.', 'warning')
         return redirect(url_for('login'))
@@ -300,7 +362,25 @@ def next_phase():
         flash('You must pass the aptitude test to access this phase.', 'warning')
         return redirect(url_for('aptitude_test'))
 
-    return render_template('next_phase.html', name=session.get('user_name'))
+    if request.method == 'POST':
+        mic_permission = request.form.get('mic_permission')
+        cam_permission = request.form.get('cam_permission')
+        if mic_permission == 'on' or cam_permission == 'on':
+            return redirect(url_for('video_interview'))
+        flash('Please grant microphone and/or camera permission to proceed.', 'warning')
+        return redirect(url_for('permission_request'))
+
+    return render_template('permission_request.html', name=session.get('user_name'))
+
+@app.route('/video_interview')
+def video_interview():
+    if 'user_id' not in session:
+        flash('Please log in first.', 'warning')
+        return redirect(url_for('login'))
+    if 'test_score' not in session or session['test_score'] < 7:
+        flash('You must pass the aptitude test to access this phase.', 'warning')
+        return redirect(url_for('aptitude_test'))
+    return render_template('video_interview.html', name=session.get('user_name'))
 
 @app.route('/dashboard')
 def dashboard():
