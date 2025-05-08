@@ -10,18 +10,17 @@ from sentence_transformers import SentenceTransformer, util
 import google.generativeai as genai
 import numpy as np
 from dotenv import load_dotenv
-from reportlab.lib.pagesizes import A4
+from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import cm
-import time
+from reportlab.lib.units import inch
 
 app = Flask(__name__)
 
 # Load environment variables
 load_dotenv()
-GEMINI_API_KEY = "AIzaSyAPq3Hf-TsU2HZOH2T37AFpc10uNy6xH-U"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
     raise ValueError("GEMINI_API_KEY not found in environment variables.")
 
@@ -31,6 +30,9 @@ genai.configure(api_key=GEMINI_API_KEY)
 # Load NLP and AI models
 nlp = spacy.load("en_core_web_sm")
 sentence_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+# Store the path of the generated report file for download
+app.config['REPORT_PATH'] = None
 
 def clean_text(text):
     """Clean text by removing special characters and extra spaces."""
@@ -128,18 +130,33 @@ def compute_similarity(resume_text, job_keywords):
     similarity = util.cos_sim(resume_embedding, job_embedding).item()
     return similarity * 100
 
-def analyze_with_gemini(resume_text, job_role, matched_keywords, total_keywords, semantic_score, missing_keywords):
-    """Consolidated Gemini API call for keywords and recommendations."""
-    model = genai.GenerativeModel('gemini-1.5-pro')
+def analyze_with_gemini(resume_text, job_role, matched_keywords, total_keywords, semantic_score, resume_tokens):
+    """Consolidated Gemini API call for keywords and recommendations using gemini-1.5-flash."""
+    model = genai.GenerativeModel('gemini-1.5-flash')
 
-    missing_keywords_str = ', '.join(list(missing_keywords)[:3]) if missing_keywords else "none"
+    # Compute initial matched keywords to estimate missing keywords
+    initial_keywords = set(["development", "programming", "coding", "software", "engineer"])
+    if "software" in job_role.lower():
+        initial_keywords.update(["python", "java", "javascript", "cloud", "aws", "agile", "sql", "react", "problem solving"])
+    elif "data" in job_role.lower():
+        initial_keywords.update(["python", "sql", "tableau", "power bi", "data analysis", "machine learning", "excel"])
+
+    initial_matched_keywords = set()
+    for token in resume_tokens:
+        for keyword in initial_keywords:
+            if token in keyword or keyword in token:
+                initial_matched_keywords.add(keyword)
+
+    # Estimate missing keywords (this is a rough estimate for the prompt)
+    estimated_missing_keywords = initial_keywords - initial_matched_keywords
+    missing_keywords_str = ', '.join(list(estimated_missing_keywords)[:3]) if estimated_missing_keywords else "none"
 
     prompt = f"""
     Perform the following tasks for a resume analysis for the job role '{job_role}':
 
     1. **Extract Job Keywords**: List 10-15 specific technical skills, tools, methodologies, or qualifications typically required for the role (e.g., 'python, java, javascript, cloud, aws, agile, problem solving' for a software engineer). Provide only the list, separated by commas, without explanations.
 
-    2. **Generate Recommendations for Missing Skills**: The resume is missing the following skills: {missing_keywords_str}. Suggest 2-3 specific, actionable steps to acquire these skills and improve the resume for the {job_role} role (e.g., projects, certifications). Keep it concise, professional, under 100 words, and avoid generic advice.
+    2. **Generate Recommendations for Missing Skills**: The resume is likely missing skills similar to: {missing_keywords_str}. After extracting the job keywords, identify which of these (or similar skills) are missing based on your keyword list, and suggest 2-3 specific, actionable steps to acquire those missing skills and improve the resume for the {job_role} role (e.g., projects, certifications). Keep it concise, professional, under 100 words, and avoid generic advice.
 
     Format the response as follows:
     Keywords: <comma-separated list>
@@ -191,9 +208,9 @@ def analyze_resume(resume_text, job_role):
     # Entity extraction
     resume_skills, resume_orgs = extract_entities(resume_text)
 
-    # Consolidated Gemini API call
+    # Single Gemini API call for keywords and recommendations
     job_keywords, recommendations = analyze_with_gemini(
-        resume_text, job_role, matched_keywords, len(initial_keywords), semantic_score, set()
+        resume_text, job_role, matched_keywords, len(initial_keywords), semantic_score, resume_tokens
     )
 
     # Update matched keywords with the new keyword list
@@ -206,11 +223,6 @@ def analyze_resume(resume_text, job_role):
 
     # Compute missing keywords after getting job_keywords
     missing_keywords = set(job_keywords) - set(matched_keywords)
-
-    # Re-run Gemini API call with missing keywords to get tailored recommendations
-    _, recommendations = analyze_with_gemini(
-        resume_text, job_role, matched_keywords, len(job_keywords), semantic_score, missing_keywords
-    )
 
     # Adjusted scoring
     final_score = 0.6 * semantic_score + 0.4 * min(keyword_match_percentage, 80)
@@ -228,145 +240,178 @@ def analyze_resume(resume_text, job_role):
         "resume_skills": resume_skills
     }
 
-def generate_report(analysis, candidate_name, job_role):
-    """Generate a PDF resume analysis report using reportlab."""
+def generate_report(analysis, job_role, pdf_path):
+    """Generate a resume analysis report in both plain text (for web display) and PDF (using reportlab)."""
     current_date = datetime.now().strftime("%B %d, %Y")
-    candidate_name = candidate_name or "Candidate"
-    job_keywords = ', '.join(sorted(analysis['job_keywords'])) if analysis['job_keywords'] else 'None'
-    matched_keywords = ', '.join(sorted(analysis['matched_keywords'])) if analysis['matched_keywords'] else 'None'
-    missing_keywords = ', '.join(sorted(analysis['missing_keywords'])) if analysis['missing_keywords'] else 'None'
-    resume_skills = ', '.join(sorted(analysis['resume_skills'])) if analysis['resume_skills'] else 'None'
-    recommendations = analysis['recommendations']
+    job_keywords = analysis['job_keywords']
+    missing_keywords = analysis['missing_keywords']
 
-    # Set up PDF
-    report_base_name = f"Resume_Analysis_Report_{uuid.uuid4()}"
-    report_pdf_path = os.path.join('Uploads', f"{report_base_name}.pdf")
-    doc = SimpleDocTemplate(report_pdf_path, pagesize=A4, rightMargin=2*cm, leftMargin=2*cm, topMargin=2*cm, bottomMargin=2*cm)
+    # Plain text version for web display
+    plain_text_report = f"""Resume Analysis Report
+Date: {current_date}
+Target Position: {job_role}
+
+---
+
+1. Summary
+- Overall Score: {analysis['score']}/100
+- Semantic Alignment: {analysis['semantic_score']}% (contextual match with job requirements)
+- Keyword Match: {analysis['keyword_match_percentage']}% ({len(analysis['matched_keywords'])}/{analysis['total_keywords']})
+
+2. Keywords
+- Job-Relevant Keywords: {', '.join(sorted(job_keywords)) if job_keywords else 'None'}
+- Matched: {', '.join(sorted(analysis['matched_keywords'])) if analysis['matched_keywords'] else 'None'}
+- Missing: {', '.join(sorted(missing_keywords)) if missing_keywords else 'None'}
+
+3. Skills Detected
+- Resume Skills: {', '.join(sorted(analysis['resume_skills'])) if analysis['resume_skills'] else 'None'}
+
+4. Skillsets Needed and Recommendations
+- Missing Skills: {', '.join(sorted(missing_keywords)) if missing_keywords else 'None'}
+- Recommendations: {analysis['recommendations']}
+
+Best of luck with your application!
+AI Resume Analyzer Team
+"""
+
+    # PDF version using reportlab
+    # Define styles
     styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        name='TitleStyle',
+        parent=styles['Title'],
+        fontSize=16,
+        leading=20,
+        alignment=1,  # Center
+        spaceAfter=12
+    )
+    normal_style = ParagraphStyle(
+        name='NormalStyle',
+        parent=styles['Normal'],
+        fontSize=11,
+        leading=14,
+        spaceAfter=6
+    )
+    heading_style = ParagraphStyle(
+        name='HeadingStyle',
+        parent=styles['Heading2'],
+        fontSize=14,
+        leading=16,
+        spaceBefore=12,
+        spaceAfter=6
+    )
+    bullet_style = ParagraphStyle(
+        name='BulletStyle',
+        parent=styles['Normal'],
+        fontSize=11,
+        leading=14,
+        leftIndent=20,
+        firstLineIndent=-10,
+        spaceAfter=4
+    )
 
-    # Define custom styles
-    styles.add(ParagraphStyle(name='TitleBlue', parent=styles['Title'], fontSize=20, textColor=colors.HexColor('#003366'), spaceAfter=10))
-    styles.add(ParagraphStyle(name='Header', parent=styles['Normal'], fontSize=10, textColor=colors.HexColor('#808080'), alignment=2))
-    styles.add(ParagraphStyle(name='Section', parent=styles['Heading1'], fontSize=14, textColor=colors.HexColor('#003366'), spaceBefore=10, spaceAfter=5))
-    styles.add(ParagraphStyle(name='Body', parent=styles['Normal'], fontSize=10, leading=12, spaceAfter=5))
-    styles.add(ParagraphStyle(name='Bold', parent=styles['Body'], fontName='Helvetica-Bold'))
-    styles.add(ParagraphStyle(name='Footer', parent=styles['Normal'], fontSize=10, textColor=colors.HexColor('#808080'), alignment=1, spaceBefore=20))
-
-    # Content elements
+    # Create PDF elements
     elements = []
 
-    # Header
-    elements.append(Paragraph(f"Resume Analysis Report", styles['TitleBlue']))
-    elements.append(Paragraph(f"Prepared for: {candidate_name}", styles['Body']))
-    elements.append(Paragraph(f"Date: {current_date}", styles['Body']))
-    elements.append(Paragraph(f"Target Position: {job_role}", styles['Body']))
-    elements.append(Spacer(1, 0.5*cm))
+    # Title and header
+    elements.append(Paragraph("Resume Analysis Report", title_style))
+    elements.append(Paragraph(f"Date: {current_date}", normal_style))
+    elements.append(Paragraph(f"Target Position: {job_role}", normal_style))
+    elements.append(Spacer(1, 0.2 * inch))
 
-    # Horizontal line
-    elements.append(Paragraph("<hr>", styles['Body']))
-    elements.append(Spacer(1, 0.5*cm))
+    # Horizontal line (simulated with a paragraph of underscores)
+    elements.append(Paragraph("_" * 80, normal_style))
+    elements.append(Spacer(1, 0.1 * inch))
 
     # Section 1: Summary
-    elements.append(Paragraph("1. Summary", styles['Section']))
-    elements.append(Paragraph(f"<b>Overall Score:</b> {analysis['score']}/100", styles['Body']))
-    elements.append(Paragraph(f"<b>Semantic Alignment:</b> {analysis['semantic_score']}% (contextual match with job requirements)", styles['Body']))
-    elements.append(Paragraph(f"<b>Keyword Match:</b> {analysis['keyword_match_percentage']}% ({len(analysis['matched_keywords'])}/{analysis['total_keywords']})", styles['Body']))
-    elements.append(Spacer(1, 0.2*cm))
+    elements.append(Paragraph("1. Summary", heading_style))
+    elements.append(Paragraph(f"&bull; <b>Overall Score:</b> {analysis['score']}/100", bullet_style))
+    elements.append(Paragraph(f"&bull; <b>Semantic Alignment:</b> {analysis['semantic_score']}% (contextual match with job requirements)", bullet_style))
+    elements.append(Paragraph(f"&bull; <b>Keyword Match:</b> {analysis['keyword_match_percentage']}% ({len(analysis['matched_keywords'])}/{analysis['total_keywords']})", bullet_style))
+    elements.append(Spacer(1, 0.1 * inch))
 
     # Section 2: Keywords
-    elements.append(Paragraph("2. Keywords", styles['Section']))
-    elements.append(Paragraph(f"<b>Job-Relevant Keywords:</b> {job_keywords}", styles['Body']))
-    elements.append(Paragraph(f"<b>Matched:</b> {matched_keywords}", styles['Body']))
-    elements.append(Paragraph(f"<b>Missing:</b> {missing_keywords}", styles['Body']))
-    elements.append(Spacer(1, 0.2*cm))
+    elements.append(Paragraph("2. Keywords", heading_style))
+    elements.append(Paragraph(f"&bull; <b>Job-Relevant Keywords:</b> {', '.join(sorted(job_keywords)) if job_keywords else 'None'}", bullet_style))
+    elements.append(Paragraph(f"&bull; <b>Matched:</b> {', '.join(sorted(analysis['matched_keywords'])) if analysis['matched_keywords'] else 'None'}", bullet_style))
+    elements.append(Paragraph(f"&bull; <b>Missing:</b> {', '.join(sorted(missing_keywords)) if missing_keywords else 'None'}", bullet_style))
+    elements.append(Spacer(1, 0.1 * inch))
 
     # Section 3: Skills Detected
-    elements.append(Paragraph("3. Skills Detected", styles['Section']))
-    elements.append(Paragraph(f"<b>Resume Skills:</b> {resume_skills}", styles['Body']))
-    elements.append(Spacer(1, 0.2*cm))
+    elements.append(Paragraph("3. Skills Detected", heading_style))
+    elements.append(Paragraph(f"&bull; <b>Resume Skills:</b> {', '.join(sorted(analysis['resume_skills'])) if analysis['resume_skills'] else 'None'}", bullet_style))
+    elements.append(Spacer(1, 0.1 * inch))
 
     # Section 4: Skillsets Needed and Recommendations
-    elements.append(Paragraph("4. Skillsets Needed and Recommendations", styles['Section']))
-    elements.append(Paragraph(f"<b>Missing Skills:</b> {missing_keywords}", styles['Body']))
-    elements.append(Paragraph(f"<b>Recommendations:</b> {recommendations}", styles['Body']))
-    elements.append(Spacer(1, 0.5*cm))
+    elements.append(Paragraph("4. Skillsets Needed and Recommendations", heading_style))
+    elements.append(Paragraph(f"&bull; <b>Missing Skills:</b> {', '.join(sorted(missing_keywords)) if missing_keywords else 'None'}", bullet_style))
+    elements.append(Paragraph(f"&bull; <b>Recommendations:</b> {analysis['recommendations']}", bullet_style))
+    elements.append(Spacer(1, 0.2 * inch))
 
-    # Footer
-    elements.append(Paragraph("<i>Best of luck with your application!</i>", styles['Footer']))
-    elements.append(Paragraph("<b>AI Resume Analyzer Team</b>", styles['Footer']))
+    # Horizontal line
+    elements.append(Paragraph("_" * 80, normal_style))
+    elements.append(Spacer(1, 0.1 * inch))
 
-    # Build PDF
+    # Closing message
+    elements.append(Paragraph("<i>Best of luck with your application!</i>", normal_style))
+    elements.append(Paragraph("<i>AI Resume Analyzer Team</i>", normal_style))
+
+    # Build the PDF
+    doc = SimpleDocTemplate(pdf_path, pagesize=letter, rightMargin=inch, leftMargin=inch, topMargin=inch, bottomMargin=inch)
     doc.build(elements)
-    return report_pdf_path
 
-def safe_remove(file_path, max_attempts=5, delay=0.5):
-    """Attempt to remove a file with retries to handle file lock issues."""
-    for attempt in range(max_attempts):
-        try:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-            return
-        except PermissionError:
-            if attempt == max_attempts - 1:
-                print(f"Warning: Could not delete {file_path} after {max_attempts} attempts.")
-                return
-            time.sleep(delay)
-
-@app.after_request
-def cleanup_files(response):
-    """Clean up temporary files after the response is sent."""
-    if hasattr(g, 'files_to_cleanup'):
-        for file_path in g.files_to_cleanup:
-            safe_remove(file_path)
-    return response
-
-from flask import g
+    return plain_text_report
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        candidate_name = request.form.get('candidate_name', '')
         job_role = request.form.get('job_role')
         resume_file = request.files.get('resume_file')
 
         if not job_role or not resume_file:
-            return render_template('index.html', error="Job role and resume file are required.")
+            return render_template('index.html', error="Job role and resume file are required.", report_content=None)
 
         if not resume_file.filename.lower().endswith('.pdf'):
-            return render_template('index.html', error="Upload a valid PDF file.")
+            return render_template('index.html', error="Upload a valid PDF file.", report_content=None)
 
         try:
-            upload_folder = 'Uploads'
+            upload_folder = 'uploads'
             os.makedirs(upload_folder, exist_ok=True)
             resume_path = os.path.join(upload_folder, f"resume_{uuid.uuid4()}.pdf")
             resume_file.save(resume_path)
 
             resume_text = extract_text_from_pdf(resume_path)
             if "Error" in resume_text:
-                safe_remove(resume_path)
-                return render_template('index.html', error=resume_text)
+                os.remove(resume_path)
+                return render_template('index.html', error=resume_text, report_content=None)
 
             analysis = analyze_resume(resume_text, job_role)
-            report_pdf_path = generate_report(analysis, candidate_name, job_role)
 
-            # Store files to cleanup after response
-            g.files_to_cleanup = [resume_path, report_pdf_path]
+            # Define the path for the PDF report
+            report_path = os.path.join(upload_folder, f"Resume_Analysis_Report_{uuid.uuid4()}.pdf")
+            plain_text_report = generate_report(analysis, job_role, report_path)
 
-            # Sending the PDF file
-            response = send_file(
-                report_pdf_path,
-                as_attachment=True,
-                download_name="Resume_Analysis_Report.pdf",
-                mimetype='application/pdf'
-            )
+            # Store the report path in app config for download
+            app.config['REPORT_PATH'] = report_path
 
-            return response
+            # Clean up the resume file
+            os.remove(resume_path)
+
+            # Render the template with the plain text report content for display
+            return render_template('index.html', error=None, report_content=plain_text_report)
 
         except Exception as e:
             print(f"Error processing request: {e}")
-            return render_template('index.html', error=str(e))
+            return render_template('index.html', error=str(e), report_content=None)
 
-    return render_template('index.html', error=None)
+    return render_template('index.html', error=None, report_content=None)
+
+@app.route('/download_report', methods=['GET'])
+def download_report():
+    report_path = app.config['REPORT_PATH']
+    if report_path and os.path.exists(report_path):
+        return send_file(report_path, as_attachment=True, download_name="Resume_Analysis_Report.pdf")
+    return "Report not found.", 404
 
 if __name__ == '__main__':
     print("Launching Flask server... Visit http://127.0.0.1:5000")
