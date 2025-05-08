@@ -6,7 +6,7 @@ from interview_manager import InterviewManager
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = 'super-secret-key-123'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db = SQLAlchemy(app)
 
@@ -14,15 +14,17 @@ db = SQLAlchemy(app)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+gemini_api = "AIzaSyAA92C3_BnZiH-2V47VV32OdgS6Trpc8FQ"
+
 # Initialize Managers
 aptitude_manager = AptitudeTestManager(
     general_csv='clean_general_aptitude_dataset.csv',
     logical_csv='logical_reasoning_questions.csv',
-    api_key='AIzaSyAA92C3_BnZiH-2V47VV32OdgS6Trpc8FQ'
+    api_key=gemini_api
 )
 interview_manager = InterviewManager(
     upload_folder=UPLOAD_FOLDER,
-    api_key='AIzaSyAA92C3_BnZiH-2V47VV32OdgS6Trpc8FQ'
+    api_key=gemini_api
 )
 
 # User Model
@@ -123,9 +125,9 @@ def submit_test():
 # AI Interview Routes
 @app.route('/interview/', methods=['GET', 'POST'])
 def interview_index():
-    if 'user_id' not in session or session.get('total_score', 0) < 7:
-        flash('You must pass the aptitude test first.', 'warning')
-        return redirect(url_for('aptitude_index'))
+    if 'user_id' not in session:
+        flash('Please log in first.', 'warning')
+        return redirect(url_for('login'))
     return render_template('interview_index.html', domains=interview_manager.domains)
 
 @app.route('/interview/get_roles', methods=['POST'])
@@ -137,7 +139,7 @@ async def get_roles():
 @app.route('/interview/start_interview', methods=['POST'])
 async def start_interview():
     name = session['user_name']
-    domain = request.form.get('domain')
+    domain = request.form.get('domain wow')
     role = request.form.get('role')
     session_id = interview_manager.start_interview(name, domain, role)
     return jsonify({"session_id": session_id})
