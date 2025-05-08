@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Mock Interviews</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        body.dark {
+            color: #ffffff;
+        }
+        body.light {
+            color: #333333;
+            background: #f5f5f5;
+        }
+        #background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        body.dark #background-canvas {
+            background: linear-gradient(135deg, #1a252f 0%, #2c3e50 100%);
+        }
+        body.light #background-canvas {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f5f5f5 100%);
+        }
+        .navbar {
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease;
+        }
+        body.dark .navbar {
+            background: rgba(26, 37, 47, 0.9);
+        }
+        body.light .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .navbar .nav-links {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .nav-links a {
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        body.dark .navbar .nav-links a {
+            color: #ffffff;
+        }
+        body.light .navbar .nav-links a {
+            color: #333333;
+        }
+        .navbar .nav-links a:hover {
+            color: #a855f7;
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: 15px;
+        }
+        body.dark .theme-toggle {
+            color: #ffffff;
+        }
+        body.light .theme-toggle {
+            color: #333333;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 60px);
+            position: relative;
+            z-index: 1;
+        }
+        .login-form {
+            padding: 40px 30px;
+            border-radius: 15px;
+            width: 350px;
+            animation: fadeIn 1s ease-in-out;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        .login-form.has-error {
+            animation: shake 0.5s ease-in-out;
+        }
+        body.dark .login-form {
+            background: rgba(26, 37, 47, 0.95);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        body.light .login-form {
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark .login-form h2 {
+            background: linear-gradient(90deg, #ffffff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        body.light .login-form h2 {
+            background: linear-gradient(90deg, #333333, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .flash {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        body.dark .flash {
+            color: #ffffff;
+        }
+        body.light .flash {
+            color: #333333;
+        }
+        .success {
+            background-color: rgba(212, 237, 218, 0.8);
+        }
+        .danger {
+            background-color: rgba(248, 215, 218, 0.8);
+        }
+        .warning {
+            background-color: rgba(255, 243, 205, 0.8);
+        }
+        .info {
+            background-color: rgba(209, 236, 241, 0.8);
+        }
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+            opacity: 0;
+        }
+        .form-group:nth-child(1) { animation: fadeInStagger 0.8s ease-in-out forwards 0.2s; }
+        .form-group:nth-child(2) { animation: fadeInStagger 0.8s ease-in-out forwards 0.4s; }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-bottom: 2px solid;
+            background: transparent;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        body.dark .form-group input {
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+        body.light .form-group input {
+            border-color: #333333;
+            color: #333333;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #a855f7;
+        }
+        .form-group label {
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            font-size: 16px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        body.dark .form-group label {
+            color: #ffffff;
+        }
+        body.light .form-group label {
+            color: #333333;
+        }
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 10px;
+            font-size: 12px;
+            color: #a855f7;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        button.login {
+            background: linear-gradient(90deg, #a855f7, #6366f1);
+            color: #ffffff;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        p {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        body.dark p {
+            color: #ffffff;
+            opacity: 0.9;
+        }
+        body.light p {
+            color: #333333;
+            opacity: 0.8;
+        }
+        a {
+            color: #a855f7;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInStagger {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        @media (max-width: 768px) {
+            .login-form {
+                width: 90%;
+                padding: 30px 20px;
+            }
+            .navbar .nav-links a {
+                margin-left: 15px;
+                font-size: 14px;
+            }
+            .navbar .logo {
+                font-size: 20px;
+            }
+            .theme-toggle {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body class="dark">
+    <canvas id="background-canvas"></canvas>
+    <div class="navbar">
+        <div class="logo">Smart Mock Interviews</div>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Sign Up</a>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="login-form {% if get_flashed_messages(with_categories=true) | selectattr('0', 'equalto', 'danger') | list | length > 0 %}has-error{% endif %}">
+            <h2>Welcome Back</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form method="POST">
+                <div class="form-group">
+                    <input type="email" name="email" placeholder=" " required>
+                    <label>Email Address</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder=" " required>
+                    <label>Password</label>
+                </div>
+                <button type="submit" class="login">Log In</button>
+            </form>
+            <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+        </div>
+    </div>
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const isDark = body.classList.contains('dark');
+            body.classList.toggle('dark');
+            body.classList.toggle('light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+
+        // Load theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.classList.add(savedTheme);
+        document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        // Particle background animation
+        const canvas = document.getElementById('background-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() * 1 - 0.5) * 0.5;
+                this.speedY = (Math.random() * 1 - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            
+            draw() {
+                const isDark = document.body.classList.contains('dark');
+                ctx.fillStyle = isDark ? `rgba(255, 255, 255, ${this.opacity})` : `rgba(51, 51, 51, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        const particlesArray = [];
+        const particleCount = window.innerWidth < 768 ? 50 : 100;
+        for (let i = 0; i < particleCount; i++) {
+            particlesArray.push(new Particle());
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                for (let j = i + 1; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(168, 85, 247, ${1 - distance / 100})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>
