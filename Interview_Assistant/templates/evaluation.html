@@ -60,37 +60,37 @@
             <p><strong>Role:</strong> {{ results.role }}</p>
             <p><strong>Domain:</strong> {{ results.domain }}</p>
             <p><strong>Engineering Field:</strong> {{ results.engineering }}</p>
+            <input type="hidden" id="sessionId" value="{{ results.sessionId|default('') }}">
         </div>
         <div class="score-section">
             <div class="score-label">Communication Skills</div>
-            <div class="score-value">{{ results.communication_skills }} / 10</div>
+            <div class="score-value">{{ results.communication_skills|default(0) }} / 10</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ results.communication_skills * 10 }}%"></div>
+                <div class="progress-fill" style="width: {{ (results.communication_skills|default(0)|float) * 10 }}%"></div>
             </div>
         </div>
         <div class="score-section">
             <div class="score-label">Confidence</div>
-            <div class="score-value">{{ results.confidence }} / 10</div>
+            <div class="score-value">{{ results.confidence|default(0) }} / 10</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ results.confidence * 10 }}%"></div>
+                <div class="progress-fill" style="width: {{ (results.confidence|default(0)|float) * 10 }}%"></div>
             </div>
         </div>
         <div class="score-section">
             <div class="score-label">Domain Knowledge</div>
-            <div class="score-value">{{ results.domain_knowledge }} / 10</div>
-           <div class="progress-bar">
-    <div class="progress-fill" style="width: {{ results.domain_knowledge|float * 10 }}%;"></div>
-</div>
-
+            <div class="score-value">{{ results.domain_knowledge|default(0) }} / 10</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ (results.domain_knowledge|default(0)|float) * 10 }}%"></div>
+            </div>
         </div>
         <div class="score-section">
             <div class="score-label">Critical Thinking</div>
-            <div class="score-value">{{ results.critical_thinking }} / 10</div>
+            <div class="score-value">{{ results.critical_thinking|default(0) }} / 10</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ results.critical_thinking * 10 }}%"></div>
+                <div class="progress-fill" style="width: {{ (results.critical_thinking|default(0)|float) * 10 }}%"></div>
             </div>
         </div>
-        <a href="/" class="start-btn" style="display: block; text-align: center; margin-top: 30px;">Back to Home</a>
+        <a href="http://localhost:5000/" class="start-btn" style="display: block; text-align: center; margin-top: 30px;">Back to Home</a>
     </div>
 </body>
 </html>

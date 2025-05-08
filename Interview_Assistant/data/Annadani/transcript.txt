@@ -1,0 +1,147 @@
+Annadani
+
+			Annadani
+
+Question 1: Tell me a little about yourself and your background, Annadani.
+User Answer: hello hello
+AI Answer: My name is Annadani, and I'm a highly motivated software engineer with seven years of experience specializing in distributed systems and cloud infrastructure. My background began with a strong foundation in computer science, culminating in a Master's degree from Stanford University where I focused on high-performance computing.  Since then, I've worked at Amazon Web Services, initially contributing to the development and optimization of their DynamoDB scaling algorithms, where I improved read latency by 15% through the implementation of a novel sharding strategy.  My more recent work at Google involved designing and deploying a microservices architecture for their internal data pipeline, leveraging Kubernetes and gRPC for efficient resource management and inter-service communication.  This involved significant experience with container orchestration, service mesh technologies, and designing for fault tolerance and high availability.  I'm proficient in languages like Go, Java, and Python, and possess a deep understanding of data structures and algorithms crucial for building scalable and performant systems.  I'm eager to leverage my expertise to contribute to innovative projects and challenging technical environments.
+Domain: Introduction
+Audio File: Annadani_q1_audio.wav
+Video File: Annadani_q1_video.mp4
+
+================================================================================
+
+			Annadani
+
+Question 1: Tell me a little about yourself and your background, Annadani.
+User Answer: hello hello
+AI Answer: My name is Annadani, and I'm a highly motivated software engineer with seven years of experience specializing in distributed systems and cloud infrastructure. My background began with a strong foundation in computer science, culminating in a Master's degree from Stanford University where I focused on high-performance computing.  Since then, I've worked at Amazon Web Services, initially contributing to the development and optimization of their DynamoDB scaling algorithms, where I improved read latency by 15% through the implementation of a novel sharding strategy.  My more recent work at Google involved designing and deploying a microservices architecture for their internal data pipeline, leveraging Kubernetes and gRPC for efficient resource management and inter-service communication.  This involved significant experience with container orchestration, service mesh technologies, and designing for fault tolerance and high availability.  I'm proficient in languages like Go, Java, and Python, and possess a deep understanding of data structures and algorithms crucial for building scalable and performant systems.  I'm eager to leverage my expertise to contribute to innovative projects and challenging technical environments.
+Domain: Introduction
+Audio File: Annadani_q1_audio.wav
+Video File: Annadani_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your passions and interests outside of work, Annadani?
+User Answer: outside of work, Annadani?
+AI Answer: N/A
+Domain: Introduction
+Audio File: Annadani_q2_audio.wav
+Video File: Annadani_q2_video.mp4
+
+================================================================================
+
+			Annadani
+
+Question 1: Tell me a little about yourself and your background, Annadani.
+User Answer: hello hello
+AI Answer: My name is Annadani, and I'm a highly motivated software engineer with seven years of experience specializing in distributed systems and cloud infrastructure. My background began with a strong foundation in computer science, culminating in a Master's degree from Stanford University where I focused on high-performance computing.  Since then, I've worked at Amazon Web Services, initially contributing to the development and optimization of their DynamoDB scaling algorithms, where I improved read latency by 15% through the implementation of a novel sharding strategy.  My more recent work at Google involved designing and deploying a microservices architecture for their internal data pipeline, leveraging Kubernetes and gRPC for efficient resource management and inter-service communication.  This involved significant experience with container orchestration, service mesh technologies, and designing for fault tolerance and high availability.  I'm proficient in languages like Go, Java, and Python, and possess a deep understanding of data structures and algorithms crucial for building scalable and performant systems.  I'm eager to leverage my expertise to contribute to innovative projects and challenging technical environments.
+Domain: Introduction
+Audio File: Annadani_q1_audio.wav
+Video File: Annadani_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your passions and interests outside of work, Annadani?
+User Answer: outside of work, Annadani?
+AI Answer: N/A
+Domain: Introduction
+Audio File: Annadani_q2_audio.wav
+Video File: Annadani_q2_video.mp4
+
+================================================================================
+
+Question 3: In your Eye-Tracking Cursor Control System project, how did you handle calibration errors and ensure accurate cursor movement given the inherent variability in eye tracking data?
+User Answer: In your Eye-Tracking Cursor Control System project,
+AI Answer: N/A
+Domain: Resume-Based
+Audio File: Annadani_q3_audio.wav
+Video File: Annadani_q3_video.mp4
+
+================================================================================
+
+			Annadani
+
+Question 1: Tell me a little about yourself and your background, Annadani.
+User Answer: hello hello
+AI Answer: My name is Annadani, and I'm a highly motivated software engineer with seven years of experience specializing in distributed systems and cloud infrastructure. My background began with a strong foundation in computer science, culminating in a Master's degree from Stanford University where I focused on high-performance computing.  Since then, I've worked at Amazon Web Services, initially contributing to the development and optimization of their DynamoDB scaling algorithms, where I improved read latency by 15% through the implementation of a novel sharding strategy.  My more recent work at Google involved designing and deploying a microservices architecture for their internal data pipeline, leveraging Kubernetes and gRPC for efficient resource management and inter-service communication.  This involved significant experience with container orchestration, service mesh technologies, and designing for fault tolerance and high availability.  I'm proficient in languages like Go, Java, and Python, and possess a deep understanding of data structures and algorithms crucial for building scalable and performant systems.  I'm eager to leverage my expertise to contribute to innovative projects and challenging technical environments.
+Domain: Introduction
+Audio File: Annadani_q1_audio.wav
+Video File: Annadani_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your passions and interests outside of work, Annadani?
+User Answer: outside of work, Annadani?
+AI Answer: N/A
+Domain: Introduction
+Audio File: Annadani_q2_audio.wav
+Video File: Annadani_q2_video.mp4
+
+================================================================================
+
+Question 3: In your Eye-Tracking Cursor Control System project, how did you handle calibration errors and ensure accurate cursor movement given the inherent variability in eye tracking data?
+User Answer: In your Eye-Tracking Cursor Control System project,
+AI Answer: N/A
+Domain: Resume-Based
+Audio File: Annadani_q3_audio.wav
+Video File: Annadani_q3_video.mp4
+
+================================================================================
+
+Question 4: Describe the specific challenges you faced in developing the responsive aspects of your static and responsive websites, and how you addressed cross-browser compatibility issues using HTML and CSS.
+User Answer: Describe the specific challenges you faced in
+AI Answer: 
+Domain: Resume-Based
+Audio File: Annadani_q4_audio.wav
+Video File: Annadani_q4_video.mp4
+
+================================================================================
+
+			Annadani
+
+Question 1: Tell me a little about yourself and your background, Annadani.
+User Answer: hello hello
+AI Answer: My name is Annadani, and I'm a highly motivated software engineer with seven years of experience specializing in distributed systems and cloud infrastructure. My background began with a strong foundation in computer science, culminating in a Master's degree from Stanford University where I focused on high-performance computing.  Since then, I've worked at Amazon Web Services, initially contributing to the development and optimization of their DynamoDB scaling algorithms, where I improved read latency by 15% through the implementation of a novel sharding strategy.  My more recent work at Google involved designing and deploying a microservices architecture for their internal data pipeline, leveraging Kubernetes and gRPC for efficient resource management and inter-service communication.  This involved significant experience with container orchestration, service mesh technologies, and designing for fault tolerance and high availability.  I'm proficient in languages like Go, Java, and Python, and possess a deep understanding of data structures and algorithms crucial for building scalable and performant systems.  I'm eager to leverage my expertise to contribute to innovative projects and challenging technical environments.
+Domain: Introduction
+Audio File: Annadani_q1_audio.wav
+Video File: Annadani_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your passions and interests outside of work, Annadani?
+User Answer: outside of work, Annadani?
+AI Answer: N/A
+Domain: Introduction
+Audio File: Annadani_q2_audio.wav
+Video File: Annadani_q2_video.mp4
+
+================================================================================
+
+Question 3: In your Eye-Tracking Cursor Control System project, how did you handle calibration errors and ensure accurate cursor movement given the inherent variability in eye tracking data?
+User Answer: In your Eye-Tracking Cursor Control System project,
+AI Answer: N/A
+Domain: Resume-Based
+Audio File: Annadani_q3_audio.wav
+Video File: Annadani_q3_video.mp4
+
+================================================================================
+
+Question 4: Describe the specific challenges you faced in developing the responsive aspects of your static and responsive websites, and how you addressed cross-browser compatibility issues using HTML and CSS.
+User Answer: Describe the specific challenges you faced in
+AI Answer: 
+Domain: Resume-Based
+Audio File: Annadani_q4_audio.wav
+Video File: Annadani_q4_video.mp4
+
+================================================================================
+
+Question 5: Given your experience with MongoDB and SQL, explain how you would choose between these database systems for a new project, considering factors such as data structure, scalability, and query performance.
+User Answer: Given your experience with MongoDB and SQL, explain
+AI Answer: In developing responsive websites, my primary challenge stemmed from balancing optimal user experience across diverse devices with maintaining efficient code.  Specifically, ensuring consistent layout and functionality across varying screen sizes and resolutions required meticulous use of media queries and flexible grid systems.  I frequently encountered difficulties optimizing images for different screen densities, necessitating careful consideration of image formats (e.g., WebP for superior compression) and responsive image techniques like `srcset` and `sizes` attributes.  To address cross-browser compatibility, I prioritized writing clean, semantic HTML5 adhering to W3C standards,  carefully testing with BrowserStack and other tools to identify and rectify rendering inconsistencies. CSS specificity issues were mitigated through a well-organized CSS architecture employing BEM methodology and careful use of the cascade, whilst  prefixing vendor-specific properties (like `-webkit-` and `-moz-`) ensured compatibility with older or less-standard compliant browsers. I also employed CSS resets and normalization techniques to standardize default styles and minimize browser-specific inconsistencies in element rendering.  Through rigorous testing and iterative refinements, I successfully delivered responsive sites with a high degree of cross-browser consistency.
+Domain: Resume-Based
+Audio File: Annadani_q5_audio.wav
+Video File: Annadani_q5_video.mp4
+
+================================================================================
+
