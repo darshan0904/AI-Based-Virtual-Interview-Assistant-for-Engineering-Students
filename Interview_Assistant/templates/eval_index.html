@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Evaluation</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .form-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        .submit-btn {
+            padding: 12px 24px;
+            background: #4f46e5;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+        .submit-btn:hover {
+            background: #4338ca;
+        }
+    </style>
+</head>
+<body class="form-bg">
+    <div class="form-container glassmorphism">
+        <h1 class="form-title">Evaluate Your Interview</h1>
+        <form method="POST" action="/">
+            <input type="text" name="name" class="input-field" placeholder="Enter Your Full Name" required>
+            <button type="submit" class="submit-btn">Generate Evaluation</button>
+        </form>
+    </div>
+</body>
+</html>
