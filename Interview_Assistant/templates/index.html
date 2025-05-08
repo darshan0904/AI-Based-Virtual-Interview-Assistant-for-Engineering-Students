@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Interview Assistant</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
@@ -74,7 +75,7 @@
         <div class="container glassmorphism text-center">
             <h2 class="thank-you-title">Thank You!</h2>
             <p class="thank-you-text">"Success is not the absence of obstacles, but the courage to push through them."</p>
-            <a href="{{ url_for('evaluate') }}" class="start-btn fade-in-slide-up" style="animation-delay: 0.7s; display: inline-block; margin-top: 20px;">Evaluate Interview</a>
+            <a href="http://localhost:9394/" class="start-btn fade-in-slide-up" style="animation-delay: 0.7s; display: inline-block; margin-top: 20px;">Generate Evaluation</a>
         </div>
     </div>
 
@@ -82,7 +83,8 @@
         const TALKING_GIF = "/static/talking.gif";
         const LISTENING_GIF = "/static/listening.gif";
         let sessionId, questions = [], currentQuestion = 0;
-        let mediaRecorderAudio, mediaRecorderVideo, audioChunks = [], videoChunks = [];
+        let mediaRecorderAudio, mediaRecorderVideo;
+        let allAudioChunks = [], allVideoChunks = [];
         let aiAnimation = document.getElementById('ai-animation');
         let transcriptBar = document.getElementById('transcript-bar');
         let userVideo = document.getElementById('user-video');
@@ -97,7 +99,6 @@
         let aiAnswer = "";
         let subtitleInterval;
 
-        // Function to hide all containers
         function hideAllContainers() {
             document.getElementById('form-container').classList.add('hidden');
             document.getElementById('loading-container').classList.add('hidden');
@@ -107,35 +108,71 @@
             document.body.classList.remove('form-bg', 'loading-bg', 'transition-bg', 'interview-bg', 'thankyou-bg');
         }
 
-        // Function to show a specific container
         function showContainer(containerId, bgClass) {
             hideAllContainers();
             document.getElementById(containerId).classList.remove('hidden');
             document.body.classList.add(bgClass);
         }
 
-        // Initially show only the form container
         showContainer('form-container', 'form-bg');
 
         function initWebcam() {
-            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-                .then(stream => {
-                    userVideo.srcObject = stream;
+            navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    autoGainControl: true,
+                    sampleRate: 44100, // Standard for WAV compatibility
+                    channelCount: 1
+                }
+            })
+            .then(stream => {
+                userVideo.srcObject = stream;
 
-                    const audioStream = new MediaStream(stream.getAudioTracks());
-                    mediaRecorderAudio = new MediaRecorder(audioStream, { mimeType: 'audio/webm' });
-                    mediaRecorderAudio.ondataavailable = e => audioChunks.push(e.data);
-
-                    const videoStream = new MediaStream(stream.getVideoTracks());
-                    mediaRecorderVideo = new MediaRecorder(videoStream, { mimeType: 'video/webm' });
-                    mediaRecorderVideo.ondataavailable = e => videoChunks.push(e.data);
-                })
-                .catch(err => {
-                    console.error("Webcam access failed:", err);
-                    alert("Please allow webcam and microphone access.");
-                    mediaRecorderAudio = null;
-                    mediaRecorderVideo = null;
+                const audioStream = new MediaStream(stream.getAudioTracks());
+                mediaRecorderAudio = new MediaRecorder(audioStream, { 
+                    mimeType: 'audio/webm;codecs=opus',
+                    audioBitsPerSecond: 128000 // Higher bitrate for quality
                 });
+                mediaRecorderAudio.ondataavailable = e => {
+                    if (e.data.size > 0) {
+                        if (!allAudioChunks[currentQuestion]) allAudioChunks[currentQuestion] = [];
+                        allAudioChunks[currentQuestion].push(e.data);
+                        console.log(`Audio chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}, type: ${e.data.type}`);
+                    } else {
+                        console.warn(`Empty audio chunk for question ${currentQuestion + 1}`);
+                    }
+                };
+                mediaRecorderAudio.onstop = () => {
+                    console.log(`Audio recording stopped for question ${currentQuestion + 1}, chunks: ${allAudioChunks[currentQuestion]?.length || 0}`);
+                };
+                mediaRecorderAudio.onerror = (e) => {
+                    console.error(`MediaRecorder audio error for question ${currentQuestion + 1}:`, e);
+                };
+
+                const videoStream = new MediaStream(stream.getVideoTracks());
+                mediaRecorderVideo = new MediaRecorder(videoStream, { 
+                    mimeType: 'video/webm',
+                    videoBitsPerSecond: 2500000
+                });
+                mediaRecorderVideo.ondataavailable = e => {
+                    if (e.data.size > 0) {
+                        if (!allVideoChunks[currentQuestion]) allVideoChunks[currentQuestion] = [];
+                        allVideoChunks[currentQuestion].push(e.data);
+                        console.log(`Video chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}`);
+                    }
+                };
+                mediaRecorderVideo.onstop = () => {
+                    console.log(`Video recording stopped for question ${currentQuestion + 1}`);
+                };
+            })
+            .catch(err => {
+                console.error("Webcam access failed:", err);
+                alert("Please allow webcam and microphone access.");
+                mediaRecorderAudio = null;
+                mediaRecorderVideo = null;
+            });
         }
 
         function initSpeechRecognition() {
@@ -143,11 +180,12 @@
                 recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                 recognition.continuous = true;
                 recognition.interimResults = true;
+                recognition.maxAlternatives = 1;
                 recognition.onstart = () => {
                     console.log("Speech recognition started for question", currentQuestion + 1);
                     isRecording = true;
                     userAnswer = "";
-                    transcriptBar.textContent = ""; // Clear the transcript bar when starting to listen
+                    transcriptBar.textContent = "";
                 };
                 recognition.onresult = event => {
                     let interimTranscript = '';
@@ -160,20 +198,22 @@
                             interimTranscript += transcript;
                         }
                     }
-                    // Update userAnswer with the latest transcript (final + interim)
                     userAnswer = (finalTranscript + interimTranscript).trim() || "No response recorded";
-                    // Display the transcript in real-time as the user speaks
                     transcriptBar.textContent = userAnswer;
                     console.log(`Speech recognition result for question ${currentQuestion + 1} - Final:`, finalTranscript, "Interim:", interimTranscript);
-                    console.log("Updated userAnswer:", userAnswer);
                 };
                 recognition.onerror = event => {
                     console.error("Speech recognition error for question", currentQuestion + 1, ":", event.error);
                     isRecording = false;
+                    if (event.error === "no-speech") {
+                        console.log("No speech detected, retrying...");
+                        setTimeout(() => {
+                            if (recognition && !isRecording) recognition.start();
+                        }, 1000);
+                    }
                     if (!userAnswer) {
                         userAnswer = "Speech recognition failed";
                         transcriptBar.textContent = userAnswer;
-                        console.log("Set userAnswer to fallback due to error:", userAnswer);
                     }
                 };
                 recognition.onend = () => {
@@ -182,7 +222,6 @@
                     if (!userAnswer) {
                         userAnswer = "No response recorded";
                         transcriptBar.textContent = userAnswer;
-                        console.log("Set userAnswer to fallback on end:", userAnswer);
                     }
                 };
             } catch (err) {
@@ -191,7 +230,6 @@
             }
         }
 
-        // Function to split AI question text into chunks and display dynamically like YouTube subtitles
         function startDynamicSubtitles(text) {
             if (subtitleInterval) clearInterval(subtitleInterval);
             const maxLength = 50;
@@ -411,7 +449,9 @@
             })
             .then(data => {
                 sessionId = data.session_id;
-                transcriptContent = `${username}\n\n`;
+                transcriptContent = `\t\t\t${username}\n\n`;
+                allAudioChunks = [];
+                allVideoChunks = [];
                 return generateQuestions();
             })
             .then(() => {
@@ -437,6 +477,10 @@
             .then(data => {
                 questions = data.questions.filter(q => !q.toLowerCase().includes("here are") && !q.toLowerCase().includes("questions") && !q.toLowerCase().includes("why"));
                 console.log("Questions loaded:", questions);
+                for (let i = 0; i < 15; i++) {
+                    allAudioChunks[i] = allAudioChunks[i] || [];
+                    allVideoChunks[i] = allVideoChunks[i] || [];
+                }
             })
             .catch(err => {
                 console.error("Error generating questions:", err);
@@ -445,7 +489,8 @@
         }
 
         function loadQuestion() {
-            if (currentQuestion >= questions.length) {
+            if (currentQuestion >= questions.length || currentQuestion >= 15) {
+                saveAllRecordings();
                 showContainer('thank-you-container', 'thankyou-bg');
                 if (recognition) recognition.stop();
                 if (mediaRecorderAudio) mediaRecorderAudio.stop();
@@ -473,6 +518,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.end) {
+                    saveAllRecordings();
                     showContainer('thank-you-container', 'thankyou-bg');
                     if (recognition) recognition.stop();
                     if (mediaRecorderAudio) mediaRecorderAudio.stop();
@@ -487,10 +533,12 @@
                 questionAudio = new Audio();
                 questionAudio.src = data.audio;
                 questionAudio.type = "audio/wav";
-                questionAudio.play().catch(err => {
-                    console.error("Audio playback failed:", err);
-                    alert("Audio playback failed: " + err.message + ". Please ensure your browser allows audio and supports WAV format.");
-                });
+                setTimeout(() => {
+                    questionAudio.play().catch(err => {
+                        console.error("Audio playback failed:", err);
+                        alert("Audio playback failed: " + err.message + ". Please ensure your browser allows audio and supports WAV format.");
+                    });
+                }, 500);
 
                 questionAudio.onended = () => {
                     aiAnimation.src = LISTENING_GIF;
@@ -506,8 +554,12 @@
 
         document.getElementById('repeat-btn').addEventListener('click', () => {
             if (recognition) recognition.stop();
-            if (mediaRecorderAudio) mediaRecorderAudio.stop();
-            if (mediaRecorderVideo) mediaRecorderVideo.stop();
+            if (mediaRecorderAudio && mediaRecorderAudio.state === "recording") {
+                mediaRecorderAudio.stop();
+            }
+            if (mediaRecorderVideo && mediaRecorderVideo.state === "recording") {
+                mediaRecorderVideo.stop();
+            }
             aiAnimation.src = TALKING_GIF;
             const questionText = questions[currentQuestion];
             const questionTextForAudio = questionText.replace(/[*"().,:;?!-]/g, ' ').trim();
@@ -517,10 +569,12 @@
             if (questionAudio) {
                 questionAudio.pause();
                 questionAudio.currentTime = 0;
-                questionAudio.play().catch(err => {
-                    console.error("Audio playback failed on repeat:", err);
-                    alert("Audio playback failed on repeat: " + err.message + ". Please ensure your browser allows audio and supports WAV format.");
-                });
+                setTimeout(() => {
+                    questionAudio.play().catch(err => {
+                        console.error("Audio playback failed on repeat:", err);
+                        alert("Audio playback failed on repeat: " + err.message + ". Please ensure your browser allows audio and supports WAV format.");
+                    });
+                }, 500);
             }
             questionAudio.onended = () => {
                 aiAnimation.src = LISTENING_GIF;
@@ -531,16 +585,13 @@
         });
 
         document.getElementById('next-btn').addEventListener('click', () => {
-            if (mediaRecorderAudio) {
-                if (mediaRecorderAudio.state === "recording") mediaRecorderAudio.stop();
+            if (mediaRecorderAudio && mediaRecorderAudio.state === "recording") {
+                mediaRecorderAudio.stop();
             }
-            if (mediaRecorderVideo) {
-                if (mediaRecorderVideo.state === "recording") mediaRecorderVideo.stop();
+            if (mediaRecorderVideo && mediaRecorderVideo.state === "recording") {
+                mediaRecorderVideo.stop();
             }
-            if (recognition) {
-                if (recognition.state === "recording") recognition.stop();
-                console.log("Stopping speech recognition for question", currentQuestion + 1);
-            }
+            if (recognition && recognition.state === "recording") recognition.stop();
             if (subtitleInterval) clearInterval(subtitleInterval);
 
             isRecording = false;
@@ -558,8 +609,8 @@
             setTimeout(() => {
                 showContainer('interview-container', 'interview-bg');
 
-                const audioFile = `${username}_q${currentQuestion + 1}_audio.wav`;
-                const videoFile = `${username}_q${currentQuestion + 1}_video.mp4`;
+                const audioFile = `${username}_q${currentQuestion + 1}_audio.webm`; // Note: Using .webm extension
+                const videoFile = `${username}_q${currentQuestion + 1}_video.webm`;
 
                 transcriptContent += `Question ${currentQuestion + 1}: ${questions[currentQuestion]}\n`;
                 transcriptContent += `User Answer: ${capturedAnswer}\n`;
@@ -570,13 +621,29 @@
                 transcriptContent += `================================================================================\n\n`;
 
                 const formData = new FormData();
-                if (audioChunks.length > 0) {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                    formData.append('audio', audioBlob, audioFile);
+                if (allAudioChunks[currentQuestion] && allAudioChunks[currentQuestion].length > 0) {
+                    const audioBlob = new Blob(allAudioChunks[currentQuestion], { type: 'audio/webm;codecs=opus' });
+                    if (audioBlob.size === 0) {
+                        console.error(`Empty audio blob for question ${currentQuestion + 1}`);
+                    } else {
+                        formData.append('audio', audioBlob, audioFile);
+                        console.log(`Audio saved for question ${currentQuestion + 1}, size: ${audioBlob.size}, type: ${audioBlob.type}`);
+                        // Note: Server should convert this WebM to WAV for NLP analysis
+                    }
+                } else {
+                    console.error(`No audio chunks recorded for question ${currentQuestion + 1}`);
+                    formData.append('audio', new Blob(), audioFile); // Empty blob to indicate failure
                 }
-                if (videoChunks.length > 0) {
-                    const videoBlob = new Blob(videoChunks, { type: 'video/webm' });
-                    formData.append('video', videoBlob, videoFile);
+                if (allVideoChunks[currentQuestion] && allVideoChunks[currentQuestion].length > 0) {
+                    const videoBlob = new Blob(allVideoChunks[currentQuestion], { type: 'video/webm' });
+                    if (videoBlob.size === 0) {
+                        console.error(`Empty video blob for question ${currentQuestion + 1}`);
+                    } else {
+                        formData.append('video', videoBlob, videoFile);
+                        console.log(`Video saved for question ${currentQuestion + 1}, size: ${videoBlob.size}`);
+                    }
+                } else {
+                    console.error(`No video chunks recorded for question ${currentQuestion + 1}`);
                 }
                 formData.append('transcript', transcriptContent);
 
@@ -596,8 +663,6 @@
                     transcriptBar.textContent = "";
                     userAnswer = "";
                     aiAnswer = "";
-                    audioChunks = [];
-                    videoChunks = [];
                     console.log("Reset transcriptBar.textContent and userAnswer for next question");
                     currentQuestion++;
                     loadQuestion();
@@ -609,6 +674,54 @@
                 });
             }, 2000);
         });
+
+        function saveAllRecordings() {
+            for (let i = 0; i < Math.min(questions.length, 15); i++) {
+                const formData = new FormData();
+                const audioFile = `${username}_q${i + 1}_audio.webm`;
+                const videoFile = `${username}_q${i + 1}_video.webm`;
+
+                if (allAudioChunks[i] && allAudioChunks[i].length > 0) {
+                    const audioBlob = new Blob(allAudioChunks[i], { type: 'audio/webm;codecs=opus' });
+                    if (audioBlob.size === 0) {
+                        console.error(`Empty audio blob for question ${i + 1} during final save`);
+                    } else {
+                        formData.append('audio', audioBlob, audioFile);
+                        console.log(`Final audio saved for question ${i + 1}, size: ${audioBlob.size}, type: ${audioBlob.type}`);
+                        // Note: Server should convert this WebM to WAV for NLP analysis
+                    }
+                } else {
+                    console.error(`No audio chunks for question ${i + 1} during final save`);
+                    formData.append('audio', new Blob(), audioFile); // Empty blob to indicate failure
+                }
+                if (allVideoChunks[i] && allVideoChunks[i].length > 0) {
+                    const videoBlob = new Blob(allVideoChunks[i], { type: 'video/webm' });
+                    if (videoBlob.size === 0) {
+                        console.error(`Empty video blob for question ${i + 1} during final save`);
+                    } else {
+                        formData.append('video', videoBlob, videoFile);
+                        console.log(`Final video saved for question ${i + 1}, size: ${videoBlob.size}`);
+                    }
+                } else {
+                    console.error(`No video chunks for question ${i + 1} during final save`);
+                }
+                formData.append('transcript', transcriptContent);
+
+                fetch(`/record_response/${sessionId}`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status !== "success") {
+                        console.error(`Failed to save recording for question ${i + 1}:`, result.error);
+                    }
+                })
+                .catch(err => {
+                    console.error(`Error saving recording for question ${i + 1}:`, err);
+                });
+            }
+        }
     </script>
 </body>
 </html>

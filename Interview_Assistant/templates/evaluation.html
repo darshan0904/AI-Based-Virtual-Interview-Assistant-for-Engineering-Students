@@ -26,6 +26,9 @@
             font-size: 1.2em;
             color: #e2e8f0;
         }
+        .candidate-info p {
+            margin-bottom: 8px;
+        }
         .score-section {
             margin-bottom: 20px;
         }
@@ -37,6 +40,7 @@
         .score-value {
             font-size: 1.2em;
             color: #34d399;
+            margin-top: 4px;
         }
         .progress-bar {
             height: 20px;
@@ -56,38 +60,58 @@
     <div class="evaluation-container glassmorphism">
         <h1 class="evaluation-title">Interview Evaluation Report</h1>
         <div class="candidate-info">
+<<<<<<< HEAD
             <p><strong>Name:</strong> {{ results.name }}</p>
             <p><strong>Role:</strong> {{ results.role }}</p>
+=======
+            <p><strong>Name:</strong> {{ results.name|default('Not Provided') }}</p>
+            <p><strong>Role:</strong> {{ results.role|default('Not Provided') }}</p>
+            <p><strong>Domain:</strong> {{ results.domain|default('Not Provided') }}</p>
+            <p><strong>Engineering Field:</strong> {{ results.engineering|default('Not Provided') }}</p>
+            <input type="hidden" id="sessionId" value="{{ results.sessionId|default('') }}">
+>>>>>>> 97c03f65916c23f5ca8baa6d11d1fe15d758194d
         </div>
         <div class="score-section">
             <div class="score-label">Communication Skills</div>
-            <div class="score-value">{{ results.communication_skills }} / 10</div>
+            <div class="score-value">{{ results.communication_skills|default(0)|float }} / 10</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ results.communication_skills * 10 }}%"></div>
+                <div class="progress-fill" style="width: {{ (results.communication_skills|default(0)|float) * 10 }}%"></div>
             </div>
         </div>
         <div class="score-section">
             <div class="score-label">Confidence</div>
-            <div class="score-value">{{ results.confidence }} / 10</div>
+            <div class="score-value">{{ results.confidence|default(0)|float }} / 10</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ results.confidence * 10 }}%"></div>
+                <div class="progress-fill" style="width: {{ (results.confidence|default(0)|float) * 10 }}%"></div>
             </div>
         </div>
         <div class="score-section">
             <div class="score-label">Domain Knowledge</div>
-            <div class="score-value">{{ results.domain_knowledge }} / 10</div>
+            <div class="score-value">{{ results.domain_knowledge|default(0)|float }} / 10</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ results.domain_knowledge * 10 }}%"></div>
+                <div class="progress-fill" style="width: {{ (results.domain_knowledge|default(0)|float) * 10 }}%"></div>
             </div>
         </div>
         <div class="score-section">
             <div class="score-label">Critical Thinking</div>
-            <div class="score-value">{{ results.critical_thinking }} / 10</div>
+            <div class="score-value">{{ results.critical_thinking|default(0)|float }} / 10</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ results.critical_thinking * 10 }}%"></div>
+                <div class="progress-fill" style="width: {{ (results.critical_thinking|default(0)|float) * 10 }}%"></div>
             </div>
         </div>
-        <a href="/" class="start-btn" style="display: block; text-align: center; margin-top: 30px;">Back to Home</a>
+        <a href="http://localhost:5000/" class="start-btn">Back to Home</a>
     </div>
+    <script>
+        // Ensure progress bars render correctly by validating the width values
+        document.querySelectorAll('.progress-fill').forEach(bar => {
+            let width = parseFloat(bar.style.width) || 0;
+            if (width < 0 || isNaN(width)) {
+                width = 0;
+            } else if (width > 100) {
+                width = 100;
+            }
+            bar.style.width = `${width}%`;
+        });
+    </script>
 </body>
 </html>

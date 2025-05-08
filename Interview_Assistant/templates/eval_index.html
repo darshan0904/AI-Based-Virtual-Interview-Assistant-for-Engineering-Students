@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluate Your Interview</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body class="form-bg">
     <div class="form-container glassmorphism">
         <h1 class="form-title">Evaluate Your Interview</h1>
-        <form method="POST" action="/">
+        <form method="POST" action="/evaluate">
             <input type="text" name="name" class="input-field" placeholder="Enter Your Full Name" required>
+            <input type="hidden" name="sessionId" value="{{ sessionId }}">
             <button type="submit" class="submit-btn">Generate Evaluation</button>
         </form>
     </div>
+    <script>
+        // Extract sessionId from URL and set it in the form
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('sessionId') || document.location.pathname.split('/').pop();
+        document.querySelector('input[name="sessionId"]').value = sessionId;
+    </script>
 </body>
 </html>
