@@ -26,10 +26,7 @@ def index():
             return jsonify({"error": "Interview data not found for this user"}), 404
 
         # Initialize evaluators
-        audio_processor = AudioRatingProcessor(
-            model_path="Fluency and Pronunciation Rating model.keras",
-            scaler_path="mfcc_scaler.pkl"
-        )
+        audio_processor = AudioRatingProcessor()
 
         # Evaluate Communication Skills
         communication_scores = []
@@ -62,11 +59,11 @@ def index():
                 continue
 
         total_responses = sum(confidence_counts.values())
-        confidence_score = (confidence_counts['Confident'] / total_responses * 10) if total_responses > 0 else 5.0
+        confidence_score = (confidence_counts['Confident'] / total_responses * 10) if total_responses > 0 else 2.0
 
         # Evaluate Domain Knowledge and Critical Thinking
-        domain_knowledge_score = 5.0
-        critical_thinking_score = 5.0
+        domain_knowledge_score = 2.0
+        critical_thinking_score = 2.0
         role = "Software Engineer"  # Default role
         try:
             with open(transcript_path, 'r', encoding='utf-8') as f:
@@ -77,8 +74,8 @@ def index():
                 role = role_match.group(1).strip()
             evaluator = InterviewEvaluator(role, transcript_content)
             scores = evaluator.eval()
-            domain_knowledge_score = scores.get('domain_knowledge', 5.0)
-            critical_thinking_score = scores.get('critical_thinking', 5.0)
+            domain_knowledge_score = scores.get('domain_knowledge', 2.0)
+            critical_thinking_score = scores.get('critical_thinking', 2.0)
         except Exception as e:
             app.logger.error(f"Error evaluating transcript: {str(e)}")
 
@@ -99,4 +96,4 @@ def index():
     return render_template('eval_index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=9394)
+    app.run(debug=False, port=9394)

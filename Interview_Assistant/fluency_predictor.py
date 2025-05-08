@@ -5,7 +5,7 @@ import numpy as np
 import joblib
 
 class AudioRatingProcessor:
-    def __init__(self, model_path="Fluency and Pronunciation Rating model.keras", scaler_path="mfcc_scaler.pkl", sample_rate=22050):
+    def __init__(self, model_path="C:\\Users\\rahul\\Desktop\\AI-Based-Virtual-Interview-Preparation-Assistant\\Ml Models\\Verbal Communication Evaluator\\Fluency and Pronunciation Rating model.keras", scaler_path="C:\\Users\\rahul\\Desktop\\AI-Based-Virtual-Interview-Preparation-Assistant\\Ml Models\\Verbal Communication Evaluator\\mfcc_scaler.pkl", sample_rate=22050):
         """Initialize the audio rating processor with model and scaler."""
         self.sample_rate = sample_rate
         self.model = keras_models.load_model(model_path, compile=False)
