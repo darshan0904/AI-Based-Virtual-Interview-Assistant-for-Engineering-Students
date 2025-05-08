@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify, send_file
 import os
-import aiohttp
+import requests
 import pyttsx3
 import uuid
 import re
@@ -8,43 +8,222 @@ import PyPDF2
 
 app = Flask(__name__)
 
-# Directories
 DATA_FOLDER = 'data'
 IMP_QUESTION_FOLDER = os.path.join('IMP', 'questions')
 os.makedirs(DATA_FOLDER, exist_ok=True)
 os.makedirs(IMP_QUESTION_FOLDER, exist_ok=True)
 
-# Domains and Roles (8 domains, 5 roles each)
-DOMAINS = [
-    "Software Development",
-    "Data Science & AI",
-    "Cybersecurity",
-    "UI/UX Design",
-    "Cloud & Infrastructure",
-    "Marketing & Sales",
-    "Human Resources",
-    "Finance & Business Analysis"
+ENGINEERING_FIELDS = [
+    "Computer Engineering",
+    "Mechanical Engineering",
+    "Electrical Engineering",
+    "Civil Engineering",
+    "Electronics & Communication Engineering",
+    "Chemical Engineering",
+    "Biomedical Engineering",
+    "Aerospace Engineering",
+    "Industrial Engineering",
+    "Environmental Engineering"
 ]
 
+DOMAINS = {
+    "Computer Engineering": [
+        "Software Development",
+        "Data Science & AI",
+        "Cybersecurity",
+        "UI/UX Design",
+        "Cloud & Infrastructure",
+        "Blockchain & Web3",
+        "Embedded Systems",
+        "Game Development"
+    ],
+    "Mechanical Engineering": [
+        "Automotive Engineering",
+        "Robotics",
+        "Manufacturing",
+        "HVAC",
+        "Design & CAD",
+        "Aerospace Systems",
+        "Material Science",
+        "Energy Systems"
+    ],
+    "Electrical Engineering": [
+        "Power Systems",
+        "Control Systems",
+        "Electronics Design",
+        "Embedded Systems",
+        "Telecommunications",
+        "Lighting & Power",
+        "Automation",
+        "Renewable Energy"
+    ],
+    "Civil Engineering": [
+        "Structural Engineering",
+        "Construction Management",
+        "Geotechnical Engineering",
+        "Transportation Engineering",
+        "Water Resources",
+        "Environmental Engineering",
+        "Urban Planning",
+        "Surveying"
+    ],
+    "Electronics & Communication Engineering": [
+        "VLSI Design",
+        "Embedded Systems",
+        "Telecommunications",
+        "Signal Processing",
+        "Consumer Electronics",
+        "Instrumentation",
+        "Automation & Robotics",
+        "Optoelectronics"
+    ],
+    "Chemical Engineering": [
+        "Process Engineering",
+        "Pharmaceuticals",
+        "Petrochemicals",
+        "Environmental",
+        "Food & Beverage",
+        "Polymers & Plastics",
+        "Fertilizers & Agrochemicals",
+        "Energy & Fuel Cells"
+    ],
+    "Biomedical Engineering": [
+        "Medical Devices",
+        "Biomechanics",
+        "Medical Imaging",
+        "Clinical Engineering",
+        "Bioinformatics",
+        "Tissue Engineering",
+        "Neuroengineering",
+        "Rehabilitation Engineering"
+    ],
+    "Aerospace Engineering": [
+        "Aerodynamics",
+        "Propulsion",
+        "Structures",
+        "Avionics",
+        "Space Systems",
+        "Flight Testing",
+        "Manufacturing",
+        "Defense Systems"
+    ],
+    "Industrial Engineering": [
+        "Operations Research",
+        "Quality Engineering",
+        "Supply Chain Management",
+        "Manufacturing Systems",
+        "Human Factors",
+        "Production Planning",
+        "Data Analytics",
+        "Cost Engineering"
+    ],
+    "Environmental Engineering": [
+        "Water Treatment",
+        "Air Pollution Control",
+        "Waste Management",
+        "Sustainability",
+        "Environmental Impact Assessment",
+        "Climate Change",
+        "Renewable Energy",
+        "Regulations & Policy"
+    ]
+}
+
 ROLES = {
-    "Software Development": ["Frontend Developer", "Backend Developer", "Full Stack Developer", "DevOps Engineer", "Mobile App Developer"],
-    "Data Science & AI": ["Data Analyst", "Data Scientist", "Machine Learning Engineer", "AI Researcher", "NLP Engineer"],
-    "Cybersecurity": ["Security Analyst", "Penetration Tester", "Security Engineer", "SOC Analyst", "Cybersecurity Consultant"],
-    "UI/UX Design": ["UX Designer", "UI Designer", "Product Designer", "Interaction Designer", "UX Researcher"],
-    "Cloud & Infrastructure": ["Cloud Engineer", "Solutions Architect", "Site Reliability Engineer", "Cloud Consultant", "Platform Engineer"],
-    "Marketing & Sales": ["Digital Marketer", "SEO Specialist", "Content Strategist", "Sales Executive", "Brand Manager"],
-    "Human Resources": ["HR Executive", "Talent Acquisition Specialist", "HRBP (Business Partner)", "L&D Coordinator", "Recruitment Coordinator"],
-    "Finance & Business Analysis": ["Financial Analyst", "Business Analyst", "Investment Analyst", "Risk Consultant", "Corporate Strategist"]
+    "Software Development": ["Frontend Developer", "Backend Developer", "Full Stack Developer", "DevOps Engineer", "Mobile App Developer", "Software Architect"],
+    "Data Science & AI": ["Data Analyst", "Data Scientist", "Machine Learning Engineer", "AI Researcher", "NLP Engineer", "Deep Learning Engineer"],
+    "Cybersecurity": ["Security Analyst", "Penetration Tester", "Security Engineer", "SOC Analyst", "Cybersecurity Consultant", "Threat Hunter"],
+    "UI/UX Design": ["UX Designer", "UI Designer", "Product Designer", "Interaction Designer", "UX Researcher", "Design Systems Engineer"],
+    "Cloud & Infrastructure": ["Cloud Engineer", "Solutions Architect", "Site Reliability Engineer", "Cloud Consultant", "Platform Engineer", "Infrastructure Engineer"],
+    "Blockchain & Web3": ["Smart Contract Developer", "Blockchain Engineer", "Crypto Analyst", "DeFi Developer", "Security Auditor", "Tokenomics Consultant"],
+    "Embedded Systems": ["Embedded Software Engineer", "Firmware Developer", "IoT Developer", "RTOS Specialist", "Systems Integrator", "Board Support Engineer"],
+    "Game Development": ["Game Developer", "Gameplay Programmer", "Game Designer", "Graphics Programmer", "Level Designer", "Game Tester"],
+    "Automotive Engineering": ["Vehicle Dynamics Engineer", "Powertrain Engineer", "CAE Analyst", "NVH Engineer", "Design Engineer", "Test Engineer"],
+    "Robotics": ["Robotics Engineer", "Automation Engineer", "Controls Engineer", "Mechatronics Engineer", "System Integrator", "Simulation Engineer"],
+    "Manufacturing": ["Production Engineer", "Process Engineer", "Manufacturing Engineer", "Tool Designer", "CNC Programmer", "Quality Inspector"],
+    "HVAC": ["HVAC Engineer", "Thermal Analyst", "Refrigeration Engineer", "Energy Auditor", "Building Systems Engineer", "HVAC Designer"],
+    "Design & CAD": ["CAD Engineer", "Design Engineer", "Product Designer", "Mechanical Drafter", "Simulation Engineer", "PLM Specialist"],
+    "Aerospace Systems": ["Flight Systems Engineer", "Propulsion Engineer", "Stress Analyst", "CFD Engineer", "Avionics Integrator", "Aircraft Design Engineer"],
+    "Material Science": ["Materials Engineer", "Metallurgist", "Composite Engineer", "Failure Analyst", "Testing Technician", "Ceramics Specialist"],
+    "Energy Systems": ["Thermal Engineer", "Power Plant Engineer", "Renewable Energy Engineer", "Turbomachinery Specialist", "Energy Analyst", "Thermodynamics Specialist"],
+    "Power Systems": ["Power Systems Engineer", "Substation Designer", "Transmission Engineer", "Grid Analyst", "Load Flow Analyst", "Protection Engineer"],
+    "Control Systems": ["Control Engineer", "Automation Engineer", "Process Control Engineer", "PLC Programmer", "SCADA Developer", "HMI Developer"],
+    "Electronics Design": ["PCB Designer", "Circuit Design Engineer", "Analog Engineer", "Signal Integrity Engineer", "Component Engineer", "Test Engineer"],
+    "Telecommunications": ["Network Engineer", "RF Engineer", "Telecom Engineer", "Signal Processing Engineer", "5G Researcher", "Wireless Communications Analyst"],
+    "Lighting & Power": ["Lighting Designer", "Electrical Designer", "Building Services Engineer", "Energy Efficiency Consultant", "Compliance Officer", "Load Analyst"],
+    "Automation": ["Industrial Automation Engineer", "Drives Engineer", "Instrumentation Engineer", "Panel Designer", "Field Service Engineer", "Factory Systems Specialist"],
+    "Renewable Energy": ["Solar Design Engineer", "Wind Turbine Technician", "Energy Auditor", "Grid Integration Specialist", "Sustainability Consultant", "Battery Systems Engineer"],
+    "Structural Engineering": ["Structural Engineer", "Bridge Designer", "Seismic Analyst", "Steel Designer", "Concrete Specialist", "Draftsman"],
+    "Construction Management": ["Project Manager", "Site Engineer", "Planning Engineer", "Quantity Surveyor", "Construction Scheduler", "Procurement Manager"],
+    "Geotechnical Engineering": ["Geotechnical Engineer", "Soil Analyst", "Foundation Designer", "Slope Stability Analyst", "Drilling Supervisor", "Geo-Structural Engineer"],
+    "Transportation Engineering": ["Traffic Analyst", "Highway Engineer", "Railway Engineer", "Urban Planner", "Pavement Designer", "Transport Policy Analyst"],
+    "Water Resources": ["Hydraulic Engineer", "Irrigation Engineer", "Stormwater Manager", "Hydrologist", "Canal Designer", "Dam Safety Specialist"],
+    "Environmental Engineering": ["Wastewater Engineer", "Water Treatment Specialist", "Air Quality Analyst", "Solid Waste Manager", "Sustainability Analyst", "Climate Engineer"],
+    "Urban Planning": ["Urban Designer", "Zoning Analyst", "GIS Specialist", "Land Use Planner", "City Infrastructure Consultant", "Smart City Planner"],
+    "Surveying": ["Surveyor", "GIS Technician", "Mapping Analyst", "Remote Sensing Specialist", "Drone Survey Specialist", "Topographer"],
+    "VLSI Design": ["VLSI Engineer", "ASIC Designer", "FPGA Engineer", "RTL Designer", "Physical Design Engineer", "Verification Engineer"],
+    "Signal Processing": ["DSP Engineer", "Audio Signal Processor", "Image Processing Specialist", "Speech Processing Engineer", "RF Signal Analyst", "Waveform Developer"],
+    "Consumer Electronics": ["Product Developer", "Testing Engineer", "Hardware Engineer", "Quality Analyst", "Repair Specialist", "Field Support Engineer"],
+    "Instrumentation": ["Instrumentation Engineer", "Measurement Analyst", "Sensor Integration Engineer", "Calibration Engineer", "Control Systems Engineer", "Test Bench Developer"],
+    "Automation & Robotics": ["Robotics Developer", "PLC Programmer", "Embedded Roboticist", "Electronics Systems Integrator", "Mechatronics Developer", "System Designer"],
+    "Optoelectronics": ["Optical Engineer", "Laser Systems Engineer", "Photonics Specialist", "Fiber Optics Engineer", "Electro-Optics Technician", "Lidar Systems Engineer"],
+    "Process Engineering": ["Process Engineer", "Chemical Plant Operator", "Simulation Analyst", "Production Planner", "Plant Design Engineer", "Scale-up Engineer"],
+    "Pharmaceuticals": ["Formulation Chemist", "Quality Control Analyst", "Regulatory Affairs Specialist", "R&D Scientist", "Manufacturing Chemist", "Validation Engineer"],
+    "Petrochemicals": ["Petroleum Engineer", "Refinery Operator", "Pipeline Engineer", "Oil & Gas Analyst", "Downstream Process Engineer", "Reservoir Engineer"],
+    "Environmental": ["Waste Treatment Engineer", "Air Emissions Analyst", "Green Chemistry Researcher", "Compliance Officer", "Sustainability Engineer", "Hazardous Waste Specialist"],
+    "Food & Beverage": ["Food Process Engineer", "Quality Assurance Manager", "Production Manager", "Food Technologist", "Packaging Engineer", "Hygiene Specialist"],
+    "Polymers & Plastics": ["Polymer Engineer", "Plastic Processing Technician", "Material Scientist", "Injection Molding Engineer", "Extrusion Operator", "Composite Materials Engineer"],
+    "Fertilizers & Agrochemicals": ["Agrochemical Developer", "Process Chemist", "Fertilizer Plant Operator", "Soil Scientist", "Agronomist", "Field Application Engineer"],
+    "Energy & Fuel Cells": ["Fuel Cell Engineer", "Battery Chemist", "Electrochemical Engineer", "Energy Storage Specialist", "Hydrogen Systems Analyst", "Energy Systems Modeler"],
+    "Medical Devices": ["Device Design Engineer", "Validation Specialist", "Biomedical Technician", "Testing Engineer", "Clinical Engineer", "Regulatory Engineer"],
+    "Biomechanics": ["Biomechanical Engineer", "Gait Analyst", "Orthopedic Design Engineer", "Rehabilitation Engineer", "Ergonomics Specialist", "Motion Capture Analyst"],
+    "Medical Imaging": ["MRI Specialist", "CT Imaging Technician", "Ultrasound Engineer", "Radiology Technologist", "Imaging Software Developer", "Biomedical Signal Analyst"],
+    "Clinical Engineering": ["Clinical Equipment Specialist", "Maintenance Engineer", "Clinical Trials Analyst", "Hospital Systems Engineer", "Medical Equipment Planner", "Service Engineer"],
+    "Bioinformatics": ["Genomics Analyst", "Biomedical Data Scientist", "Biostatistician", "Molecular Modeler", "Database Curator", "Computational Biologist"],
+    "Tissue Engineering": ["Biomaterials Scientist", "Tissue Engineer", "Stem Cell Researcher", "Regenerative Medicine Specialist", "Biomedical Research Associate", "Histology Analyst"],
+    "Neuroengineering": ["Neural Interface Engineer", "EEG Specialist", "BCI Developer", "Neuroprosthetics Developer", "Brain Imaging Analyst", "Neurosignal Analyst"],
+    "Rehabilitation Engineering": ["Assistive Tech Developer", "Prosthetics Engineer", "Rehab Equipment Designer", "Mobility Solutions Specialist", "Accessibility Engineer", "Therapy Tech Innovator"],
+    "Aerodynamics": ["CFD Analyst", "Wind Tunnel Specialist", "Flight Dynamics Engineer", "Aircraft Performance Analyst", "Airflow Simulation Expert", "Aero Design Engineer"],
+    "Propulsion": ["Jet Engine Designer", "Rocket Propulsion Engineer", "Combustion Analyst", "Turbine Engineer", "Propellant Researcher", "Engine Systems Engineer"],
+    "Structures": ["Aircraft Structures Analyst", "Stress Engineer", "Fatigue Analyst", "Composite Materials Expert", "Crashworthiness Engineer", "Vibration Analyst"],
+    "Avionics": ["Avionics Systems Engineer", "Navigation Systems Developer", "Flight Control Software Developer", "Communication Systems Analyst", "Cockpit Interface Designer", "Radar Engineer"],
+    "Space Systems": ["Satellite Engineer", "Orbital Analyst", "Launch Systems Designer", "Spacecraft Systems Engineer", "Payload Integrator", "Ground Station Engineer"],
+    "Flight Testing": ["Flight Test Engineer", "Instrumentation Engineer", "Telemetry Analyst", "Flight Data Processor", "Pilot Support Engineer", "Airworthiness Analyst"],
+    "Defense Systems": ["Weapons Systems Engineer", "Missile Design Engineer", "Guidance Systems Analyst", "Radar Systems Engineer", "Surveillance Systems Developer", "Defense Integration Specialist"],
+    "Operations Research": ["Operations Analyst", "Optimization Specialist", "Logistics Modeler", "Supply Chain Analyst", "Simulation Engineer", "Systems Analyst"],
+    "Quality Engineering": ["Quality Engineer", "Six Sigma Specialist", "QA/QC Inspector", "Process Auditor", "Lean Manufacturing Consultant", "Standards Compliance Analyst"],
+    "Supply Chain Management": ["Supply Chain Planner", "Procurement Officer", "Inventory Manager", "Logistics Coordinator", "Vendor Manager", "Freight Analyst"],
+    "Manufacturing Systems": ["Plant Layout Designer", "Process Engineer", "Factory Automation Expert", "Industrial Systems Engineer", "Assembly Line Planner", "Maintenance Planner"],
+    "Human Factors": ["Ergonomics Analyst", "User Experience Engineer", "Workplace Safety Specialist", "Cognitive Systems Analyst", "Human-Machine Interface Designer", "Task Analyst"],
+    "Production Planning": ["Production Planner", "Operations Scheduler", "Material Requirement Planner", "Capacity Analyst", "Shop Floor Controller", "Workflow Coordinator"],
+    "Data Analytics": ["Industrial Data Analyst", "Operations BI Developer", "Process Mining Analyst", "Predictive Maintenance Engineer", "Dashboard Developer", "Decision Support Analyst"],
+    "Cost Engineering": ["Cost Estimator", "Budget Analyst", "Value Engineer", "Cost Controller", "Bid Analyst", "Profitability Analyst"],
+    "Water Treatment": ["Water Treatment Engineer", "Hydrologist", "Filtration Specialist", "Water Quality Analyst", "Desalination Expert", "Process Design Engineer"],
+    "Air Pollution Control": ["Air Quality Engineer", "Emissions Analyst", "Stack Testing Technician", "Carbon Capture Researcher", "Atmospheric Modeler", "Environmental Compliance Officer"],
+    "Waste Management": ["Solid Waste Engineer", "Recycling Specialist", "Landfill Engineer", "Hazardous Waste Manager", "Composting Facility Planner", "E-Waste Specialist"],
+    "Sustainability": ["Sustainability Consultant", "Carbon Footprint Analyst", "Green Building Advisor", "Environmental Strategist", "Sustainable Energy Planner", "ESG Analyst"],
+    "Environmental Impact Assessment": ["EIA Consultant", "Biodiversity Analyst", "Ecological Surveyor", "Impact Modeler", "Compliance Reporter", "Remediation Planner"],
+    "Climate Change": ["Climate Data Analyst", "Carbon Credit Consultant", "Resilience Planner", "Adaptation Specialist", "Global Climate Modeler", "Mitigation Strategist"],
+    "Regulations & Policy": ["Environmental Policy Analyst", "Regulatory Affairs Specialist", "Compliance Auditor", "Public Policy Advisor", "Sustainability Reporting Officer", "Environmental Law Associate"]
 }
 
 sessions = {}
 
 @app.route('/')
 def index():
-    return render_template('index.html', domains=DOMAINS)
+    return render_template('index.html', engineering_fields=ENGINEERING_FIELDS)
+
+@app.route('/get_domains', methods=['POST'])
+def get_domains():
+    data = request.json
+    engineering = data.get('engineering')
+    app.logger.info(f"Received request for domains in engineering: {engineering}")
+    domains = DOMAINS.get(engineering, [])
+    app.logger.info(f"Returning domains: {domains}")
+    return jsonify({"domains": domains})
 
 @app.route('/get_roles', methods=['POST'])
-async def get_roles():
+def get_roles():
     data = request.json
     domain = data.get('domain')
     app.logger.info(f"Received request for roles in domain: {domain}")
@@ -53,25 +232,23 @@ async def get_roles():
     return jsonify({"roles": roles})
 
 @app.route('/start_interview', methods=['POST'])
-async def start_interview():
+def start_interview():
     session_id = str(uuid.uuid4())
     name = request.form.get('name')
+    engineering = request.form.get('engineering')
     domain = request.form.get('domain')
     role = request.form.get('role')
     resume = request.files.get('resume')
 
-    # Sanitize the name for folder and file creation
     sanitized_name = re.sub(r'[^a-zA-Z0-9]', '_', name)
 
-    # Create user-specific folder structure
     user_folder = os.path.join(DATA_FOLDER, sanitized_name)
-    os.makedirs(user_folder, exist_ok=True)  # Create parent folder first
+    os.makedirs(user_folder, exist_ok=True)
     user_audio_folder = os.path.join(user_folder, 'audio')
     user_video_folder = os.path.join(user_folder, 'video')
     os.makedirs(user_audio_folder, exist_ok=True)
     os.makedirs(user_video_folder, exist_ok=True)
 
-    # Parse resume if uploaded
     resume_text = None
     if resume:
         resume_path = os.path.join(user_folder, 'resume.pdf')
@@ -82,18 +259,19 @@ async def start_interview():
                 resume_text = ""
                 for page in pdf_reader.pages:
                     resume_text += page.extract_text()
-            app.logger.info(f"Extracted resume text: {resume_text[:500]}...")  # Log first 500 chars
+            app.logger.info(f"Extracted resume text: {resume_text[:500]}...")
         except Exception as e:
             app.logger.error(f"Failed to parse resume: {str(e)}")
             resume_text = None
 
     sessions[session_id] = {
-        "name": name,  # Keep original name for display
-        "sanitized_name": sanitized_name,  # Store sanitized name for file operations
+        "name": name,
+        "sanitized_name": sanitized_name,
+        "engineering": engineering,
         "domain": domain,
         "role": role,
         "resume": resume.filename if resume else None,
-        "resume_text": resume_text,  # Store parsed resume text
+        "resume_text": resume_text,
         "current_question": 0,
         "responses": [],
         "questions": [],
@@ -103,7 +281,6 @@ async def start_interview():
         "video_folder": user_video_folder
     }
 
-    # Initialize transcript file with username
     transcript_path = os.path.join(user_folder, "transcript.txt")
     try:
         with open(transcript_path, 'w', encoding='utf-8') as f:
@@ -116,7 +293,7 @@ async def start_interview():
     return jsonify({"session_id": session_id})
 
 @app.route('/generate_questions/<session_id>', methods=['POST'])
-async def generate_questions(session_id):
+def generate_questions(session_id):
     if session_id not in sessions:
         return jsonify({"error": "Session not found"}), 404
 
@@ -127,7 +304,6 @@ async def generate_questions(session_id):
     name = sessions[session_id]['name']
     resume_text = sessions[session_id].get('resume_text', '')
 
-    # Updated prompts for super hard, technical questions
     prompts = [
         (f"Generate exactly 2 basic introduction questions for a candidate named {name}. Focus on their personal background, interests, or general experience, such as asking about themselves or their career journey, not specific to any role or domain. Format each question as a single line without numbering.", "Introduction", 2),
         (f"Generate exactly 4 technically challenging role-specific interview questions for a candidate named {name}, applying for the role of {role} in {domain}. Focus on in-depth core concepts, advanced tools, or complex problem-solving skills relevant to the role, ensuring the questions assess deep technical knowledge and expertise. Format each question as a single line without numbering.", "Role-Specific", 4),
@@ -135,7 +311,6 @@ async def generate_questions(session_id):
         (f"Generate exactly 3 situational or hypothetical interview questions for a candidate applying for the role of {role} in {domain}. Focus on complex technical scenarios they might face in the role, requiring deep technical understanding to answer effectively. Format each question as a single line without numbering.", "Situational", 3)
     ]
 
-    # Adjust resume-based prompt to use actual resume content
     if has_resume and resume_text:
         resume_prompt = (
             f"Here is the resume content for a candidate named {name} applying for the role of {role} in {domain}:\n\n"
@@ -146,43 +321,43 @@ async def generate_questions(session_id):
         )
         prompts.insert(1, (resume_prompt, "Resume-Based", 3))
     elif has_resume:
-        # Fallback if resume parsing fails
         prompts.insert(1, (f"Generate exactly 3 technically focused resume-based interview questions for a candidate named {name} applying for the role of {role} in {domain}. Assume the resume includes typical experiences and projects for this role, and ask about specific project details to assess deep technical knowledge and problem-solving skills. Format each question as a single line without numbering.", "Resume-Based", 3))
 
     questions = []
     question_domains = []
-    async with aiohttp.ClientSession() as session:
-        for prompt, category, count in prompts:
-            try:
-                async with session.post(
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAA92C3_BnZiH-2V47VV32OdgS6Trpc8FQ",
-                    json={"contents": [{"parts": [{"text": prompt}]}]}
-                ) as response:
-                    result = await response.json()
-                    if 'candidates' not in result or not result['candidates']:
-                        app.logger.error(f"API response error for category {category}: {result}")
-                        category_questions = [f"Fallback question {i+1} for {category}" for i in range(count)]
-                    else:
-                        generated_text = result['candidates'][0]['content']['parts'][0]['text']
-                        category_questions = [q.strip() for q in generated_text.split('\n') if q.strip() and not q.startswith('#')]
-                        category_questions = [re.sub(r'^\d+\.\s*', '', q).strip() for q in category_questions]
-                        if len(category_questions) < count:
-                            category_questions.extend([f"Fallback question {i+1} for {category}" for i in range(count - len(category_questions))])
-                        elif len(category_questions) > count:
-                            category_questions = category_questions[:count]
-            except Exception as e:
-                app.logger.error(f"Error generating questions for category {category}: {str(e)}")
-                category_questions = [f"Fallback question {i+1} for {category}" for i in range(count)]
 
-            questions.extend(category_questions)
-            question_domains.extend([category] * count)
+    def fetch_questions(prompt, category, count):
+        try:
+            response = requests.post(
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCVyhDktWeeV7rvUxz1GBSKNQCPBTvK8uY",
+                json={"contents": [{"parts": [{"text": prompt}]}]}
+            )
+            response.raise_for_status()
+            result = response.json()
+            if 'candidates' not in result or not result['candidates']:
+                app.logger.error(f"API response error for category {category}: {result}")
+                return [f"Fallback question {i+1} for {category}" for i in range(count)]
+            generated_text = result['candidates'][0]['content']['parts'][0]['text']
+            category_questions = [q.strip() for q in generated_text.split('\n') if q.strip() and not q.startswith('#')]
+            category_questions = [re.sub(r'^\d+\.\s*', '', q).strip() for q in category_questions]
+            if len(category_questions) < count:
+                category_questions.extend([f"Fallback question {i+1} for {category}" for i in range(count - len(category_questions))])
+            elif len(category_questions) > count:
+                category_questions = category_questions[:count]
+            return category_questions
+        except Exception as e:
+            app.logger.error(f"Error generating questions for category {category}: {str(e)}")
+            return [f"Fallback question {i+1} for {category}" for i in range(count)]
 
-    # Log generated questions for debugging
+    for prompt, category, count in prompts:
+        category_questions = fetch_questions(prompt, category, count)
+        questions.extend(category_questions)
+        question_domains.extend([category] * count)
+
     app.logger.info(f"Generated questions for session {session_id}:")
     for i, (q, d) in enumerate(zip(questions, question_domains), 1):
         app.logger.info(f"Question {i}: {q} (Domain: {d})")
 
-    # Save questions to file in user folder
     question_path = os.path.join(sessions[session_id]['user_folder'], 'questions.txt')
     with open(question_path, 'w') as f:
         for i, (question, q_domain) in enumerate(zip(questions, question_domains), 1):
@@ -195,7 +370,7 @@ async def generate_questions(session_id):
     return jsonify({"questions": questions})
 
 @app.route('/next_question/<session_id>', methods=['POST'])
-async def next_question(session_id):
+def next_question(session_id):
     if session_id not in sessions:
         return jsonify({"end": True})
 
@@ -203,20 +378,19 @@ async def next_question(session_id):
     question = data.get('question')
     sanitized_username = sessions[session_id]['sanitized_name']
 
-    # Use pyttsx3 to generate audio and save to a file in IMP/questions
     engine = pyttsx3.init()
-    engine.setProperty('rate', 150)  # Slow down the speech rate (default is 200)
+    engine.setProperty('rate', 150)
     audio_filename = f"question_{sanitized_username}_{sessions[session_id]['current_question'] + 1}.wav"
     audio_path = os.path.join(IMP_QUESTION_FOLDER, audio_filename)
     engine.save_to_file(question, audio_path)
     engine.runAndWait()
 
-    # Increment the current question index
     sessions[session_id]['current_question'] += 1
 
-    # Return the URL to the audio file
+    ai_answer = generate_ai_answer(session_id, question)
+
     audio_url = f"/imp/questions/{audio_filename}"
-    return jsonify({"question": question, "audio": audio_url})
+    return jsonify({"question": question, "audio": audio_url, "ai_answer": ai_answer})
 
 @app.route('/imp/questions/<filename>')
 def serve_imp_question(filename):
@@ -226,7 +400,7 @@ def serve_imp_question(filename):
     return jsonify({"error": "File not found"}), 404
 
 @app.route('/record_response/<session_id>', methods=['POST'])
-async def record_response(session_id):
+def record_response(session_id):
     if session_id not in sessions:
         app.logger.error(f"Session {session_id} not found in sessions dict")
         return jsonify({"error": "Session not found"}), 404
@@ -234,7 +408,6 @@ async def record_response(session_id):
     audio = request.files.get('audio')
     video = request.files.get('video')
 
-    # Get session data
     session_data = sessions[session_id]
     current_question = session_data['current_question']
     sanitized_username = session_data['sanitized_name']
@@ -244,7 +417,6 @@ async def record_response(session_id):
     domains = session_data['domains']
     user_folder = session_data['user_folder']
 
-    # Save audio and video files
     audio_filename = f"{sanitized_username}_q{current_question}_audio.wav"
     video_filename = f"{sanitized_username}_q{current_question}_video.mp4"
 
@@ -261,7 +433,6 @@ async def record_response(session_id):
         "video": video_filename if video else None,
     })
 
-    # Get user answer from transcript
     transcript = request.form.get('transcript', '')
     app.logger.info(f"Received transcript for question {current_question}: {transcript}")
     transcript_lines = transcript.split('\n')
@@ -273,13 +444,12 @@ async def record_response(session_id):
             user_answer = line.split(":", 1)[1].strip()
             break
 
-    # Build transcript entry for this question
     question_idx = current_question
     question = questions[question_idx - 1] if question_idx - 1 < len(questions) else "No question available"
     q_domain = domains[question_idx - 1] if question_idx - 1 < len(domains) else "Unknown"
     audio_file = audio_filename if audio else "Not recorded"
     video_file = video_filename if video else "Not recorded"
-    ai_answer = generate_ai_answer(question)
+    ai_answer = generate_ai_answer(session_id, question)
 
     transcript_entry = (
         f"Question {question_idx}: {question}\n"
@@ -291,7 +461,6 @@ async def record_response(session_id):
         f"{'=' * 80}\n\n"
     )
 
-    # Append to transcript file
     transcript_path = os.path.join(user_folder, "transcript.txt")
     app.logger.info(f"Appending to transcript at {transcript_path}")
     app.logger.info(f"Transcript entry:\n{transcript_entry}")
@@ -305,18 +474,29 @@ async def record_response(session_id):
 
     return jsonify({"status": "success"})
 
-def generate_ai_answer(question):
-    if "programming languages" in question.lower():
-        return ("I'm proficient in Java, Python, and JavaScript. My experience with Java includes developing backend services using Spring Boot and utilizing core Java features such as multithreading and collections. With Python, I've worked on data analysis projects using Pandas and NumPy, and web scraping projects using Beautiful Soup. My JavaScript experience encompasses both front-end development using React, where I've built interactive user interfaces and single-page applications, and back-end development using Node.js.")
-    elif "object-oriented programming" in question.lower() or "oop" in question.lower():
-        return ("Object-Oriented Programming (OOP) is a programming paradigm that organizes software design around data, or objects, rather than functions and logic. An object can be defined as a data field that has unique attributes and behavior. OOP uses four main principles:\n\n"
-                "Encapsulation: Bundling data and methods that operate on that data within a class, protecting the internal state from direct external access and modification. This promotes data integrity and reduces unintended side effects.\n\n"
-                "Inheritance: Creating new classes (child classes) based on existing classes (parent classes), inheriting their properties and behaviors. This allows for code reuse and establishes a hierarchical relationship between classes.\n\n"
-                "Polymorphism: The ability of objects of different classes to respond to the same method call in their own specific way. This enables flexibility and extensibility.\n\n"
-                "Abstraction: Hiding complex implementation details and showing only essential information to the user. This simplifies the interaction with objects and improves code maintainability.\n\n"
-                "These principles together contribute to creating modular, maintainable, and reusable code.")
-    else:
-        return "I would approach this question by providing a detailed and structured response based on my experience and knowledge in the domain."
+def generate_ai_answer(session_id, question):
+    domain = sessions[session_id]['domains'][sessions[session_id]['current_question'] - 1]
+    if domain == "Introduction":
+        return "N/A"
+
+    prompt = f"Provide a detailed and structured sample answer for the following interview question: '{question}'. The answer should demonstrate deep technical knowledge or relevant experience appropriate for the question's context. Format the answer as a concise paragraph without additional headings or numbering."
+    
+    try:
+        response = requests.post(
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCVyhDktWeeV7rvUxz1GBSKNQCPBTvK8uY",
+            json={"contents": [{"parts": [{"text": prompt}]}]}
+        )
+        response.raise_for_status()
+        result = response.json()
+        if 'candidates' in result and result['candidates']:
+            generated_text = result['candidates'][0]['content']['parts'][0]['text']
+            return generated_text.strip()
+        else:
+            app.logger.error(f"API response error for AI answer: {result}")
+            return "Unable to generate AI answer due to API error."
+    except Exception as e:
+        app.logger.error(f"Error generating AI answer: {str(e)}")
+        return "Unable to generate AI answer due to an error."
 
 if __name__ == '__main__':
     app.run(debug=True)

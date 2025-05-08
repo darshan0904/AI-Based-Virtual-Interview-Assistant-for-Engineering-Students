@@ -6,117 +6,70 @@
     <title>AI Interview Assistant</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <link rel="stylesheet" href="/static/css/styles.css">
-    <style>
-        #ai-animation {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            object-position: center 30%;
-        }
-        .button-bar {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-        #repeat-btn {
-            position: absolute;
-            left: 20px;
-        }
-        #next-btn {
-            position: absolute;
-            right: 20px;
-        }
-        #transcript-bar {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            font-size: 1.1rem; /* Slightly smaller font for better fit */
-            text-align: center;
-            display: block;
-            width: auto;
-            max-width: 98%; /* Increased to ensure long questions fit */
-            white-space: normal;
-            word-wrap: break-word;
-            overflow: visible;
-            height: auto;
-            line-height: 1.4; /* Adjusted for readability */
-        }
-    </style>
 </head>
-<body class="form-bg min-h-screen flex items-center justify-center">
-    <div id="form-container" class="container glassmorphism p-8 w-full max-w-lg mx-4">
-        <form id="interview-form" class="grid gap-6">
-            <div class="relative fade-in-slide-up" style="animation-delay: 0.1s;">
-                <input type="text" id="name" placeholder=" " class="w-full p-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500">
+<body>
+    <div id="form-container" class="container glassmorphism">
+        <form id="interview-form" style="display: grid; gap: 24px;">
+            <div class="fade-in-slide-up" style="animation-delay: 0.1s; position: relative;">
+                <input type="text" id="name" placeholder=" " style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
                 <label for="name" class="floating-label">Full Name</label>
             </div>
-            <div class="relative fade-in-slide-up" style="animation-delay: 0.2s;">
-                <select id="domain" class="w-full p-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500">
-                    <option value="" disabled selected>Select Domain</option>
-                    {% for domain in domains %}
-                        <option value="{{ domain }}">{{ domain }}</option>
+            <div class="fade-in-slide-up" style="animation-delay: 0.2s; position: relative;">
+                <select id="engineering" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
+                    <option value="" disabled selected>Select Engineering Field</option>
+                    {% for field in engineering_fields %}
+                        <option value="{{ field }}">{{ field }}</option>
                     {% endfor %}
-                    <option value="custom">Other</option>
                 </select>
-                <input type="text" id="custom-domain" placeholder="Custom Domain" class="hidden w-full p-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500">
             </div>
-            <div class="relative fade-in-slide-up" style="animation-delay: 0.3s;">
-                <select id="role" class="w-full p-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500">
+            <div class="fade-in-slide-up" style="animation-delay: 0.3s; position: relative;">
+                <select id="domain" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
+                    <option value="" disabled selected>Select Domain</option>
+                </select>
+                <input type="text" id="custom-domain" placeholder="Custom Domain" class="hidden" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
+            </div>
+            <div class="fade-in-slide-up" style="animation-delay: 0.4s; position: relative;">
+                <select id="role" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
                     <option value="" disabled selected>Select Role</option>
                 </select>
-                <input type="text" id="custom-role" placeholder="Custom Role" class="hidden w-full p-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500">
+                <input type="text" id="custom-role" placeholder="Custom Role" class="hidden" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
             </div>
-            <div class="relative fade-in-slide-up" style="animation-delay: 0.4s;">
+            <div class="fade-in-slide-up" style="animation-delay: 0.5s; position: relative;">
                 <input type="file" id="resume" accept=".pdf,.docx" class="hidden">
                 <label for="resume" id="resume-label" class="upload-label">
                     Upload Resume (Optional)
-                    <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <svg style="width: 24px; height: 24px; margin-left: 8px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                 </label>
             </div>
-            <button type="submit" id="start-interview-btn" class="start-btn fade-in-slide-up" style="animation-delay: 0.5s;">Start Interview</button>
+            <button type="submit" id="start-interview-btn" class="start-btn fade-in-slide-up" style="animation-delay: 0.6s;">Start Interview</button>
         </form>
     </div>
 
-    <div id="loading-container" class="hidden fixed inset-0 loading-bg flex items-center justify-center">
+    <div id="loading-container" class="hidden fixed-container">
         <div class="loading-content">
             <div class="spinner"></div>
             <p class="loading-text">Preparing your interview...</p>
         </div>
     </div>
 
-    <div id="transition-container" class="hidden fixed inset-0 transition-bg flex items-center justify-center">
+    <div id="transition-container" class="hidden fixed-container">
         <p class="transition-text">Please wait...</p>
     </div>
 
-    <div id="interview-container" class="hidden w-full h-screen relative interview-bg">
+    <div id="interview-container" class="hidden fixed-container">
         <img id="ai-animation" src="/static/talking.gif" alt="AI Animation">
-        <div id="webcam-feed" class="absolute bottom-16 right-4 w-32 h-24 bg-gray-800 rounded-lg shadow-lg overflow-hidden cursor-pointer">
-            <video id="user-video" autoplay class="w-full h-full object-contain"></video>
+        <div id="webcam-feed" class="webcam-feed">
+            <video id="user-video" autoplay style="width: 100%; height: 100%; object-fit: contain;"></video>
         </div>
         <div class="button-bar">
-            <button id="repeat-btn" class="fab bg-indigo-500 text-white p-4 rounded-lg hover:bg-indigo-600">
-                Repeat
-            </button>
-            <div id="transcript-bar" class="transcript-bar"></div>
-            <button id="next-btn" class="fab bg-indigo-500 text-white p-4 rounded-lg hover:bg-indigo-600">
-                Next
-            </button>
+            <button id="repeat-btn" class="fab bg-indigo text-white" style="padding: 16px; border-radius: 8px;">Repeat</button>
+            <div id="transcript-bar" class="youtube-captions"></div>
+            <button id="next-btn" class="fab bg-indigo text-white" style="padding: 16px; border-radius: 8px;">Next</button>
         </div>
     </div>
 
-    <div id="thank-you-container" class="hidden thankyou-bg min-h-screen flex items-center justify-center">
-        <div class="container glassmorphism p-8 w-full max-w-lg mx-4 text-center">
+    <div id="thank-you-container" class="hidden fixed-container">
+        <div class="container glassmorphism text-center">
             <h2 class="thank-you-title">Thank You!</h2>
             <p class="thank-you-text">"Success is not the absence of obstacles, but the courage to push through them."</p>
         </div>
@@ -125,7 +78,7 @@
     <script>
         const TALKING_GIF = "/static/talking.gif";
         const LISTENING_GIF = "/static/listening.gif";
-        const GEMINI_API_KEY = "AIzaSyAA92C3_BnZiH-2V47VV32OdgS6Trpc8FQ";
+        const GEMINI_API_KEY = "AIzaSyCVyhDktWeeV7rvUxz1GBSKNQCPBTvK8uY";
         let sessionId, questions = [], currentQuestion = 0;
         let mediaRecorderAudio, mediaRecorderVideo, audioChunks = [], videoChunks = [];
         let aiAnimation = document.getElementById('ai-animation');
@@ -134,30 +87,50 @@
         let webcamFeed = document.getElementById('webcam-feed');
         let recognition;
         let questionAudio;
-        let username, domain, role;
+        let username, engineering, domain, role;
         let transcriptContent = "";
         let isAISmall = false;
         let isRecording = false;
         let userAnswer = "";
+        let aiAnswer = "";
 
-        async function initWebcam() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                userVideo.srcObject = stream;
+        // Function to hide all containers
+        function hideAllContainers() {
+            document.getElementById('form-container').classList.add('hidden');
+            document.getElementById('loading-container').classList.add('hidden');
+            document.getElementById('transition-container').classList.add('hidden');
+            document.getElementById('interview-container').classList.add('hidden');
+            document.getElementById('thank-you-container').classList.add('hidden');
+        }
 
-                const audioStream = new MediaStream(stream.getAudioTracks());
-                mediaRecorderAudio = new MediaRecorder(audioStream, { mimeType: 'audio/webm' });
-                mediaRecorderAudio.ondataavailable = e => audioChunks.push(e.data);
+        // Function to show a specific container
+        function showContainer(containerId) {
+            hideAllContainers();
+            document.getElementById(containerId).classList.remove('hidden');
+        }
 
-                const videoStream = new MediaStream(stream.getVideoTracks());
-                mediaRecorderVideo = new MediaRecorder(videoStream, { mimeType: 'video/webm' });
-                mediaRecorderVideo.ondataavailable = e => videoChunks.push(e.data);
-            } catch (err) {
-                console.error("Webcam access failed:", err);
-                alert("Please allow webcam and microphone access.");
-                mediaRecorderAudio = null;
-                mediaRecorderVideo = null;
-            }
+        // Initially show only the form container
+        showContainer('form-container');
+
+        function initWebcam() {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(stream => {
+                    userVideo.srcObject = stream;
+
+                    const audioStream = new MediaStream(stream.getAudioTracks());
+                    mediaRecorderAudio = new MediaRecorder(audioStream, { mimeType: 'audio/webm' });
+                    mediaRecorderAudio.ondataavailable = e => audioChunks.push(e.data);
+
+                    const videoStream = new MediaStream(stream.getVideoTracks());
+                    mediaRecorderVideo = new MediaRecorder(videoStream, { mimeType: 'video/webm' });
+                    mediaRecorderVideo.ondataavailable = e => videoChunks.push(e.data);
+                })
+                .catch(err => {
+                    console.error("Webcam access failed:", err);
+                    alert("Please allow webcam and microphone access.");
+                    mediaRecorderAudio = null;
+                    mediaRecorderVideo = null;
+                });
         }
 
         function initSpeechRecognition() {
@@ -168,8 +141,8 @@
                 recognition.onstart = () => {
                     console.log("Speech recognition started for question", currentQuestion + 1);
                     isRecording = true;
-                    userAnswer = ""; // Reset userAnswer at the start of each question
-                    transcriptBar.textContent = ""; // Clear transcript bar
+                    userAnswer = "";
+                    transcriptBar.textContent = aiAnswer;
                 };
                 recognition.onresult = event => {
                     let interimTranscript = '';
@@ -214,17 +187,17 @@
         webcamFeed.addEventListener('click', () => {
             if (isAISmall) {
                 aiAnimation.src = questionAudio && !questionAudio.ended ? TALKING_GIF : LISTENING_GIF;
-                aiAnimation.classList.remove('w-full', 'h-full', 'object-contain');
-                aiAnimation.classList.add('absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'object-cover', 'object-position-center-30');
-                userVideo.classList.remove('absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'object-contain');
-                userVideo.classList.add('w-full', 'h-full', 'object-contain');
+                aiAnimation.classList.remove('full-width', 'full-height', 'object-contain');
+                aiAnimation.classList.add('absolute-top-left', 'full-width', 'full-height', 'object-cover', 'object-position-center-30');
+                userVideo.classList.remove('absolute-top-left', 'full-width', 'full-height', 'object-contain');
+                userVideo.classList.add('full-width', 'full-height', 'object-contain');
                 webcamFeed.appendChild(userVideo);
                 document.getElementById('interview-container').insertBefore(aiAnimation, webcamFeed);
             } else {
-                userVideo.classList.remove('w-full', 'h-full', 'object-contain');
-                userVideo.classList.add('absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'object-contain');
-                aiAnimation.classList.remove('absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'object-cover', 'object-position-center-30');
-                aiAnimation.classList.add('w-full', 'h-full', 'object-contain');
+                userVideo.classList.remove('full-width', 'full-height', 'object-contain');
+                userVideo.classList.add('absolute-top-left', 'full-width', 'full-height', 'object-contain');
+                aiAnimation.classList.remove('absolute-top-left', 'full-width', 'full-height', 'object-cover', 'object-position-center-30');
+                aiAnimation.classList.add('full-width', 'full-height', 'object-contain');
                 webcamFeed.appendChild(aiAnimation);
                 document.getElementById('interview-container').insertBefore(userVideo, webcamFeed);
             }
@@ -236,16 +209,52 @@
             const resumeLabel = document.getElementById('resume-label');
             if (file) {
                 resumeLabel.textContent = `Resume: ${file.name}`;
-                resumeLabel.classList.remove('bg-indigo-500');
-                resumeLabel.classList.add('bg-green-500');
+                resumeLabel.classList.remove('bg-indigo');
+                resumeLabel.classList.add('bg-green');
             } else {
                 resumeLabel.textContent = 'Upload Resume (Optional)';
-                resumeLabel.classList.remove('bg-green-500');
-                resumeLabel.classList.add('bg-indigo-500');
+                resumeLabel.classList.remove('bg-green');
+                resumeLabel.classList.add('bg-indigo');
             }
         });
 
-        document.getElementById('domain').addEventListener('change', async (e) => {
+        document.getElementById('engineering').addEventListener('change', (e) => {
+            const engineering = e.target.value;
+            const domainSelect = document.getElementById('domain');
+            const customDomain = document.getElementById('custom-domain');
+            const roleSelect = document.getElementById('role');
+            const customRole = document.getElementById('custom-role');
+
+            fetch('/get_domains', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ engineering })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Domains received:', data.domains);
+                domainSelect.innerHTML = '<option value="" disabled selected>Select Domain</option>' +
+                    (data.domains && data.domains.length > 0
+                        ? data.domains.map(domain => `<option value="${domain}">${domain}</option>`).join('')
+                        : '<option value="" disabled>No domains available</option>') +
+                    '<option value="custom">Custom Domain</option>';
+                customDomain.classList.add('hidden');
+                roleSelect.innerHTML = '<option value="" disabled selected>Select Role</option>';
+                customRole.classList.add('hidden');
+            })
+            .catch(err => {
+                console.error("Error fetching domains:", err);
+                alert("Failed to load domains. Please try again.");
+                domainSelect.innerHTML = '<option value="" disabled selected>Error loading domains</option>';
+            });
+        });
+
+        document.getElementById('domain').addEventListener('change', (e) => {
             const domain = e.target.value;
             const roleSelect = document.getElementById('role');
             const customDomain = document.getElementById('custom-domain');
@@ -258,28 +267,30 @@
             } else {
                 customDomain.classList.add('hidden');
                 customRole.classList.add('hidden');
-                try {
-                    console.log(`Fetching roles for domain: ${domain}`);
-                    const response = await fetch('/get_roles', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ domain })
-                    });
+                fetch('/get_roles', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ domain })
+                })
+                .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
-                    const data = await response.json();
+                    return response.json();
+                })
+                .then(data => {
                     console.log('Roles received:', data.roles);
                     roleSelect.innerHTML = '<option value="" disabled selected>Select Role</option>' +
                         (data.roles && data.roles.length > 0
                             ? data.roles.map(role => `<option value="${role}">${role}</option>`).join('')
                             : '<option value="" disabled>No roles available</option>') +
                         '<option value="custom">Custom Role</option>';
-                } catch (err) {
+                })
+                .catch(err => {
                     console.error("Error fetching roles:", err);
                     alert("Failed to load roles. Please try again.");
                     roleSelect.innerHTML = '<option value="" disabled selected>Error loading roles</option>';
-                }
+                });
             }
         });
 
@@ -292,83 +303,110 @@
             }
         });
 
-        document.getElementById('interview-form').addEventListener('submit', async (e) => {
+        document.getElementById('interview-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            try {
-                document.getElementById('form-container').classList.add('hidden');
-                document.getElementById('loading-container').classList.remove('hidden');
+            showContainer('loading-container');
 
-                const formData = new FormData();
-                username = document.getElementById('name').value;
-                if (!username) throw new Error("Name is required");
+            const formData = new FormData();
+            username = document.getElementById('name').value;
+            if (!username) {
+                alert("Name is required");
+                showContainer('form-container');
+                return;
+            }
 
-                formData.append('name', username);
-                const domainSelect = document.getElementById('domain').value;
-                if (!domainSelect) throw new Error("Domain is required");
+            formData.append('name', username);
+            engineering = document.getElementById('engineering').value;
+            if (!engineering) {
+                alert("Engineering field is required");
+                showContainer('form-container');
+                return;
+            }
 
-                domain = domainSelect === 'custom' ? document.getElementById('custom-domain').value : domainSelect;
-                if (domainSelect === 'custom' && !domain) throw new Error("Custom domain is required");
+            formData.append('engineering', engineering);
+            const domainSelect = document.getElementById('domain').value;
+            if (!domainSelect) {
+                alert("Domain is required");
+                showContainer('form-container');
+                return;
+            }
 
-                formData.append('domain', domain);
-                const roleSelect = document.getElementById('role').value;
-                if (!roleSelect) throw new Error("Role is required");
+            domain = domainSelect === 'custom' ? document.getElementById('custom-domain').value : domainSelect;
+            if (domainSelect === 'custom' && !domain) {
+                alert("Custom domain is required");
+                showContainer('form-container');
+                return;
+            }
 
-                role = roleSelect === 'custom' ? document.getElementById('custom-role').value : roleSelect;
-                if (roleSelect === 'custom' && !role) throw new Error("Custom role is required");
+            formData.append('domain', domain);
+            const roleSelect = document.getElementById('role').value;
+            if (!roleSelect) {
+                alert("Role is required");
+                showContainer('form-container');
+                return;
+            }
 
-                formData.append('role', role);
-                const resume = document.getElementById('resume').files[0];
-                if (resume) {
-                    formData.append('resume', resume);
+            role = roleSelect === 'custom' ? document.getElementById('custom-role').value : roleSelect;
+            if (roleSelect === 'custom' && !role) {
+                alert("Custom role is required");
+                showContainer('form-container');
+                return;
+            }
+
+            formData.append('role', role);
+            const resume = document.getElementById('resume').files[0];
+            if (resume) {
+                formData.append('resume', resume);
+            }
+
+            fetch('/start_interview', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-
-                const response = await fetch('/start_interview', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-
-                const data = await response.json();
+                return response.json();
+            })
+            .then(data => {
                 sessionId = data.session_id;
-
                 transcriptContent = `${username}\n\n`;
-
-                await generateQuestions();
-
-                document.getElementById('loading-container').classList.add('hidden');
-                document.getElementById('interview-container').classList.remove('hidden');
-                await initWebcam();
+                return generateQuestions();
+            })
+            .then(() => {
+                showContainer('interview-container');
+                initWebcam();
                 initSpeechRecognition();
                 loadQuestion();
-            } catch (err) {
+            })
+            .catch(err => {
                 console.error("Error starting interview:", err.message);
                 alert("Failed to start interview: " + err.message);
-                document.getElementById('loading-container').classList.add('hidden');
-                document.getElementById('form-container').classList.remove('hidden');
-            }
+                showContainer('form-container');
+            });
         });
 
-        async function generateQuestions() {
-            try {
-                const response = await fetch(`/generate_questions/${sessionId}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ domain: domain, role: role, has_resume: !!document.getElementById('resume').files[0] })
-                });
-                const data = await response.json();
+        function generateQuestions() {
+            return fetch(`/generate_questions/${sessionId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ domain: domain, role: role, has_resume: !!document.getElementById('resume').files[0] })
+            })
+            .then(response => response.json())
+            .then(data => {
                 questions = data.questions.filter(q => !q.toLowerCase().includes("here are") && !q.toLowerCase().includes("questions") && !q.toLowerCase().includes("why"));
                 console.log("Questions loaded:", questions);
-            } catch (err) {
+            })
+            .catch(err => {
                 console.error("Error generating questions:", err);
                 throw err;
-            }
+            });
         }
 
-        async function loadQuestion() {
+        function loadQuestion() {
             if (currentQuestion >= questions.length) {
-                document.getElementById('interview-container').classList.add('hidden');
-                document.getElementById('thank-you-container').classList.remove('hidden');
+                showContainer('thank-you-container');
                 if (recognition) recognition.stop();
                 if (mediaRecorderAudio) mediaRecorderAudio.stop();
                 if (mediaRecorderVideo) mediaRecorderVideo.stop();
@@ -381,41 +419,48 @@
             const questionTextForAudio = questionText.replace(/[*"().,:;?!-]/g, ' ').trim();
             transcriptBar.textContent = questionText;
             console.log("Set transcriptBar.textContent to:", transcriptBar.textContent);
-            const response = await fetch(`/next_question/${sessionId}`, {
+
+            fetch(`/next_question/${sessionId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ question: questionTextForAudio })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.end) {
+                    showContainer('thank-you-container');
+                    if (recognition) recognition.stop();
+                    if (mediaRecorderAudio) mediaRecorderAudio.stop();
+                    if (mediaRecorderVideo) mediaRecorderVideo.stop();
+                    return;
+                }
+
+                aiAnswer = data.ai_answer;
+
+                if (questionAudio) {
+                    questionAudio.pause();
+                    questionAudio.currentTime = 0;
+                }
+
+                console.log("Audio URL:", data.audio);
+                questionAudio = new Audio();
+                questionAudio.src = data.audio;
+                questionAudio.type = "audio/wav";
+                questionAudio.play().catch(err => {
+                    console.error("Audio playback failed:", err);
+                    alert("Audio playback failed: " + err.message + ". Please ensure your browser allows audio and supports WAV format.");
+                });
+
+                questionAudio.onended = () => {
+                    aiAnimation.src = LISTENING_GIF;
+                    if (recognition) recognition.start();
+                    if (mediaRecorderAudio) mediaRecorderAudio.start();
+                    if (mediaRecorderVideo) mediaRecorderVideo.start();
+                };
+            })
+            .catch(err => {
+                console.error("Error loading question:", err);
             });
-            const data = await response.json();
-            if (data.end) {
-                document.getElementById('interview-container').classList.add('hidden');
-                document.getElementById('thank-you-container').classList.remove('hidden');
-                if (recognition) recognition.stop();
-                if (mediaRecorderAudio) mediaRecorderAudio.stop();
-                if (mediaRecorderVideo) mediaRecorderVideo.stop();
-                return;
-            }
-
-            if (questionAudio) {
-                questionAudio.pause();
-                questionAudio.currentTime = 0;
-            }
-
-            console.log("Audio URL:", data.audio);
-            questionAudio = new Audio();
-            questionAudio.src = data.audio;
-            questionAudio.type = "audio/wav";
-            questionAudio.play().catch(err => {
-                console.error("Audio playback failed:", err);
-                alert("Audio playback failed: " + err.message + ". Please ensure your browser allows audio and supports WAV format.");
-            });
-
-            questionAudio.onended = () => {
-                aiAnimation.src = LISTENING_GIF;
-                if (recognition) recognition.start();
-                if (mediaRecorderAudio) mediaRecorderAudio.start();
-                if (mediaRecorderVideo) mediaRecorderVideo.start();
-            };
         }
 
         document.getElementById('repeat-btn').addEventListener('click', () => {
@@ -444,7 +489,7 @@
             };
         });
 
-        document.getElementById('next-btn').addEventListener('click', async () => {
+        document.getElementById('next-btn').addEventListener('click', () => {
             if (mediaRecorderAudio) mediaRecorderAudio.stop();
             if (mediaRecorderVideo) mediaRecorderVideo.stop();
             if (recognition) {
@@ -452,68 +497,72 @@
                 console.log("Stopping speech recognition for question", currentQuestion + 1);
             }
 
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            setTimeout(() => {
+                while (isRecording) {
+                    console.log("Waiting for speech recognition to finish for question", currentQuestion + 1);
+                    setTimeout(() => {}, 500);
+                }
 
-            while (isRecording) {
-                console.log("Waiting for speech recognition to finish for question", currentQuestion + 1);
-                await new Promise(resolve => setTimeout(resolve, 500));
-            }
+                if (questionAudio) {
+                    questionAudio.pause();
+                    questionAudio.currentTime = 0;
+                }
 
-            if (questionAudio) {
-                questionAudio.pause();
-                questionAudio.currentTime = 0;
-            }
+                const capturedAnswer = userAnswer || transcriptBar.textContent.trim() || "No response recorded";
+                console.log(`Final captured user answer for question ${currentQuestion + 1}:`, capturedAnswer);
+                console.log("transcriptBar.textContent before reset:", transcriptBar.textContent);
 
-            const capturedAnswer = userAnswer || transcriptBar.textContent.trim() || "No response recorded";
-            console.log(`Final captured user answer for question ${currentQuestion + 1}:`, capturedAnswer);
-            console.log("transcriptBar.textContent before reset:", transcriptBar.textContent);
+                showContainer('transition-container');
 
-            document.getElementById('interview-container').classList.add('hidden');
-            document.getElementById('transition-container').classList.remove('hidden');
+                setTimeout(() => {
+                    showContainer('interview-container');
 
-            await new Promise(resolve => setTimeout(resolve, 2000));
+                    const audioFile = `${username}_q${currentQuestion + 1}_audio.wav`;
+                    const videoFile = `${username}_q${currentQuestion + 1}_video.mp4`;
 
-            document.getElementById('transition-container').classList.add('hidden');
-            document.getElementById('interview-container').classList.remove('hidden');
+                    transcriptContent += `Question ${currentQuestion + 1}: ${questions[currentQuestion]}\n`;
+                    transcriptContent += `User Answer: ${capturedAnswer}\n`;
+                    transcriptContent += `AI Answer: ${aiAnswer}\n`;
+                    transcriptContent += `Domain: ${domain}\n`;
+                    transcriptContent += `Audio File: ${audioFile}\n`;
+                    transcriptContent += `Video File: ${videoFile}\n\n`;
 
-            const audioFile = `${username}_q${currentQuestion + 1}_audio.wav`;
-            const videoFile = `${username}_q${currentQuestion + 1}_video.mp4`;
+                    const formData = new FormData();
+                    if (audioChunks.length > 0) {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        formData.append('audio', audioBlob, audioFile);
+                    }
+                    if (videoChunks.length > 0) {
+                        const videoBlob = new Blob(videoChunks, { type: 'video/webm' });
+                        formData.append('video', videoBlob, videoFile);
+                    }
+                    formData.append('transcript', transcriptContent);
 
-            transcriptContent += `Question ${currentQuestion + 1}: ${questions[currentQuestion]}\n`;
-            transcriptContent += `User Answer: ${capturedAnswer}\n`;
-            transcriptContent += `AI Answer: N/A\n`;
-            transcriptContent += `Domain: ${domain}\n`;
-            transcriptContent += `Audio File: ${audioFile}\n`;
-            transcriptContent += `Video File: ${videoFile}\n\n`;
+                    fetch(`/record_response/${sessionId}`, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.status !== "success") {
+                            console.error("Failed to record response:", result.error);
+                            alert("Failed to record response: " + result.error);
+                        }
 
-            const formData = new FormData();
-            if (audioChunks.length > 0) {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                formData.append('audio', audioBlob, audioFile);
-            }
-            if (videoChunks.length > 0) {
-                const videoBlob = new Blob(videoChunks, { type: 'video/webm' });
-                formData.append('video', videoBlob, videoFile);
-            }
-            formData.append('transcript', transcriptContent);
-
-            const response = await fetch(`/record_response/${sessionId}`, {
-                method: 'POST',
-                body: formData
-            });
-            const result = await response.json();
-            if (result.status !== "success") {
-                console.error("Failed to record response:", result.error);
-                alert("Failed to record response: " + result.error);
-            }
-
-            transcriptBar.textContent = "";
-            userAnswer = "";
-            audioChunks = [];
-            videoChunks = [];
-            console.log("Reset transcriptBar.textContent and userAnswer for next question");
-            currentQuestion++;
-            loadQuestion();
+                        transcriptBar.textContent = "";
+                        userAnswer = "";
+                        aiAnswer = "";
+                        audioChunks = [];
+                        videoChunks = [];
+                        console.log("Reset transcriptBar.textContent and userAnswer for next question");
+                        currentQuestion++;
+                        loadQuestion();
+                    })
+                    .catch(err => {
+                        console.error("Error recording response:", err);
+                    });
+                }, 2000);
+            }, 3000);
         });
     </script>
 </body>
