@@ -146,8 +146,7 @@
                     console.log("Speech recognition started for question", currentQuestion + 1);
                     isRecording = true;
                     userAnswer = "";
-                    // Remove the "Listening to your answer..." placeholder
-                    transcriptBar.textContent = "";
+                    transcriptBar.textContent = ""; // Clear the transcript bar when starting to listen
                 };
                 recognition.onresult = event => {
                     let interimTranscript = '';
@@ -160,8 +159,10 @@
                             interimTranscript += transcript;
                         }
                     }
+                    // Update userAnswer with the latest transcript (final + interim)
                     userAnswer = (finalTranscript + interimTranscript).trim() || "No response recorded";
-                    startDynamicSubtitles(userAnswer);
+                    // Display the transcript in real-time as the user speaks
+                    transcriptBar.textContent = userAnswer;
                     console.log(`Speech recognition result for question ${currentQuestion + 1} - Final:`, finalTranscript, "Interim:", interimTranscript);
                     console.log("Updated userAnswer:", userAnswer);
                 };
@@ -170,7 +171,7 @@
                     isRecording = false;
                     if (!userAnswer) {
                         userAnswer = "Speech recognition failed";
-                        startDynamicSubtitles(userAnswer);
+                        transcriptBar.textContent = userAnswer;
                         console.log("Set userAnswer to fallback due to error:", userAnswer);
                     }
                 };
@@ -179,7 +180,7 @@
                     isRecording = false;
                     if (!userAnswer) {
                         userAnswer = "No response recorded";
-                        startDynamicSubtitles(userAnswer);
+                        transcriptBar.textContent = userAnswer;
                         console.log("Set userAnswer to fallback on end:", userAnswer);
                     }
                 };
@@ -189,7 +190,7 @@
             }
         }
 
-        // Function to split text into chunks and display dynamically like YouTube subtitles
+        // Function to split AI question text into chunks and display dynamically like YouTube subtitles
         function startDynamicSubtitles(text) {
             if (subtitleInterval) clearInterval(subtitleInterval);
             const maxLength = 50;
