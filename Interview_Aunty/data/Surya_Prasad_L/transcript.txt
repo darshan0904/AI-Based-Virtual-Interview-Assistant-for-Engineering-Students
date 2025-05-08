@@ -1,0 +1,47 @@
+Surya Prasad L
+
+Question 1: Tell me a little about yourself and your background, Surya Prasad.
+User Answer: No response recorded
+AI Answer: I would approach this question by providing a detailed and structured response based on my experience and knowledge in the domain.
+Domain: Introduction
+Audio File: Surya_Prasad_L_q1_audio.wav
+Video File: Surya_Prasad_L_q1_video.mp4
+
+================================================================================
+
+Question 2: Could you describe your career journey so far and what has shaped your interests?
+User Answer: No response recorded
+AI Answer: I would approach this question by providing a detailed and structured response based on my experience and knowledge in the domain.
+Domain: Introduction
+Audio File: Not recorded
+Video File: Not recorded
+
+================================================================================
+
+Question 3: In your Carnetic Music Learner project, how did you handle the efficient identification of 72 Melakartha ragas and their Janaka ragas using Pandas, considering the potential performance implications of large datasets?
+User Answer: No response recorded
+AI Answer: I would approach this question by providing a detailed and structured response based on my experience and knowledge in the domain.
+Domain: Resume-Based
+Audio File: Not recorded
+Video File: Not recorded
+
+================================================================================
+
+Question 4: In your CodeVerse project, how did you manage the scalability and maintainability of the backend using Node.js, especially considering the potential growth in user base and learning resources?
+User Answer: No response recorded
+AI Answer: I would approach this question by providing a detailed and structured response based on my experience and knowledge in the domain.
+Domain: Resume-Based
+Audio File: Not recorded
+Video File: Not recorded
+
+================================================================================
+
+Question 5: In your Google Text Translator project, how did you handle error handling and rate limiting when integrating the Google Translate API, ensuring a robust and reliable user experience?
+User Answer: No response recorded
+AI Answer: I would approach this question by providing a detailed and structured response based on my experience and knowledge in the domain.
+Domain: Resume-Based
+Audio File: Not recorded
+Video File: Not recorded
+
+================================================================================
+
