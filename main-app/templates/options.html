@@ -5,64 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose an Option</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Montserrat:wght@600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Roboto:wght@300;400&display=swap');
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.5s ease, color 0.5s ease;
             position: relative;
-            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
         }
         body.dark {
-            color: #ffffff;
-            background: #1f2a44;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #1a2526 0%, #2c3e50 100%);
         }
         body.light {
             color: #333333;
-            background: #f5f5f5;
+            background: linear-gradient(135deg, #f5f5f5 0%, #dfe9f3 100%);
         }
         body.chrome-dark {
-            color: #ffffff;
-            background: #202124;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #202124 0%, #34373b 100%);
         }
         body.chrome-light {
             color: #202124;
-            background: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #e8ecef 100%);
         }
-        #background-canvas {
+        #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            transition: transform 0.1s ease;
-        }
-        body.dark #background-canvas {
-            background: linear-gradient(135deg, #1f2a44 0%, #2c3e50 100%);
-        }
-        body.light #background-canvas {
-            background: linear-gradient(135deg, #e0e7ff 0%, #f5f5f5 100%);
-        }
-        body.chrome-dark #background-canvas {
-            background: #202124;
-        }
-        body.chrome-light #background-canvas {
-            background: #ffffff;
-        }
-        #wave-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.2;
+            opacity: 0.4;
+            pointer-events: none;
         }
         .navbar {
-            padding: 15px 30px;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -71,48 +53,41 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            backdrop-filter: blur(5px);
-            transition: background 0.3s ease;
-            border-bottom: 2px solid transparent;
-            animation: gradientShift 5s ease infinite;
+            transition: background 0.5s ease;
+            border-bottom: 1px solid;
         }
         body.dark .navbar {
-            background: rgba(31, 42, 68, 0.9);
-            background: linear-gradient(90deg, #00ddeb, #ff007a);
-            background-size: 200%;
+            background: rgba(38, 52, 53, 0.9);
+            border-color: #4a90e2;
+            backdrop-filter: blur(8px);
         }
         body.light .navbar {
             background: rgba(255, 255, 255, 0.9);
-            background: linear-gradient(90deg, #80d8ff, #ff80b3);
-            background-size: 200%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-color: #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
         }
         body.chrome-dark .navbar {
-            background: #303134;
-            background: linear-gradient(90deg, #303134, #3c4043);
-            background-size: 200%;
+            background: rgba(48, 49, 52, 0.9);
+            border-color: #8ab4f8;
+            backdrop-filter: blur(8px);
         }
         body.chrome-light .navbar {
-            background: #f1f3f4;
-            background: linear-gradient(90deg, #f1f3f4, #ffffff);
-            background-size: 200%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #dadce0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
         }
         .navbar .logo {
-            font-size: 24px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
             font-weight: 700;
-            letter-spacing: 1px;
-            font-family: 'Montserrat', sans-serif;
         }
         body.dark .navbar .logo {
-            background: linear-gradient(90deg, #00ddeb, #ff007a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #4a90e2;
         }
         body.light .navbar .logo {
-            background: linear-gradient(90deg, #80d8ff, #ff80b3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #1a73e8;
         }
         body.chrome-dark .navbar .logo {
             color: #8ab4f8;
@@ -126,13 +101,13 @@
         }
         .navbar .nav-links a {
             text-decoration: none;
-            margin-left: 25px;
+            margin-left: 30px;
             font-size: 16px;
-            font-weight: 500;
-            transition: color 0.3s ease, transform 0.3s ease;
+            font-weight: 400;
+            transition: color 0.3s ease;
         }
         body.dark .navbar .nav-links a {
-            color: #ffffff;
+            color: #e0e0e0;
         }
         body.light .navbar .nav-links a {
             color: #333333;
@@ -144,31 +119,27 @@
             color: #1a73e8;
         }
         body.dark .navbar .nav-links a:hover {
-            color: #00ddeb;
-            transform: scale(1.1);
+            color: #a1c4fd;
         }
         body.light .navbar .nav-links a:hover {
-            color: #80d8ff;
-            transform: scale(1.1);
+            color: #4285f4;
         }
         body.chrome-dark .navbar .nav-links a:hover {
             color: #a1c4fd;
-            transform: scale(1.1);
         }
         body.chrome-light .navbar .nav-links a:hover {
             color: #4285f4;
-            transform: scale(1.1);
         }
         .theme-toggle {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 20px;
-            margin-left: 15px;
-            transition: transform 0.3s ease;
+            font-size: 22px;
+            margin-left: 20px;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
         body.dark .theme-toggle {
-            color: #ffffff;
+            color: #e0e0e0;
         }
         body.light .theme-toggle {
             color: #333333;
@@ -180,160 +151,118 @@
             color: #1a73e8;
         }
         .theme-toggle:hover {
-            transform: rotate(360deg);
+            transform: rotate(20deg);
         }
         .main-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 80px 20px;
-            padding-top: 120px;
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            border-bottom: 3px solid;
-            animation: fadeIn 1s ease;
-        }
-        body.dark .main-content {
-            border-image: linear-gradient(90deg, #00ddeb, #ff007a) 1;
-        }
-        body.light .main-content {
-            border-image: linear-gradient(90deg, #80d8ff, #ff80b3) 1;
-        }
-        body.chrome-dark .main-content {
-            border-image: linear-gradient(90deg, #8ab4f8, #3c4043) 1;
-        }
-        body.chrome-light .main-content {
-            border-image: linear-gradient(90deg, #1a73e8, #f1f3f4) 1;
+            padding: 100px 20px;
+            padding-top: 140px;
         }
         .main-content h1 {
+            font-family: 'Poppins', sans-serif;
             font-size: 36px;
-            font-weight: 800;
+            font-weight: 700;
             margin-bottom: 40px;
-            font-family: 'Montserrat', sans-serif;
+            opacity: 0;
+            animation: fadeIn 1.2s ease forwards;
         }
         body.dark .main-content h1 {
-            background: linear-gradient(90deg, #ffffff, #00ddeb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(0, 221, 235, 0.7);
+            color: #e0e0e0;
         }
         body.light .main-content h1 {
-            background: linear-gradient(90deg, #333333, #80d8ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 5px rgba(128, 216, 255, 0.5);
+            color: #333333;
         }
         body.chrome-dark .main-content h1 {
-            color: #8ab4f8;
-            text-shadow: 0 0 5px rgba(138, 180, 248, 0.3);
+            color: #e0e0e0;
         }
         body.chrome-light .main-content h1 {
-            color: #1a73e8;
-            text-shadow: 0 0 3px rgba(26, 115, 232, 0.2);
+            color: #202124;
         }
         .card-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
             max-width: 1200px;
             width: 100%;
         }
         .option-card {
             width: 100%;
-            max-width: 350px;
-            padding: 20px;
-            border-radius: 15px;
+            max-width: 380px;
+            padding: 30px;
+            border-radius: 12px;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            animation: fadeIn 1s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        body.dark .option-card {
-            background: rgba(31, 42, 68, 0.95);
-            border: 3px solid transparent;
-            border-image: linear-gradient(90deg, #00ddeb, #ff007a) 1;
-        }
-        body.light .option-card {
-            background: #ffffff;
-            border: 3px solid transparent;
-            border-image: linear-gradient(90deg, #80d8ff, #ff80b3) 1;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        body.chrome-dark .option-card {
-            background: #303134;
-            border: 2px solid #3c4043;
-        }
-        body.chrome-light .option-card {
-            background: #f1f3f4;
-            border: 2px solid #dadce0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .option-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        body.dark .option-card:hover {
-            box-shadow: 0 0 20px rgba(0, 221, 235, 0.7);
-        }
-        body.light .option-card:hover {
-            box-shadow: 0 0 15px rgba(128, 216, 255, 0.5);
-        }
-        body.chrome-dark .option-card:hover {
-            box-shadow: 0 0 15px rgba(138, 180, 248, 0.3);
-        }
-        body.chrome-light .option-card:hover {
-            box-shadow: 0 0 15px rgba(26, 115, 232, 0.2);
-        }
-        .option-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transition: 0.5s;
+            transition: box-shadow 0.3s ease, background 0.5s ease, transform 0.3s ease, border 0.3s ease;
+            backdrop-filter: blur(10px);
             opacity: 0;
         }
-        body.dark .option-card::before {
-            background: linear-gradient(90deg, transparent, rgba(0, 221, 235, 0.2), transparent);
+        .option-card:nth-child(1) {
+            animation: fadeIn 1.2s ease forwards 0.3s;
         }
-        body.light .option-card::before {
-            background: linear-gradient(90deg, transparent, rgba(128, 216, 255, 0.2), transparent);
+        .option-card:nth-child(2) {
+            animation: fadeIn 1.2s ease forwards 0.5s;
         }
-        body.chrome-dark .option-card::before {
-            background: linear-gradient(90deg, transparent, rgba(138, 180, 248, 0.2), transparent);
+        .option-card:nth-child(3) {
+            animation: fadeIn 1.2s ease forwards 0.7s;
         }
-        body.chrome-light .option-card::before {
-            background: linear-gradient(90deg, transparent, rgba(26, 115, 232, 0.1), transparent);
+        body.dark .option-card {
+            background: rgba(38, 52, 53, 0.8);
+            border: 1px solid #4a90e2;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
-        .option-card:hover::before {
-            opacity: 1;
-            left: 100%;
+        body.light .option-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        .option-card.sparkle::after {
-            content: '✨';
-            position: absolute;
-            font-size: 20px;
-            top: -10px;
-            right: -10px;
-            animation: sparkle 1s ease-in-out infinite;
+        body.chrome-dark .option-card {
+            background: rgba(48, 49, 52, 0.8);
+            border: 1px solid #8ab4f8;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        body.chrome-light .option-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #dadce0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        body.dark .option-card:hover {
+            border: 1px solid transparent;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 20px rgba(74, 144, 226, 0.5);
+            transform: scale(1.05) translateY(-2px);
+        }
+        body.light .option-card:hover {
+            border: 1px solid transparent;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(26, 115, 232, 0.3);
+            transform: scale(1.05) translateY(-2px);
+        }
+        body.chrome-dark .option-card:hover {
+            border: 1px solid transparent;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 20px rgba(138, 180, 248, 0.5);
+            transform: scale(1.05) translateY(-2px);
+        }
+        body.chrome-light .option-card:hover {
+            border: 1px solid transparent;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(26, 115, 232, 0.3);
+            transform: scale(1.05) translateY(-2px);
         }
         .option-card h5 {
-            font-size: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 10px;
-            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 12px;
+            opacity: 0;
+            animation: slideIn 0.8s ease forwards 0.2s;
         }
         body.dark .option-card h5 {
-            color: #00ddeb;
+            color: #4a90e2;
         }
         body.light .option-card h5 {
-            color: #80d8ff;
+            color: #1a73e8;
         }
         body.chrome-dark .option-card h5 {
             color: #8ab4f8;
@@ -343,114 +272,126 @@
         }
         .option-card p {
             font-size: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            opacity: 0;
+            animation: slideIn 0.8s ease forwards 0.4s;
         }
         body.dark .option-card p {
-            color: #d1d5db;
+            color: #b0b0b0;
         }
         body.light .option-card p {
-            color: #4b5563;
+            color: #666666;
         }
         body.chrome-dark .option-card p {
-            color: #d1d5db;
+            color: #b0b0b0;
         }
         body.chrome-light .option-card p {
-            color: #4b5563;
+            color: #666666;
         }
         .option-card a {
-            padding: 10px 20px;
+            padding: 12px 25px;
             font-size: 16px;
             font-weight: 500;
             border: none;
-            border-radius: 50px;
+            border-radius: 6px;
             color: #ffffff;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
             position: relative;
             overflow: hidden;
+            opacity: 0;
+            animation: slideIn 0.8s ease forwards 0.6s;
         }
         body.dark .option-card a {
-            background: linear-gradient(90deg, #00ddeb, #ff007a);
-            box-shadow: 0 4px 15px rgba(0, 221, 235, 0.5);
+            background: linear-gradient(45deg, #4a90e2, #87ceeb);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
         body.light .option-card a {
-            background: linear-gradient(90deg, #80d8ff, #ff80b3);
-            box-shadow: 0 4px 10px rgba(128, 216, 255, 0.3);
+            background: linear-gradient(45deg, #1a73e8, #4285f4);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
         body.chrome-dark .option-card a {
-            background: #8ab4f8;
-            box-shadow: 0 4px 15px rgba(138, 180, 248, 0.3);
+            background: linear-gradient(45deg, #8ab4f8, #a1c4fd);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
         body.chrome-light .option-card a {
-            background: #1a73e8;
-            box-shadow: 0 4px 10px rgba(26, 115, 232, 0.2);
-        }
-        .option-card a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: 0.5s;
-        }
-        .option-card a:hover::before {
-            left: 100%;
+            background: linear-gradient(45deg, #1a73e8, #4285f4);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
         body.dark .option-card a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 221, 235, 0.7);
+            background: linear-gradient(45deg, #a1c4fd, #87ceeb);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(74, 144, 226, 0.5);
+            transform: scale(1.05) translateY(-2px);
         }
         body.light .option-card a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(128, 216, 255, 0.5);
+            background: linear-gradient(45deg, #4285f4, #1a73e8);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(26, 115, 232, 0.3);
+            transform: scale(1.05) translateY(-2px);
         }
         body.chrome-dark .option-card a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(138, 180, 248, 0.5);
+            background: linear-gradient(45deg, #a1c4fd, #8ab4f8);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(138, 180, 248, 0.5);
+            transform: scale(1.05) translateY(-2px);
         }
         body.chrome-light .option-card a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(26, 115, 232, 0.3);
+            background: linear-gradient(45deg, #4285f4, #1a73e8);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(26, 115, 232, 0.3);
+            transform: scale(1.05) translateY(-2px);
+        }
+        .option-card a .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
         }
         @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
         @media (max-width: 768px) {
             .main-content {
-                padding: 40px 15px;
-                padding-top: 80px;
+                padding: 50px 15px;
+                padding-top: 100px;
             }
             .main-content h1 {
                 font-size: 28px;
             }
             .option-card {
-                max-width: 300px;
+                max-width: 320px;
+                padding: 25px;
             }
             .navbar .nav-links a {
                 margin-left: 15px;
                 font-size: 14px;
             }
             .navbar .logo {
-                font-size: 20px;
+                font-size: 22px;
             }
             .theme-toggle {
                 font-size: 18px;
@@ -459,7 +400,7 @@
     </style>
 </head>
 <body class="dark">
-    <canvas id="background-canvas"></canvas>
+    <canvas id="particle-canvas"></canvas>
     <div class="navbar">
         <div class="logo">IntervuAI</div>
         <div class="nav-links">
@@ -468,23 +409,22 @@
         </div>
     </div>
     <div class="main-content">
-        <canvas id="wave-canvas"></canvas>
-        <h1 class="text-center mb-4">Choose Your Interview Preparation Tool</h1>
+        <h1>Choose Your Interview Preparation Tool</h1>
         <div class="card-container">
-            <div class="option-card sparkle">
-                <h5 class="card-title">Help with Resume</h5>
-                <p class="card-text">Get assistance in crafting a professional resume.</p>
-                <a href="{{ resume_url }}" class="btn btn-primary">Go to Resume Help</a>
+            <div class="option-card">
+                <h5>Help with Resume</h5>
+                <p>Get assistance in crafting a professional resume.</p>
+                <a href="{{ resume_url }}">Go to Resume Help</a>
             </div>
-            <div class="option-card sparkle">
-                <h5 class="card-title">Prepare for Aptitude Test</h5>
-                <p class="card-text">Practice and improve your aptitude test skills.</p>
-                <a href="{{ aptitude_url }}" class="btn btn-primary">Go to Aptitude Test</a>
+            <div class="option-card">
+                <h5>Prepare for Aptitude Test</h5>
+                <p>Practice and improve your aptitude test skills.</p>
+                <a href="{{ aptitude_url }}">Go to Aptitude Test</a>
             </div>
-            <div class="option-card sparkle">
-                <h5 class="card-title">Mock Interview</h5>
-                <p class="card-text">Experience a simulated interview environment.</p>
-                <a href="{{ interview_url }}" class="btn btn-primary">Go to Mock Interview</a>
+            <div class="option-card">
+                <h5>Mock Interview</h5>
+                <p>Experience a simulated interview environment.</p>
+                <a href="{{ interview_url }}">Go to Mock Interview</a>
             </div>
         </div>
     </div>
@@ -495,21 +435,13 @@
 
         function toggleTheme() {
             const body = document.body;
-            // Remove all theme classes
             themes.forEach(theme => body.classList.remove(theme));
-            // Cycle to the next theme
             currentThemeIndex = (currentThemeIndex + 1) % themes.length;
             const newTheme = themes[currentThemeIndex];
             body.classList.add(newTheme);
-            // Update the toggle icon based on the theme
             document.querySelector('.theme-toggle').textContent = 
                 newTheme.includes('dark') ? '☀️' : '🌙';
             localStorage.setItem('theme', newTheme);
-
-            // Update particle, wave, and confetti colors based on the new theme
-            updateParticleColors();
-            updateWaveColors();
-            updateConfettiColors();
         }
 
         // Load theme from localStorage
@@ -520,202 +452,109 @@
         document.querySelector('.theme-toggle').textContent = 
             themes[currentThemeIndex].includes('dark') ? '☀️' : '🌙';
 
-        // Particle background animation with parallax
-        const canvas = document.getElementById('background-canvas');
+        // Particle animation
+        const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        window.addEventListener('resize', () => {
+
+        function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-        });
+        }
 
-        // Parallax scrolling
-        let lastScrollY = 0;
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const delta = (scrollY - lastScrollY) * 0.1;
-            canvas.style.transform = `translateY(${scrollY * 0.3}px)`;
-            lastScrollY = scrollY;
-        });
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
         class Particle {
             constructor() {
+                this.reset();
+            }
+
+            reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = (Math.random() * 1 - 0.5) * 0.5;
-                this.speedY = (Math.random() * 1 - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.5 + 0.3;
+                this.size = Math.random() * 3 + 2;
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.speedY = Math.random() * 0.6 - 0.3;
+                this.opacity = 0;
+                this.opacitySpeed = Math.random() * 0.015 + 0.01;
+                this.fadeIn = true;
             }
-            
+
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
+
+                if (this.fadeIn) {
+                    this.opacity += this.opacitySpeed;
+                    if (this.opacity >= 0.9) this.fadeIn = false;
+                } else {
+                    this.opacity -= this.opacitySpeed;
+                    if (this.opacity <= 0) this.reset();
+                }
+
                 if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
             }
-            
+
             draw() {
                 const theme = document.body.classList;
-                if (theme.contains('dark')) {
-                    ctx.fillStyle = `rgba(0, 221, 235, ${this.opacity})`;
-                } else if (theme.contains('light')) {
-                    ctx.fillStyle = `rgba(51, 51, 51, ${this.opacity})`;
-                } else if (theme.contains('chrome-dark')) {
-                    ctx.fillStyle = `rgba(138, 180, 248, ${this.opacity})`;
-                } else {
-                    ctx.fillStyle = `rgba(26, 115, 232, ${this.opacity})`;
-                }
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                if (theme.contains('dark')) {
+                    ctx.fillStyle = `rgba(74, 144, 226, ${this.opacity})`;
+                    ctx.shadowColor = '#4a90e2';
+                } else if (theme.contains('light')) {
+                    ctx.fillStyle = `rgba(26, 115, 232, ${this.opacity})`;
+                    ctx.shadowColor = '#1a73e8';
+                } else if (theme.contains('chrome-dark')) {
+                    ctx.fillStyle = `rgba(138, 180, 248, ${this.opacity})`;
+                    ctx.shadowColor = '#8ab4f8';
+                } else {
+                    ctx.fillStyle = `rgba(26, 115, 232, ${this.opacity})`;
+                    ctx.shadowColor = '#1a73e8';
+                }
+                ctx.shadowBlur = 10;
                 ctx.fill();
+                ctx.shadowBlur = 0;
             }
         }
 
         const particlesArray = [];
-        const particleCount = window.innerWidth < 768 ? 50 : 100;
+        const particleCount = window.innerWidth < 768 ? 40 : 80;
         for (let i = 0; i < particleCount; i++) {
             particlesArray.push(new Particle());
         }
 
-        function updateParticleColors() {
-            particlesArray.forEach(particle => particle.draw());
-        }
-
-        // Confetti particles for celebratory vibe
-        class Confetti {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = -10;
-                this.size = Math.random() * 5 + 2;
-                this.speedY = Math.random() * 3 + 2;
-                this.rotation = Math.random() * 360;
-                this.spin = Math.random() * 5 - 2.5;
-            }
-
-            update() {
-                this.y += this.speedY;
-                this.rotation += this.spin;
-                if (this.y > canvas.height) {
-                    this.y = -10;
-                    this.x = Math.random() * canvas.width;
-                    this.speedY = Math.random() * 3 + 2;
-                }
-            }
-
-            draw() {
-                const theme = document.body.classList;
-                this.color = `hsl(${Math.random() * 360}, 100%, ${theme.contains('dark') || theme.contains('chrome-dark') ? '50%' : '70%'})`;
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.rotation * Math.PI / 180);
-                ctx.fillStyle = this.color;
-                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
-                ctx.restore();
-            }
-        }
-
-        const confettiArray = [];
-        for (let i = 0; i < 50; i++) {
-            confettiArray.push(new Confetti());
-        }
-
-        function updateConfettiColors() {
-            confettiArray.forEach(confetti => {
-                const theme = document.body.classList;
-                confetti.color = `hsl(${Math.random() * 360}, 100%, ${theme.contains('dark') || theme.contains('chrome-dark') ? '50%' : '70%'})`;
-            });
-        }
-
-        // Wave animation for main section
-        const waveCanvas = document.getElementById('wave-canvas');
-        const waveCtx = waveCanvas.getContext('2d');
-        waveCanvas.width = window.innerWidth;
-        waveCanvas.height = document.querySelector('.main-content').offsetHeight;
-
-        window.addEventListener('resize', () => {
-            waveCanvas.width = window.innerWidth;
-            waveCanvas.height = document.querySelector('.main-content').offsetHeight;
-        });
-
-        let wavePhase = 0;
-        function drawWave() {
-            waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
-            waveCtx.beginPath();
-            waveCtx.moveTo(0, waveCanvas.height / 2);
-            for (let x = 0; x < waveCanvas.width; x++) {
-                const y = Math.sin(x * 0.01 + wavePhase) * 50 + waveCanvas.height / 2;
-                waveCtx.lineTo(x, y);
-            }
-            const theme = document.body.classList;
-            if (theme.contains('dark')) {
-                waveCtx.strokeStyle = 'rgba(0, 221, 235, 0.5)';
-            } else if (theme.contains('light')) {
-                waveCtx.strokeStyle = 'rgba(128, 216, 255, 0.3)';
-            } else if (theme.contains('chrome-dark')) {
-                waveCtx.strokeStyle = 'rgba(138, 180, 248, 0.3)';
-            } else {
-                waveCtx.strokeStyle = 'rgba(26, 115, 232, 0.2)';
-            }
-            waveCtx.lineWidth = 2;
-            waveCtx.stroke();
-            wavePhase += 0.05;
-            requestAnimationFrame(drawWave);
-        }
-        drawWave();
-
-        function updateWaveColors() {
-            const theme = document.body.classList;
-            if (theme.contains('dark')) {
-                waveCtx.strokeStyle = 'rgba(0, 221, 235, 0.5)';
-            } else if (theme.contains('light')) {
-                waveCtx.strokeStyle = 'rgba(128, 216, 255, 0.3)';
-            } else if (theme.contains('chrome-dark')) {
-                waveCtx.strokeStyle = 'rgba(138, 180, 248, 0.3)';
-            } else {
-                waveCtx.strokeStyle = 'rgba(26, 115, 232, 0.2)';
-            }
-        }
-
-        function animate() {
+        function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < particlesArray.length; i++) {
                 particlesArray[i].update();
                 particlesArray[i].draw();
-                for (let j = i + 1; j < particlesArray.length; j++) {
-                    const dx = particlesArray[i].x - particlesArray[j].x;
-                    const dy = particlesArray[i].y - particlesArray[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 100) {
-                        ctx.beginPath();
-                        const theme = document.body.classList;
-                        if (theme.contains('dark')) {
-                            ctx.strokeStyle = `rgba(255, 0, 122, ${1 - distance / 100})`;
-                        } else if (theme.contains('light')) {
-                            ctx.strokeStyle = `rgba(255, 128, 179, ${1 - distance / 100})`;
-                        } else if (theme.contains('chrome-dark')) {
-                            ctx.strokeStyle = `rgba(138, 180, 248, ${1 - distance / 100})`;
-                        } else {
-                            ctx.strokeStyle = `rgba(26, 115, 232, ${1 - distance / 100})`;
-                        }
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                        ctx.stroke();
-                    }
-                }
             }
-            for (let i = 0; i < confettiArray.length; i++) {
-                confettiArray[i].update();
-                confettiArray[i].draw();
-            }
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animateParticles);
         }
-        
-        animate();
+
+        animateParticles();
+
+        // Reset particles on resize
+        window.addEventListener('resize', () => {
+            particlesArray.forEach(particle => particle.reset());
+        });
+
+        // Ripple effect on button click
+        document.querySelectorAll('.option-card a').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
     </script>
 </body>
 </html>
