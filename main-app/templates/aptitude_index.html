@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aptitude Test</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4 text-center">Aptitude Test</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="bg-{{ 'red' if category == 'danger' else 'green' }}-100 border-{{ 'red' if category == 'danger' else 'green' }}-400 text-{{ 'red' if category == 'danger' else 'green' }}-700 px-4 py-3 rounded mb-4">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- Domain Selection -->
+        <div id="domain-selection" class="mb-8">
+            <form id="start-test-form" class="bg-white p-6 rounded shadow-md">
+                <label for="domain" class="block text-lg font-medium mb-2">Select Domain:</label>
+                <select id="domain" name="domain" class="w-full p-2 border rounded mb-4">
+                    <option value="">Select a domain</option>
+                    {% for domain in domains %}
+                        <option value="{{ domain }}">{{ domain }}</option>
+                    {% endfor %}
+                </select>
+                <label for="domain_input" class="block text-lg font-medium mb-2">Or Enter Custom Domain:</label>
+                <input type="text" id="domain_input" name="domain_input" class="w-full p-2 border rounded mb-4" placeholder="e.g., ISE">
+                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Start Test</button>
+            </form>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz-section" class="hidden bg-white p-6 rounded shadow-md">
+            <div id="questions-container"></div>
+            <button id="submit-test" class="w-full bg-green-500 text-white p-2 rounded mt-4 hover:bg-green-600">Submit Test</button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden bg-white p-6 rounded shadow-md">
+            <h2 class="text-2xl font-bold mb-4">Test Results</h2>
+            <p id="total-score" class="text-lg mb-2"></p>
+            <div id="scores" class="mb-4"></div>
+            <h3 class="text-xl font-semibold mb-2">Incorrect Answers:</h3>
+            <div id="incorrect-questions"></div>
+            <button id="retake-test" class="w-full bg-blue-500 text-white p-2 rounded mt-4 hover:bg-blue-600">Retake Test</button>
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+        let answers = [];
+
+        // Start Test
+        document.getElementById('start-test-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const domain = document.getElementById('domain').value || document.getElementById('domain_input').value.toUpperCase().trim();
+            if (!domain) {
+                alert('Please select or enter a domain.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/aptitude/start_test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `domain=${encodeURIComponent(domain)}`
+                });
+                const data = await response.json();
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                questions = data.questions;
+                answers = new Array(questions.length).fill('');
+                console.log(`Received ${questions.length} questions`);
+
+                document.getElementById('domain-selection').classList.add('hidden');
+                document.getElementById('quiz-section').classList.remove('hidden');
+                renderQuestions();
+            } catch (error) {
+                console.error('Error starting test:', error);
+                alert('Failed to start test. Please try again.');
+            }
+        });
+
+        // Render Questions
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'mb-6 p-4 bg-gray-50 rounded';
+                questionDiv.innerHTML = `
+                    <p class="text-lg font-medium mb-2">Question ${index + 1}: ${q.question}</p>
+                    <div class="space-y-2">
+                        ${q.options.map((option, i) => `
+                            <label class="flex items-center">
+                                <input type="radio" name="q${index}" value="${String.fromCharCode(65 + i)}" class="mr-2" ${answers[index] === String.fromCharCode(65 + i) ? 'checked' : ''}>
+                                ${String.fromCharCode(65 + i)}. ${option}
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Update answers on radio change
+            container.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const index = parseInt(e.target.name.slice(1));
+                    answers[index] = e.target.value;
+                });
+            });
+        }
+
+        // Submit Test
+        document.getElementById('submit-test').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/aptitude/submit_test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ answers })
+                });
+                const data = await response.json();
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                document.getElementById('quiz-section').classList.add('hidden');
+                document.getElementById('results-section').classList.remove('hidden');
+
+                document.getElementById('total-score').textContent = `Total Score: ${data.total_score}/25`;
+                const scoresDiv = document.getElementById('scores');
+                scoresDiv.innerHTML = '<h3 class="text-xl font-semibold mb-2">Scores by Category:</h3>';
+                for (const [category, score] of Object.entries(data.scores)) {
+                    scoresDiv.innerHTML += `<p>${category}: ${score}</p>`;
+                }
+
+                const incorrectDiv = document.getElementById('incorrect-questions');
+                incorrectDiv.innerHTML = data.incorrect_questions.length
+                    ? data.incorrect_questions.map(q => `
+                        <div class="mb-4 p-2 bg-red-50 rounded">
+                            <p><strong>Question:</strong> ${q.question}</p>
+                            <p><strong>Your Answer:</strong> ${q.user_answer}</p>
+                            <p><strong>Correct Answer:</strong> ${q.correct_answer}</p>
+                            <p><strong>Topic:</strong> ${q.topic}</p>
+                        </div>
+                    `).join('')
+                    : '<p>All answers were correct!</p>';
+
+                if (data.redirect) {
+                    setTimeout(() => window.location.href = data.redirect, 3000);
+                }
+            } catch (error) {
+                console.error('Error submitting test:', error);
+                alert('Failed to submit test. Please try again.');
+            }
+        });
+
+        // Retake Test
+        document.getElementById('retake-test').addEventListener('click', () => {
+            document.getElementById('results-section').classList.add('hidden');
+            document.getElementById('domain-selection').classList.remove('hidden');
+            questions = [];
+            answers = [];
+        });
+    </script>
+</body>
+</html>

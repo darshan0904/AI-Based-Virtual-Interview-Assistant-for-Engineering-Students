@@ -15,9 +15,8 @@
             min-height: 100vh;
         }
         .container {
-            max-width: 500px;
-            margin: 80px auto;
-            background: #ffffff;
+            max-width: 600px;
+            background: white;
             padding: 40px 30px;
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
@@ -28,25 +27,16 @@
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        h1 {
+        h2 {
             color: #333;
             margin-bottom: 20px;
-            font-size: 26px;
+            font-weight: 600;
+            font-size: 28px;
         }
         p {
             font-size: 18px;
             color: #444;
             margin-bottom: 20px;
-        }
-        .status-pass {
-            color: #155724;
-            font-weight: bold;
-            font-size: 20px;
-        }
-        .status-fail {
-            color: #721c24;
-            font-weight: bold;
-            font-size: 20px;
         }
         .flash {
             padding: 10px;
@@ -70,36 +60,27 @@
             background-color: #d1ecf1;
             color: #0c5460;
         }
-        a {
-            color: #2196F3;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
         .btn {
             display: inline-block;
-            padding: 12px 20px;
-            margin-top: 20px;
-            background-color: #2196F3;
-            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
             cursor: pointer;
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
             transition: background-color 0.3s, transform 0.2s;
         }
         .btn:hover {
-            background-color: #1976D2;
+            background-color: #45a049;
             transform: scale(1.03);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Test Results</h1>
+        <h2>Test Results</h2>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -107,15 +88,13 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <p>You scored {{ score }} out of {{ total }} questions.</p>
+        <p>Your Score: {{ score }} / {{ total }}</p>
         {% if passed %}
-            <p class="status-pass">Congratulations! You have passed!</p>
-            <a href="{{ url_for('next_phase') }}" class="btn">Proceed to Next Phase</a>
+            <p>Congratulations! You have passed the aptitude test.</p>
+            <a href="{{ url_for('interview_instructions') }}" class="btn">Proceed to Next Phase</a>
         {% else %}
-            <p class="status-fail">Sorry, you did not pass.</p>
-            <a href="{{ url_for('aptitude_test') }}" class="btn">Practice and Try Again</a>
+            <p>Sorry, you did not pass the aptitude test. Please practice and try again.</p>
         {% endif %}
-        <p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
     </div>
 </body>
 </html>

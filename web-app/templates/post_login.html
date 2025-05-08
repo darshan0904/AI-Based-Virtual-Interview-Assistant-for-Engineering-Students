@@ -3,72 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose Your Path - Smart Mock Interviews</title>
+    <title>Choose Your Path - IntervuAI</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Montserrat:wght@600;800&display=swap');
         body {
-            background-image: url('https://www.interview-expert.com/beta-old/uploads/blogs/1692166939__Tips%20For%20Ai%20Job%20Interviews%20(1).jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
             position: relative;
-            color: #ffffff;
+            transition: background 0.3s ease, color 0.3s ease;
         }
-        body::before {
-            content: '';
+        body.dark {
+            color: #ffffff;
+            background: #1f2a44;
+        }
+        body.light {
+            color: #333333;
+            background: #f5f5f5;
+        }
+        #background-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* Overlay for readability */
             z-index: -1;
+            transition: transform 0.1s ease;
+        }
+        body.dark #background-canvas {
+            background: linear-gradient(135deg, #1f2a44 0%, #2c3e50 100%);
+        }
+        body.light #background-canvas {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f5f5f5 100%);
+        }
+        #wave-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.2;
         }
         .navbar {
-            background-color: #1a252f;
             padding: 15px 30px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease;
+            border-bottom: 2px solid transparent;
+            animation: gradientShift 5s ease infinite;
+        }
+        body.dark .navbar {
+            background: rgba(31, 42, 68, 0.9);
+            background: linear-gradient(90deg, #00ddeb, #ff007a);
+            background-size: 200%;
+        }
+        body.light .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            background: linear-gradient(90deg, #80d8ff, #ff80b3);
+            background-size: 200%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         .navbar-logo {
             font-size: 24px;
-            font-weight: bold;
-            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(90deg, #00ddeb, #ff007a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .navbar-links {
             display: flex;
-            gap: 20px;
+            align-items: center;
         }
         .navbar-links a {
-            color: #ffffff;
             text-decoration: none;
+            margin-left: 25px;
             font-size: 16px;
-            transition: color 0.3s;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
-        .navbar-links a:hover {
-            color: #2196F3;
+        body.dark .navbar-links a {
+            color: #ffffff;
+        }
+        body.light .navbar-links a {
+            color: #333333;
+        }
+        body.dark .navbar-links a:hover {
+            color: #00ddeb;
+            transform: scale(1.1);
+        }
+        body.light .navbar-links a:hover {
+            color: #80d8ff;
+            transform: scale(1.1);
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: 15px;
+            transition: transform 0.3s ease;
+        }
+        body.dark .theme-toggle {
+            color: #ffffff;
+        }
+        body.light .theme-toggle {
+            color: #333333;
+        }
+        .theme-toggle:hover {
+            transform: rotate(360deg);
         }
         .main-content {
             text-align: center;
             padding: 80px 20px;
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             animation: fadeIn 1s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         .main-content h1 {
             font-size: 36px;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 40px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-family: 'Montserrat', sans-serif;
+        }
+        body.dark .main-content h1 {
+            background: linear-gradient(90deg, #ffffff, #00ddeb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(0, 221, 235, 0.7);
+        }
+        body.light .main-content h1 {
+            background: linear-gradient(90deg, #333333, #80d8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(128, 216, 255, 0.5);
         }
         .options-container {
             display: flex;
@@ -77,43 +158,117 @@
             flex-wrap: wrap;
         }
         .option-box {
-            background: rgba(255, 255, 255, 0.95);
             width: 300px;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border-radius: 15px;
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
             cursor: pointer;
             animation: fadeIn 1s ease;
             text-decoration: none;
-            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+        body.dark .option-box {
+            background: rgba(31, 42, 68, 0.95);
+            border: 3px solid transparent;
+            border-image: linear-gradient(90deg, #00ddeb, #ff007a) 1;
+        }
+        body.light .option-box {
+            background: #ffffff;
+            border: 3px solid transparent;
+            border-image: linear-gradient(90deg, #80d8ff, #ff80b3) 1;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         .option-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+            transform: translateY(-5px) scale(1.02);
+            animation: pulse 1.5s ease-in-out infinite;
         }
-        .option-box.resume-builder {
-            border-left: 5px solid #2196F3;
+        body.dark .option-box:hover {
+            box-shadow: 0 0 20px rgba(0, 221, 235, 0.7);
         }
-        .option-box.resume-builder:hover {
-            background: rgba(33, 150, 243, 0.1);
+        body.light .option-box:hover {
+            box-shadow: 0 0 15px rgba(128, 216, 255, 0.5);
         }
-        .option-box.interview-prep {
-            border-left: 5px solid #4CAF50;
+        .option-box.resume-builder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 221, 235, 0.2), transparent);
+            transition: 0.5s;
+            opacity: 0;
         }
-        .option-box.interview-prep:hover {
-            background: rgba(76, 175, 80, 0.1);
+        .option-box.resume-builder:hover::before {
+            opacity: 1;
+            left: 100%;
+        }
+        .option-box.interview-prep::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 122, 0.2), transparent);
+            transition: 0.5s;
+            opacity: 0;
+        }
+        .option-box.interview-prep:hover::before {
+            opacity: 1;
+            left: 100%;
+        }
+        .option-box.sparkle::after {
+            content: '✨';
+            position: absolute;
+            font-size: 20px;
+            top: -10px;
+            right: -10px;
+            animation: sparkle 1s ease-in-out infinite;
         }
         .option-box h2 {
             font-size: 24px;
             margin-bottom: 15px;
-            color: #333;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body.dark .option-box h2 {
+            color: #00ddeb;
+        }
+        body.light .option-box h2 {
+            color: #80d8ff;
         }
         .option-box p {
             font-size: 16px;
-            color: #555;
+            font-weight: 300;
             line-height: 1.6;
+        }
+        body.dark .option-box p {
+            color: #ffffff;
+            opacity: 0.8;
+        }
+        body.light .option-box p {
+            color: #333333;
+            opacity: 0.7;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
         @media (max-width: 768px) {
             .navbar {
@@ -123,6 +278,17 @@
             .navbar-links {
                 flex-direction: column;
                 align-items: center;
+            }
+            .navbar-links a {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            .theme-toggle {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            .main-content {
+                padding: 40px 15px;
             }
             .main-content h1 {
                 font-size: 28px;
@@ -138,27 +304,215 @@
         }
     </style>
 </head>
-<body>
+<body class="dark">
+    <canvas id="background-canvas"></canvas>
     <nav class="navbar">
-        <div class="navbar-logo">Smart Mock Interviews</div>
+        <div class="navbar-logo">IntervuAI</div>
         <div class="navbar-links">
             <a href="{{ url_for('home') }}">Home</a>
             <a href="{{ url_for('info') }}">Info</a>
             <a href="#">Contact</a>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
         </div>
     </nav>
     <section class="main-content">
+        <canvas id="wave-canvas"></canvas>
         <h1>Choose Your Path</h1>
         <div class="options-container">
-            <a href="{{ url_for('resume_builder') }}" class="option-box resume-builder">
+            <a href="{{ url_for('resume_builder') }}" class="option-box resume-builder sparkle">
                 <h2>Help Me Build My Resume</h2>
                 <p>Create a professional resume tailored to your career goals with our AI-powered resume builder.</p>
             </a>
-            <a href="{{ url_for('select_domain') }}" class="option-box interview-prep">
+            <a href="{{ url_for('select_domain') }}" class="option-box interview-prep sparkle">
                 <h2>Help Me Prepare for My Interview</h2>
                 <p>Practice realistic mock interviews with our AI chatbot, complete with instant feedback.</p>
             </a>
         </div>
     </section>
-</body>
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const isDark = body.classList.contains('dark');
+            body.classList.toggle('dark');
+            body.classList.toggle('light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+
+            // Update particle and wave colors based on the new theme
+            updateParticleColors();
+            updateWaveColors();
+            updateConfettiColors();
+        }
+
+        // Load theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.classList.add(savedTheme);
+        document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        // Particle background animation with parallax
+        const canvas = document.getElementById('background-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Parallax scrolling
+        let lastScrollY = 0;
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const delta = (scrollY - lastScrollY) * 0.1;
+            canvas.style.transform = `translateY(${scrollY * 0.3}px)`;
+            lastScrollY = scrollY;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() * 1 - 0.5) * 0.5;
+                this.speedY = (Math.random() * 1 - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            
+            draw() {
+                const isDark = document.body.classList.contains('dark');
+                ctx.fillStyle = isDark ? `rgba(0, 221, 235, ${this.opacity})` : `rgba(51, 51, 51, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particlesArray = [];
+        const particleCount = window.innerWidth < 768 ? 50 : 100;
+        for (let i = 0; i < particleCount; i++) {
+            particlesArray.push(new Particle());
+        }
+
+        function updateParticleColors() {
+            particlesArray.forEach(particle => particle.draw());
+        }
+
+        // Confetti particles for celebratory vibe
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = -10;
+                this.size = Math.random() * 5 + 2;
+                this.speedY = Math.random() * 3 + 2;
+                this.color = `hsl(${Math.random() * 360}, 100%, ${document.body.classList.contains('dark') ? '50%' : '70%'})`;
+                this.rotation = Math.random() * 360;
+                this.spin = Math.random() * 5 - 2.5;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.rotation += this.spin;
+                if (this.y > canvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * canvas.width;
+                    this.speedY = Math.random() * 3 + 2;
+                    this.color = `hsl(${Math.random() * 360}, 100%, ${document.body.classList.contains('dark') ? '50%' : '70%'})`;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        const confettiArray = [];
+        for (let i = 0; i < 50; i++) {
+            confettiArray.push(new Confetti());
+        }
+
+        function updateConfettiColors() {
+            confettiArray.forEach(confetti => {
+                confetti.color = `hsl(${Math.random() * 360}, 100%, ${document.body.classList.contains('dark') ? '50%' : '70%'})`;
+            });
+        }
+
+        // Wave animation for main section
+        const waveCanvas = document.getElementById('wave-canvas');
+        const waveCtx = waveCanvas.getContext('2d');
+        waveCanvas.width = window.innerWidth;
+        waveCanvas.height = document.querySelector('.main-content').offsetHeight;
+
+        window.addEventListener('resize', () => {
+            waveCanvas.width = window.innerWidth;
+            waveCanvas.height = document.querySelector('.main-content').offsetHeight;
+        });
+
+        let wavePhase = 0;
+        function drawWave() {
+            waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+            waveCtx.beginPath();
+            waveCtx.moveTo(0, waveCanvas.height / 2);
+            for (let x = 0; x < waveCanvas.width; x++) {
+                const y = Math.sin(x * 0.01 + wavePhase) * 50 + waveCanvas.height / 2;
+                waveCtx.lineTo(x, y);
+            }
+            const isDark = document.body.classList.contains('dark');
+            waveCtx.strokeStyle = isDark ? 'rgba(0, 221, 235, 0.5)' : 'rgba(128, 216, 255, 0.3)';
+            waveCtx.lineWidth = 2;
+            waveCtx.stroke();
+            wavePhase += 0.05;
+            requestAnimationFrame(drawWave);
+        }
+        drawWave();
+
+        function updateWaveColors() {
+            const isDark = document.body.classList.contains('dark');
+            waveCtx.strokeStyle = isDark ? 'rgba(0, 221, 235, 0.5)' : 'rgba(128, 216, 255, 0.3)';
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                for (let j = i + 1; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        const isDark = document.body.classList.contains('dark');
+                        ctx.strokeStyle = isDark ? `rgba(255, 0, 122, ${1 - distance / 100})` : `rgba(255, 128, 179, ${1 - distance / 100})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            for (let i = 0; i < confettiArray.length; i++) {
+                confettiArray[i].update();
+                confettiArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93b15888681f4589',t:'MTc0NjQ1OTcyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('script');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
