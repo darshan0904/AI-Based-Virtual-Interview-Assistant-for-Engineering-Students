@@ -1,0 +1,430 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Layout Utilities */
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.grid {
+    display: grid;
+}
+
+.gap-6 {
+    gap: 1.5rem;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.max-w-lg {
+    max-width: 32rem;
+}
+
+.mx-4 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.p-8 {
+    padding: 2rem;
+}
+
+.p-4 {
+    padding: 1rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.inset-0 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.left-0 {
+    left: 0;
+}
+
+.bottom-16 {
+    bottom: 4rem;
+}
+
+.right-4 {
+    right: 1rem;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.h-screen {
+    height: 100vh;
+}
+
+.w-32 {
+    width: 8rem;
+}
+
+.h-24 {
+    height: 6rem;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.text-white {
+    color: #fff;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.whitespace-normal {
+    white-space: normal;
+}
+
+.break-words {
+    word-wrap: break-word;
+}
+
+.bg-gray-800 {
+    background-color: #2d3748;
+}
+
+.bg-gray-900 {
+    background-color: #1a202c;
+}
+
+.bg-opacity-75 {
+    background-opacity: 0.75;
+}
+
+/* Form Elements */
+input, select {
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #6366f1;
+}
+
+.bg-transparent {
+    background: transparent;
+}
+
+/* Glassmorphism Effect */
+.glassmorphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Floating Label for Inputs */
+.floating-label {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    color: #6b7280;
+}
+
+input:focus + .floating-label,
+input:not(:placeholder-shown) + .floating-label {
+    top: 8px;
+    font-size: 12px;
+    transform: translateY(0);
+    color: #4b5563;
+}
+
+/* Fade In Slide Up Animation */
+.fade-in-slide-up {
+    animation: fadeInSlideUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Typewriter Effect for Transcript Bar */
+.typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 2s steps(40, end);
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+/* Floating Action Button (FAB) */
+.fab {
+    transition: all 0.3s ease;
+}
+
+.fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.bg-indigo-500 {
+    background-color: #6366f1;
+}
+
+.bg-indigo-600 {
+    background-color: #4f46e5;
+}
+
+.bg-green-500 {
+    background-color: #10b981;
+}
+
+/* Transition Gap Animation */
+.transition-gap {
+    animation: fadeOutIn 2s ease-in-out;
+}
+
+@keyframes fadeOutIn {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Form Page Animation: Subtle Wave */
+@keyframes subtleWave {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.form-bg {
+    background: linear-gradient(270deg, #c3b1e1, #e0c3fc, #c3b1e1, #e0c3fc);
+    background-size: 400% 400%;
+    animation: subtleWave 10s ease infinite;
+}
+
+/* Loading Page Animation: Pulsing Gradient */
+@keyframes pulseGradient {
+    0% { background-position: 0% 50%; opacity: 0.8; }
+    50% { background-position: 100% 50%; opacity: 1; }
+    100% { background-position: 0% 50%; opacity: 0.8; }
+}
+.loading-bg {
+    background: linear-gradient(270deg, #a1c4fd, #c2e9fb, #a1c4fd, #c2e9fb);
+    background-size: 400% 400%;
+    animation: pulseGradient 6s ease infinite;
+}
+
+/* Loading Spinner */
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.spinner {
+    width: 4rem;
+    height: 4rem;
+    border: 4px solid #6366f1;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    margin-top: 1rem;
+    color: #fff;
+    font-size: 1.125rem;
+}
+
+/* Interview Page Animation: Gradient Shift */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.interview-bg {
+    background: linear-gradient(270deg, #f3e7ff, #d3c7ff, #f3e7ff, #d3c7ff);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+}
+
+/* Transition Page Animation: Fade */
+@keyframes fade {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+.transition-bg {
+    background: linear-gradient(270deg, #4b5563, #6b7280, #4b5563, #6b7280);
+    animation: fade 4s ease infinite;
+}
+
+.transition-text {
+    color: #fff;
+    font-size: 1.125rem;
+}
+
+/* Thank You Page Animation: Sparkle */
+@keyframes sparkle {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.thankyou-bg {
+    background: linear-gradient(270deg, #86efac, #34d399, #86efac, #34d399);
+    background-size: 400% 400%;
+    animation: sparkle 8s ease infinite;
+}
+
+/* GIF Styling */
+#ai-animation {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    background: #000;
+}
+
+/* Upload Label Styling */
+.upload-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem;
+    background-color: #6366f1;
+    color: #fff;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-label:hover {
+    background-color: #4f46e5;
+}
+
+.upload-label svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+/* Start Interview Button */
+.start-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: #4f46e5;
+    color: #fff;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.start-btn:hover {
+    background-color: #4338ca;
+}
+
+/* Thank You Page Styling */
+.thank-you-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.thank-you-text {
+    color: #4b5563;
+}
+
+/* Button Bar for Interview Page */
+.button-bar {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.transcript-bar {
+    flex-grow: 1;
+    max-width: 50%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+    #webcam-feed {
+        width: 100px;
+        height: 75px;
+    }
+    .transcript-bar {
+        max-width: 40%;
+    }
+}
