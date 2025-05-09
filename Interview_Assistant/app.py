@@ -7,17 +7,22 @@ import re
 import PyPDF2
 import logging
 from werkzeug.utils import secure_filename
+import av
+import wave
+import io
+import numpy as np
+import tempfile
 
 app = Flask(__name__)
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 DATA_FOLDER = 'data'
 IMP_QUESTION_FOLDER = os.path.join('IMP', 'questions')
-os.makedirs(DATA_FOLDER, exist_ok=True)
-os.makedirs(IMP_QUESTION_FOLDER, exist_ok=True)
+os.makedirs(DATA_FOLDER, exist_ok=True, mode=0o755)
+os.makedirs(IMP_QUESTION_FOLDER, exist_ok=True, mode=0o755)
 
 ENGINEERING_FIELDS = [
     "Computer Engineering", "Mechanical Engineering", "Electrical Engineering",
@@ -348,7 +353,7 @@ ROLES = {
         "Capacity Analyst", "Shop Floor Controller", "Workflow Coordinator"
     ],
     "Data Analytics": [
-        "Industrial Data Analyst", "Operations BI Developer", "Process Mining Analyst",
+        "industrial Data Analyst", "Operations BI Developer", "Process Mining Analyst",
         "Predictive Maintenance Engineer", "Dashboard Developer", "Decision Support Analyst"
     ],
     "Cost Engineering": [
@@ -384,7 +389,130 @@ ROLES = {
         "Public Policy Advisor", "Sustainability Reporting Officer", "Environmental Law Associate"
     ]
 }
+
 sessions = {}
+
+def convert_webm_to_wav(webm_data, output_path):
+    """Convert WebM audio to WAV using pyav and wave."""
+    try:
+        # Create a temporary file for WebM data
+        with tempfile.NamedTemporaryFile(suffix='.webm', delete=False) as temp_webm:
+            temp_webm.write(webm_data)
+            temp_webm_path = temp_webm.name
+            logger.debug(f"Saved raw audio WebM to {temp_webm_path}, size: {os.path.getsize(temp_webm_path)} bytes")
+
+        # Open WebM with pyav
+        input_container = av.open(temp_webm_path)
+        audio_stream = next((s for s in input_container.streams if s.type == 'audio'), None)
+        if not audio_stream:
+            logger.error("No audio stream found in WebM")
+            input_container.close()
+            os.remove(temp_webm_path)
+            return False
+
+        # Prepare WAV file
+        with wave.open(output_path, 'wb') as wav_file:
+            wav_file.setnchannels(audio_stream.channels or 1)
+            wav_file.setsampwidth(2)  # 16-bit PCM
+            wav_file.setframerate(audio_stream.rate or 44100)
+
+            # Decode audio frames
+            for packet in input_container.demux(audio_stream):
+                for frame in packet.decode():
+                    if frame:
+                        samples = frame.to_ndarray()
+                        # Ensure mono by averaging channels if stereo
+                        if samples.shape[0] > 1:
+                            samples = np.mean(samples, axis=0, keepdims=True)
+                        # Convert to 16-bit PCM
+                        samples = (samples * 32767).astype(np.int16)
+                        wav_file.writeframes(samples.tobytes())
+
+        input_container.close()
+        os.remove(temp_webm_path)
+        if os.path.getsize(output_path) > 0:
+            logger.info(f"Converted WebM to WAV: {output_path} (size: {os.path.getsize(output_path)} bytes)")
+            return True
+        else:
+            logger.warning(f"Converted WAV file is empty: {output_path}")
+            return False
+    except Exception as e:
+        logger.error(f"Failed to convert WebM to WAV: {str(e)}")
+        if 'temp_webm_path' in locals():
+            os.remove(temp_webm_path)
+        return False
+
+def convert_webm_to_mp4(webm_data, output_path):
+    """Convert WebM video to MP4 using pyav."""
+    try:
+        # Create a temporary file for WebM data
+        with tempfile.NamedTemporaryFile(suffix='.webm', delete=False) as temp_webm:
+            temp_webm.write(webm_data)
+            temp_webm_path = temp_webm.name
+            logger.debug(f"Saved raw video WebM to {temp_webm_path}, size: {os.path.getsize(temp_webm_path)} bytes")
+
+        # Open input WebM
+        input_container = av.open(temp_webm_path)
+        input_video_stream = next((s for s in input_container.streams if s.type == 'video'), None)
+        input_audio_stream = next((s for s in input_container.streams if s.type == 'audio'), None)
+
+        if not input_video_stream:
+            logger.error("No video stream found in WebM")
+            input_container.close()
+            os.remove(temp_webm_path)
+            return False
+
+        # Open output MP4
+        output_container = av.open(output_path, mode='w', format='mp4')
+        output_video_stream = output_container.add_stream('h264', rate=30)
+        output_video_stream.width = input_video_stream.width or 640
+        output_video_stream.height = input_video_stream.height or 480
+        output_video_stream.bit_rate = 500000
+        output_video_stream.pix_fmt = 'yuv420p'
+
+        output_audio_stream = None
+        if input_audio_stream:
+            output_audio_stream = output_container.add_stream('aac', rate=input_audio_stream.rate or 44100)
+            output_audio_stream.channels = input_audio_stream.channels or 1
+
+        # Transcode video
+        for packet in input_container.demux(input_video_stream):
+            for frame in packet.decode():
+                if frame:
+                    new_frame = frame.reformat(format='yuv420p')
+                    for new_packet in output_video_stream.encode(new_frame):
+                        output_container.mux(new_packet)
+
+        # Transcode audio if present
+        if input_audio_stream and output_audio_stream:
+            for packet in input_container.demux(input_audio_stream):
+                for frame in packet.decode():
+                    if frame:
+                        for new_packet in output_audio_stream.encode(frame):
+                            output_container.mux(new_packet)
+
+        # Flush encoders
+        for new_packet in output_video_stream.encode(None):
+            output_container.mux(new_packet)
+        if output_audio_stream:
+            for new_packet in output_audio_stream.encode(None):
+                output_container.mux(new_packet)
+
+        output_container.close()
+        input_container.close()
+        os.remove(temp_webm_path)
+
+        if os.path.getsize(output_path) > 0:
+            logger.info(f"Converted WebM to MP4: {output_path} (size: {os.path.getsize(output_path)} bytes)")
+            return True
+        else:
+            logger.warning(f"Converted MP4 file is empty: {output_path}")
+            return False
+    except Exception as e:
+        logger.error(f"Failed to convert WebM to MP4: {str(e)}")
+        if 'temp_webm_path' in locals():
+            os.remove(temp_webm_path)
+        return False
 
 @app.route('/')
 def index():
@@ -434,13 +562,13 @@ def start_interview():
             logger.error("Missing required fields in start_interview")
             return jsonify({"error": "All fields are required"}), 400
 
-        sanitized_name = re.sub(r'[^a-zA-Z0-9]', '_', name)
+        sanitized_name = re.sub(r'[^a-zA-Z0-9]', '_', name).lower().strip('_')
         user_folder = os.path.join(DATA_FOLDER, sanitized_name)
-        os.makedirs(user_folder, exist_ok=True)
+        os.makedirs(user_folder, exist_ok=True, mode=0o755)
         user_audio_folder = os.path.join(user_folder, 'audio')
         user_video_folder = os.path.join(user_folder, 'video')
-        os.makedirs(user_audio_folder, exist_ok=True)
-        os.makedirs(user_video_folder, exist_ok=True)
+        os.makedirs(user_audio_folder, exist_ok=True, mode=0o755)
+        os.makedirs(user_video_folder, exist_ok=True, mode=0o755)
 
         resume_text = None
         resume_filename = None
@@ -536,7 +664,7 @@ def generate_questions(session_id):
         def fetch_questions(prompt, category, count):
             try:
                 response = requests.post(
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAmuIQwWcC08ztzAoWV_URZ37n8DxMdGUs",
+                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAfDkEvsoYOROQAdwxAQ1mjfcjQMA5HM-Q",
                     json={"contents": [{"parts": [{"text": prompt}]}]},
                     timeout=10
                 )
@@ -657,38 +785,32 @@ def record_response(session_id, question_idx):
         audio_folder = session_data['audio_folder']
         video_folder = session_data['video_folder']
 
-        audio_filename = f"{sanitized_username}_q{question_idx}_audio.wav"
-        video_filename = f"{sanitized_username}_q{question_idx}_video.mp4"
+        # Ensure directories exist
+        os.makedirs(audio_folder, exist_ok=True, mode=0o755)
+        os.makedirs(video_folder, exist_ok=True, mode=0o755)
+
+        audio_filename = f"{sanitized_username}_{question_idx}_audio.wav"
+        video_filename = f"{sanitized_username}_{question_idx}_video.mp4"
+        audio_path = os.path.join(audio_folder, audio_filename)
+        video_path = os.path.join(video_folder, video_filename)
 
         # Validate and save audio
-        if audio and audio.content_length > 0 and audio.mimetype.startswith('audio/'):
-            audio_path = os.path.join(audio_folder, audio_filename)
-            try:
-                audio.save(audio_path)
-                if os.path.exists(audio_path) and os.path.getsize(audio_path) > 0:
-                    logger.info(f"Saved audio for question {question_idx}: {audio_path} (size: {os.path.getsize(audio_path)} bytes)")
-                else:
-                    logger.warning(f"Audio file empty or not created: {audio_path}")
-                    audio_filename = None
-            except Exception as e:
-                logger.error(f"Failed to save audio for question {question_idx}: {str(e)}")
+        if audio and audio.content_length > 0 and audio.mimetype in ['audio/webm', 'audio/wav', 'application/octet-stream']:
+            logger.info(f"Received audio: size={audio.content_length}, mimetype={audio.mimetype}")
+            audio_data = audio.read()
+            if not convert_webm_to_wav(audio_data, audio_path):
+                logger.warning(f"Failed to convert audio for question {question_idx}")
                 audio_filename = None
         else:
             logger.warning(f"No valid audio provided for question {question_idx} (content_length: {audio.content_length if audio else 0}, mimetype: {audio.mimetype if audio else 'None'})")
             audio_filename = None
 
         # Validate and save video
-        if video and video.content_length > 0 and video.mimetype.startswith('video/'):
-            video_path = os.path.join(video_folder, video_filename)
-            try:
-                video.save(video_path)
-                if os.path.exists(video_path) and os.path.getsize(video_path) > 0:
-                    logger.info(f"Saved video for question {question_idx}: {video_path} (size: {os.path.getsize(video_path)} bytes)")
-                else:
-                    logger.warning(f"Video file empty or not created: {video_path}")
-                    video_filename = None
-            except Exception as e:
-                logger.error(f"Failed to save video for question {question_idx}: {str(e)}")
+        if video and video.content_length > 0 and video.mimetype in ['video/webm', 'video/mp4', 'application/octet-stream']:
+            logger.info(f"Received video: size={video.content_length}, mimetype={video.mimetype}")
+            video_data = video.read()
+            if not convert_webm_to_mp4(video_data, video_path):
+                logger.warning(f"Failed to convert video for question {question_idx}")
                 video_filename = None
         else:
             logger.warning(f"No valid video provided for question {question_idx} (content_length: {video.content_length if video else 0}, mimetype: {video.mimetype if video else 'None'})")
@@ -731,6 +853,33 @@ def record_response(session_id, question_idx):
         logger.error(f"Error in record_response for session {session_id}, question {question_idx}: {str(e)}")
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
 
+@app.route('/serve_media/<session_id>/<path:filename>')
+def serve_media(session_id, filename):
+    try:
+        if session_id not in sessions:
+            logger.error(f"Session {session_id} not found")
+            return jsonify({"error": "Session not found"}), 404
+
+        session_data = sessions[session_id]
+        if filename.endswith('.wav'):
+            file_path = os.path.join(session_data['audio_folder'], filename)
+            mimetype = 'audio/wav'
+        elif filename.endswith('.mp4'):
+            file_path = os.path.join(session_data['video_folder'], filename)
+            mimetype = 'video/mp4'
+        else:
+            logger.error(f"Invalid file extension: {filename}")
+            return jsonify({"error": "Invalid file extension"}), 400
+
+        if os.path.exists(file_path):
+            logger.info(f"Serving media file: {file_path}")
+            return send_file(file_path, mimetype=mimetype)
+        logger.error(f"Media file not found: {file_path}")
+        return jsonify({"error": "File not found"}), 404
+    except Exception as e:
+        logger.error(f"Error serving media file {filename}: {str(e)}")
+        return jsonify({"error": "Internal server error"}), 500
+
 def generate_ai_answer(session_id, question):
     try:
         session_data = sessions[session_id]
@@ -754,7 +903,7 @@ def generate_ai_answer(session_id, question):
         )
 
         response = requests.post(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCVyhDktWeeV7rvUxz1GBSKNQCPBTvK8uY",
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAfDkEvsoYOROQAdwxAQ1mjfcjQMA5HM-Q",
             json={"contents": [{"parts": [{"text": prompt}]}]},
             timeout=10
         )
@@ -799,5 +948,4 @@ def generate_ai_answer(session_id, question):
         return "Unable to generate AI answer due to an error."
 
 if __name__ == '__main__':
-    app.run(debug=True,port=9999)
-
+    app.run(debug=True, port=9999)
