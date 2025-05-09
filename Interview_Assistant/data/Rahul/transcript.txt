@@ -1,0 +1,110 @@
+Rahul
+
+Question 1: Rahul, tell me a little about yourself and your background.
+User Answer: myself Rahul I am I am currently engineering and I am little type forward for data science opportunity
+AI Answer: N/A
+Domain: Introduction
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 2: Can you describe your career journey so far and what's driven your choices?
+User Answer: and I have participated
+AI Answer: N/A
+Domain: Introduction
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 3: Rahul, describe a scenario where you had to deal with imbalanced classes in a classification problem and detail your approach to addressing the issue, including the specific techniques you employed and their rationale.
+User Answer: I have chat GPT and and crop crop to solve the issue for me and that help me thank you
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 4: Rahul, explain how you would approach building a predictive model using time series data, considering potential challenges like seasonality, trend, and stationarity, and which algorithms you might favor and why.
+User Answer: I would be using using the recurrent your network we as it is efficient in working with 10 series data
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 5: Rahul, let's say you're tasked with analyzing a large dataset with missing values and inconsistencies;  describe your strategy for data cleaning and imputation, considering different imputation techniques and their suitability under various circumstances.
+User Answer: to solve anything values or replacement with null
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 6: Rahul, explain your understanding of different dimensionality reduction techniques like PCA and t-SNE and discuss when you would choose one over the other, providing specific examples to illustrate your points.
+User Answer: generally used when you have I have to classify the different that's it about PCA
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 7: Describe a time you had to explain a complex technical issue to a non-technical stakeholder to achieve a team goal.
+User Answer: delete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your analytical approach when faced with incomplete or inconsistent data in a collaborative project.
+User Answer: incomplete data can leave to leave sir understanding in the building a model so I would read to minimise the incomplete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 9: Explain a situation where a technical disagreement arose within your team during a data analysis project, and how you helped to resolve it and reach a consensus.
+User Answer: it's a very wonderful platform to help feel with deal with
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 10: Describe a scenario where you identified a significant discrepancy between your data analysis and the conclusions drawn by another team, and how you resolved the conflict.
+User Answer: it was a very challenging star and I took it in a very salary in way and finally I was able to solve the issue
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Situational
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 11: Explain how you would approach identifying and mitigating the impact of skewed data distributions on a predictive model you are building for customer churn.
+User Answer: I would be using
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Situational
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 12: How would you handle a situation where your model's performance unexpectedly degrades after deploying it to production, and what steps would you take to diagnose and rectify the issue?
+User Answer: I try to reduce the size of the model without compromise
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Situational
+Audio File: None
+Video File: None
+
+================================================================================
+

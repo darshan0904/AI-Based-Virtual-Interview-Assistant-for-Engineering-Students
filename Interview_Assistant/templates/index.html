@@ -38,7 +38,7 @@
 
     <!-- Form Container -->
     <div id="form-container" class="container mx-auto px-4 py-8 flex items-center justify-center min-h-screen">
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-md fade-in">
+        <div class="bg-white dark:bg-gray-800 p-8 AscendantList p-8 rounded-2xl shadow-2xl w-full max-w-md fade-in">
             <h1 class="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-teal-500">AI Interview Assistant</h1>
             <form id="interview-form" class="space-y-6">
                 <div class="relative">
@@ -196,6 +196,10 @@
 
         showContainer('form-container', 'fade-in');
 
+        function isMimeTypeSupported(mimeType) {
+            return MediaRecorder.isTypeSupported(mimeType);
+        }
+
         function initWebcam() {
             navigator.mediaDevices.getUserMedia({
                 video: true,
@@ -208,13 +212,29 @@
                 }
             })
             .then(stream => {
+                const audioMimeType = 'audio/webm;codecs=opus';
+                const videoMimeType = 'video/webm';
+                if (!isMimeTypeSupported(audioMimeType)) {
+                    console.error(`MIME type ${audioMimeType} not supported`);
+                    alert("Your browser does not support the required audio format.");
+                    return;
+                }
+                if (!isMimeTypeSupported(videoMimeType)) {
+                    console.error(`MIME type ${videoMimeType} not supported`);
+                    alert("Your browser does not support the required video format.");
+                    return;
+                }
+
                 userVideo.srcObject = stream;
 
                 const audioStream = new MediaStream(stream.getAudioTracks());
                 mediaRecorderAudio = new MediaRecorder(audioStream, { 
-                    mimeType: 'audio/webm;codecs=opus',
+                    mimeType: audioMimeType,
                     audioBitsPerSecond: 128000
                 });
+                mediaRecorderAudio.onstart = () => {
+                    console.log(`Audio recording started for question ${currentQuestion + 1}, state: ${mediaRecorderAudio.state}`);
+                };
                 mediaRecorderAudio.ondataavailable = e => {
                     if (e.data.size > 0) {
                         if (!allAudioChunks[currentQuestion]) allAudioChunks[currentQuestion] = [];
@@ -223,14 +243,17 @@
                     }
                 };
                 mediaRecorderAudio.onstop = () => {
-                    console.log(`Audio recording stopped for question ${currentQuestion + 1}`);
+                    console.log(`Audio recording stopped for question ${currentQuestion + 1}, chunks: ${allAudioChunks[currentQuestion]?.length || 0}`);
                 };
 
                 const videoStream = new MediaStream(stream.getVideoTracks());
                 mediaRecorderVideo = new MediaRecorder(videoStream, { 
-                    mimeType: 'video/webm',
-                    videoBitsPerSecond: 2500000
+                    mimeType: videoMimeType,
+                    videoBitsPerSecond: 500000  // Reduced for testing
                 });
+                mediaRecorderVideo.onstart = () => {
+                    console.log(`Video recording started for question ${currentQuestion + 1}, state: ${mediaRecorderVideo.state}`);
+                };
                 mediaRecorderVideo.ondataavailable = e => {
                     if (e.data.size > 0) {
                         if (!allVideoChunks[currentQuestion]) allVideoChunks[currentQuestion] = [];
@@ -239,7 +262,7 @@
                     }
                 };
                 mediaRecorderVideo.onstop = () => {
-                    console.log(`Video recording stopped for question ${currentQuestion + 1}`);
+                    console.log(`Video recording stopped for question ${currentQuestion + 1}, chunks: ${allVideoChunks[currentQuestion]?.length || 0}`);
                 };
             })
             .catch(err => {
@@ -539,7 +562,7 @@
                 saveAllRecordings();
                 showContainer('thank-you-container', 'slide-in-left');
                 cleanup();
-                document.getElementById('eval-btn').href = `/evaluate/${sessionId}`;
+                document.getElementById('eval-btn').href = `http://127.0.0.1:9394/`;
                 return;
             }
 
@@ -567,7 +590,7 @@
                     saveAllRecordings();
                     showContainer('thank-you-container', 'slide-in-left');
                     cleanup();
-                    document.getElementById('eval-btn').href = `/evaluate/${sessionId}`;
+                    document.getElementById('eval-btn').href = `http://127.0.0.1:9394/`;
                     return;
                 }
 
@@ -696,22 +719,40 @@
                 transcriptContent += `================================================================================\n\n`;
 
                 const formData = new FormData();
+                let audioValid = false, videoValid = false;
+
                 if (allAudioChunks[currentQuestion] && allAudioChunks[currentQuestion].length > 0) {
                     const audioBlob = new Blob(allAudioChunks[currentQuestion], { type: 'audio/webm;codecs=opus' });
-                    formData.append('audio', audioBlob, audioFile);
-                    console.log(`Sending audio for question ${currentQuestion + 1}, size: ${audioBlob.size}`);
+                    if (audioBlob.size > 0) {
+                        formData.append('audio', audioBlob, audioFile);
+                        console.log(`Sending audio for question ${currentQuestion + 1}, size: ${audioBlob.size}`);
+                        audioValid = true;
+                    } else {
+                        console.warn(`Audio blob is empty for question ${currentQuestion + 1}`);
+                    }
                 } else {
                     console.warn(`No audio chunks for question ${currentQuestion + 1}`);
+                }
+                if (!audioValid) {
                     formData.append('audio', new Blob(), audioFile);
                 }
+
                 if (allVideoChunks[currentQuestion] && allVideoChunks[currentQuestion].length > 0) {
                     const videoBlob = new Blob(allVideoChunks[currentQuestion], { type: 'video/webm' });
-                    formData.append('video', videoBlob, videoFile);
-                    console.log(`Sending video for question ${currentQuestion + 1}, size: ${videoBlob.size}`);
+                    if (videoBlob.size > 0) {
+                        formData.append('video', videoBlob, videoFile);
+                        console.log(`Sending video for question ${currentQuestion + 1}, size: ${videoBlob.size}`);
+                        videoValid = true;
+                    } else {
+                        console.warn(`Video blob is empty for question ${currentQuestion + 1}`);
+                    }
                 } else {
                     console.warn(`No video chunks for question ${currentQuestion + 1}`);
+                }
+                if (!videoValid) {
                     formData.append('video', new Blob(), videoFile);
                 }
+
                 formData.append('transcript', capturedAnswer);
 
                 fetch(`/record_response/${sessionId}/${currentQuestion + 1}`, {
@@ -754,25 +795,27 @@
         function saveAllRecordings() {
             const saveRecording = (index) => {
                 if (index >= Math.min(questions.length, 15)) return Promise.resolve();
+                if (!allAudioChunks[index]?.length && !allVideoChunks[index]?.length) {
+                    console.log(`Skipping question ${index + 1}: No audio or video chunks`);
+                    return saveRecording(index + 1);
+                }
 
                 const formData = new FormData();
                 const audioFile = `${username}_q${index + 1}_audio.wav`;
                 const videoFile = `${username}_q${index + 1}_video.mp4`;
 
-                if (allAudioChunks[index] && allAudioChunks[index].length > 0) {
+                if (allAudioChunks[index]?.length > 0) {
                     const audioBlob = new Blob(allAudioChunks[index], { type: 'audio/webm;codecs=opus' });
                     formData.append('audio', audioBlob, audioFile);
                     console.log(`Saving audio for question ${index + 1}, size: ${audioBlob.size}`);
                 } else {
-                    console.warn(`No audio chunks for question ${index + 1}`);
                     formData.append('audio', new Blob(), audioFile);
                 }
-                if (allVideoChunks[index] && allVideoChunks[index].length > 0) {
+                if (allVideoChunks[index]?.length > 0) {
                     const videoBlob = new Blob(allVideoChunks[index], { type: 'video/webm' });
                     formData.append('video', videoBlob, videoFile);
                     console.log(`Saving video for question ${index + 1}, size: ${videoBlob.size}`);
                 } else {
-                    console.warn(`No video chunks for question ${index + 1}`);
                     formData.append('video', new Blob(), videoFile);
                 }
                 formData.append('transcript', transcriptContent);

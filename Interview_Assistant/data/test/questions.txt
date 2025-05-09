@@ -1,36 +1,36 @@
-Question 1: Tell me a little about yourself, test.
+Question 1: Tell me a little about yourself and your background, Test.
 Domain: Introduction
 
-Question 2: Could you describe your career journey so far, test?
+Question 2: What are some of your interests outside of work, Test?
 Domain: Introduction
 
-Question 3: test, describe your experience optimizing large-scale React applications for performance, specifically addressing techniques for minimizing bundle size and improving initial load times.
+Question 3: Test, describe a scenario where you had to handle missing data in a large, complex dataset, detailing your chosen imputation technique, its rationale, and the potential limitations you considered.
 Domain: Role-Specific
 
-Question 4: How would you approach debugging a complex, intermittent rendering issue in a single-page application built with Vue.js, leveraging browser developer tools and profiling techniques effectively?
+Question 4: Test, explain how you would approach building a predictive model for a highly imbalanced dataset, outlining specific techniques you'd employ for both model building and evaluation to mitigate the class imbalance problem.
 Domain: Role-Specific
 
-Question 5: Explain your understanding of different state management solutions (Redux, Vuex, MobX, Zustand) and the tradeoffs involved in choosing the optimal solution for a specific frontend architecture.
+Question 5: Test,  if presented with conflicting insights from different data sources, how would you systematically investigate the discrepancies, identify the root cause, and determine the most reliable data source for informed decision-making?
 Domain: Role-Specific
 
-Question 6: test, outline a strategy for implementing a robust, accessible, and performant infinite scrolling feature in a React application, considering considerations for data fetching, pagination, and user experience.
+Question 6: Test, articulate your experience with distributed computing frameworks like Spark or Hadoop; describe a complex data processing task you've tackled using these frameworks and the challenges you encountered in scaling and optimizing the process.
 Domain: Role-Specific
 
-Question 7: Describe a time you had to debug a complex frontend issue collaboratively, highlighting your role in the solution and how you handled disagreements within the team.
+Question 7: Describe a time you had to explain a complex technical issue to a non-technical stakeholder and how you ensured they understood.
 Domain: Behavioral
 
-Question 8: Tell me about a situation where you had to adapt your approach to a frontend project due to unexpected technical limitations or changing requirements, explaining the technical choices you made.
+Question 8: Tell me about a situation where a team project encountered a significant technical roadblock; how did you contribute to finding a solution and what was the outcome?
 Domain: Behavioral
 
-Question 9: Explain a time you had to explain a complex technical frontend concept to a non-technical team member, outlining the methods you used to ensure clear communication and understanding.
+Question 9: Describe a time your data analysis approach had to change due to unexpected data limitations or shifting project priorities; how did you adapt, and what did you learn from the experience?
 Domain: Behavioral
 
-Question 10: Describe your approach to optimizing a complex React application experiencing performance bottlenecks due to inefficient state management and numerous re-renders.
+Question 10: Describe a scenario where you had to identify and address a significant data quality issue impacting model performance, outlining your troubleshooting steps and ultimate solution.
 Domain: Situational
 
-Question 11: Explain how you would handle integrating a third-party library with a pre-existing component architecture that utilizes a different state management solution and styling framework.
+Question 11: Explain how you would approach building a robust data pipeline for a real-time streaming data application requiring low latency and high throughput, considering potential challenges like data drift and schema evolution.
 Domain: Situational
 
-Question 12: How would you design and implement a robust and accessible solution for handling dynamic content updates in a single-page application without requiring full page reloads or compromising user experience?
+Question 12: How would you design an experiment to evaluate the effectiveness of a new feature in a deployed machine learning model, accounting for potential confounding factors and ensuring statistically significant results while minimizing disruption to the live system?
 Domain: Situational
 

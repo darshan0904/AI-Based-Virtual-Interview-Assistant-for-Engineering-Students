@@ -1,0 +1,1538 @@
+Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Situational
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Situational
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Situational
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: N/A
+Domain: Introduction
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: N/A
+Domain: Introduction
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Situational
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Situational
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: 			Rakesh
+
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+User Answer: I am from mechanical engineering department I found it very interesting to be in this world
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q1_audio.wav
+Video File: Rakesh_q1_video.mp4
+
+================================================================================
+
+Question 2: What are some of your interests and passions outside of work?
+User Answer: listening to music singing song and other various
+AI Answer: N/A
+Domain: Introduction
+Audio File: Rakesh_q2_audio.wav
+Video File: Rakesh_q2_video.mp4
+
+================================================================================
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+User Answer: engineering
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q3_audio.wav
+Video File: Rakesh_q3_video.mp4
+
+================================================================================
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+User Answer: yes it was a very undress and wonderful innovation
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q4_audio.wav
+Video File: Rakesh_q4_video.mp4
+
+================================================================================
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+User Answer: I would use the very complete
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Resume-Based
+Audio File: Rakesh_q5_audio.wav
+Video File: Rakesh_q5_video.mp4
+
+================================================================================
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+User Answer: yes it was a very interesting application that was I am glad that you have ask this question and I am very happy to answer you it was a wondering wonderful application thank you for your
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q6_audio.wav
+Video File: Rakesh_q6_video.mp4
+
+================================================================================
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+User Answer: yes it is my team and I was happy to work with my team it was very exciting and thrilling experience for me and my team as well
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q7_audio.wav
+Video File: Rakesh_q7_video.mp4
+
+================================================================================
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+User Answer: the right height of the person and so on problem was Salt
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q8_audio.wav
+Video File: Rakesh_q8_video.mp4
+
+================================================================================
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+User Answer: happy to solve it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: Rakesh_q9_audio.wav
+Video File: Rakesh_q9_video.mp4
+
+================================================================================
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+User Answer: testing platform the vehicle was it top speed and around 300 km per hour and we had to stop it by around
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q10_audio.wav
+Video File: Rakesh_q10_video.mp4
+
+================================================================================
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+User Answer: yes it was wonderful application I was very happy to work with that thank you for your time
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q11_audio.wav
+Video File: Rakesh_q11_video.mp4
+
+================================================================================
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+User Answer: it was a very very implication to build and I was very happy and now I am starting again so attend interview
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Behavioral
+Audio File: Rakesh_q12_audio.wav
+Video File: Rakesh_q12_video.mp4
+
+================================================================================
+
+
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Situational
+Audio File: None
+Video File: None
+
+================================================================================
+

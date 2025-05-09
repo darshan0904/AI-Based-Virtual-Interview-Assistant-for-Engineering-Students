@@ -35,6 +35,42 @@ DOMAINS = {
         "Automotive Engineering", "Robotics", "Manufacturing", "HVAC", "Design & CAD",
         "Aerospace Systems", "Material Science", "Energy Systems"
     ],
+    "Electrical Engineering": [
+        "Power Systems", "Control Systems", "Electronics Design", "Embedded Systems",
+        "Telecommunications", "Lighting & Power", "Automation", "Renewable Energy"
+    ],
+    "Civil Engineering": [
+        "Structural Engineering", "Construction Management", "Geotechnical Engineering",
+        "Transportation Engineering", "Water Resources", "Environmental Engineering",
+        "Urban Planning", "Surveying"
+    ],
+    "Electronics & Communication Engineering": [
+        "VLSI Design", "Embedded Systems", "Telecommunications", "Signal Processing",
+        "Consumer Electronics", "Instrumentation", "Automation & Robotics", "Optoelectronics"
+    ],
+    "Chemical Engineering": [
+        "Process Engineering", "Pharmaceuticals", "Petrochemicals", "Environmental",
+        "Food & Beverage", "Polymers & Plastics", "Fertilizers & Agrochemicals",
+        "Energy & Fuel Cells"
+    ],
+    "Biomedical Engineering": [
+        "Medical Devices", "Biomechanics", "Medical Imaging", "Clinical Engineering",
+        "Bioinformatics", "Tissue Engineering", "Neuroengineering", "Rehabilitation Engineering"
+    ],
+    "Aerospace Engineering": [
+        "Aerodynamics", "Propulsion", "Structures", "Avionics", "Space Systems",
+        "Flight Testing", "Manufacturing", "Defense Systems"
+    ],
+    "Industrial Engineering": [
+        "Operations Research", "Quality Engineering", "Supply Chain Management",
+        "Manufacturing Systems", "Human Factors", "Production Planning", "Data Analytics",
+        "Cost Engineering"
+    ],
+    "Environmental Engineering": [
+        "Water Treatment", "Air Pollution Control", "Waste Management", "Sustainability",
+        "Environmental Impact Assessment", "Climate Change", "Renewable Energy",
+        "Regulations & Policy"
+    ]
 }
 
 ROLES = {
@@ -46,8 +82,308 @@ ROLES = {
         "Data Analyst", "Data Scientist", "Machine Learning Engineer",
         "AI Researcher", "NLP Engineer", "Deep Learning Engineer"
     ],
+    "Cybersecurity": [
+        "Security Analyst", "Penetration Tester", "Security Engineer",
+        "SOC Analyst", "Cybersecurity Consultant", "Threat Hunter"
+    ],
+    "UI/UX Design": [
+        "UX Designer", "UI Designer", "Product Designer", "Interaction Designer",
+        "UX Researcher", "Design Systems Engineer"
+    ],
+    "Cloud & Infrastructure": [
+        "Cloud Engineer", "Solutions Architect", "Site Reliability Engineer",
+        "Cloud Consultant", "Platform Engineer", "Infrastructure Engineer"
+    ],
+    "Blockchain & Web3": [
+        "Smart Contract Developer", "Blockchain Engineer", "Crypto Analyst",
+        "DeFi Developer", "Security Auditor", "Tokenomics Consultant"
+    ],
+    "Embedded Systems": [
+        "Embedded Software Engineer", "Firmware Developer", "IoT Developer",
+        "RTOS Specialist", "Systems Integrator", "Board Support Engineer",
+        "Embedded C Developer", "RTOS Engineer", "Microcontroller Programmer",
+        "Board Design Engineer", "Testing Engineer", "Firmware Engineer",
+        "Embedded Developer", "Microcontroller Programmer", "RTOS Developer",
+        "System on Chip (SoC) Engineer"
+    ],
+    "Game Development": [
+        "Game Developer", "Gameplay Programmer", "Game Designer",
+        "Graphics Programmer", "Level Designer", "Game Tester"
+    ],
+    "Automotive Engineering": [
+        "Vehicle Dynamics Engineer", "Powertrain Engineer", "CAE Analyst",
+        "NVH Engineer", "Design Engineer", "Test Engineer"
+    ],
+    "Robotics": [
+        "Robotics Engineer", "Automation Engineer", "Controls Engineer",
+        "Mechatronics Engineer", "System Integrator", "Simulation Engineer"
+    ],
+    "Manufacturing": [
+        "Production Engineer", "Process Engineer", "Manufacturing Engineer",
+        "Tool Designer", "CNC Programmer", "Quality Inspector",
+        "Aerospace Manufacturing Engineer", "Tooling Engineer", "Production Planner",
+        "Assembly Technician", "Composite Fabricator", "Quality Assurance Engineer"
+    ],
+    "HVAC": [
+        "HVAC Engineer", "Thermal Analyst", "Refrigeration Engineer",
+        "Energy Auditor", "Building Systems Engineer", "HVAC Designer"
+    ],
+    "Design & CAD": [
+        "CAD Engineer", "Design Engineer", "Product Designer",
+        "Mechanical Drafter", "Simulation Engineer", "PLM Specialist"
+    ],
+    "Aerospace Systems": [
+        "Flight Systems Engineer", "Propulsion Engineer", "Stress Analyst",
+        "CFD Engineer", "Avionics Integrator", "Aircraft Design Engineer"
+    ],
+    "Material Science": [
+        "Materials Engineer", "Metallurgist", "Composite Engineer",
+        "Failure Analyst", "Testing Technician", "Ceramics Specialist"
+    ],
+    "Energy Systems": [
+        "Thermal Engineer", "Power Plant Engineer", "Renewable Energy Engineer",
+        "Turbomachinery Specialist", "Energy Analyst", "Thermodynamics Specialist"
+    ],
+    "Power Systems": [
+        "Power Systems Engineer", "Substation Designer", "Transmission Engineer",
+        "Grid Analyst", "Load Flow Analyst", "Protection Engineer"
+    ],
+    "Control Systems": [
+        "Control Engineer", "Automation Engineer", "Process Control Engineer",
+        "PLC Programmer", "SCADA Developer", "HMI Developer"
+    ],
+    "Electronics Design": [
+        "PCB Designer", "Circuit Design Engineer", "Analog Engineer",
+        "Signal Integrity Engineer", "Component Engineer", "Test Engineer"
+    ],
+    "Telecommunications": [
+        "Network Engineer", "RF Engineer", "Telecom Engineer",
+        "Signal Processing Engineer", "5G Researcher", "Wireless Communications Analyst",
+        "Network Designer", "5G Engineer", "Protocol Developer", "Switching Systems Analyst"
+    ],
+    "Lighting & Power": [
+        "Lighting Designer", "Electrical Designer", "Building Services Engineer",
+        "Energy Efficiency Consultant", "Compliance Officer", "Load Analyst"
+    ],
+    "Automation": [
+        "Industrial Automation Engineer", "Drives Engineer", "Instrumentation Engineer",
+        "Panel Designer", "Field Service Engineer", "Factory Systems Specialist"
+    ],
+    "Renewable Energy": [
+        "Solar Design Engineer", "Wind Turbine Technician", "Energy Auditor",
+        "Grid Integration Specialist", "Sustainability Consultant", "Battery Systems Engineer",
+        "Solar Project Developer", "Wind Energy Planner", "Hydropower Engineer",
+        "Geothermal Systems Analyst", "Bioenergy Specialist"
+    ],
+    "Structural Engineering": [
+        "Structural Engineer", "Bridge Designer", "Seismic Analyst",
+        "Steel Designer", "Concrete Specialist", "Draftsman"
+    ],
+    "Construction Management": [
+        "Project Manager", "Site Engineer", "Planning Engineer",
+        "Quantity Surveyor", "Construction Scheduler", "Procurement Manager"
+    ],
+    "Geotechnical Engineering": [
+        "Geotechnical Engineer", "Soil Analyst", "Foundation Designer",
+        "Slope Stability Analyst", "Drilling Supervisor", "Geo-Structural Engineer"
+    ],
+    "Transportation Engineering": [
+        "Traffic Analyst", "Highway Engineer", "Railway Engineer",
+        "Urban Planner", "Pavement Designer", "Transport Policy Analyst"
+    ],
+    "Water Resources": [
+        "Hydraulic Engineer", "Irrigation Engineer", "Stormwater Manager",
+        "Hydrologist", "Canal Designer", "Dam Safety Specialist"
+    ],
+    "Environmental Engineering": [
+        "Wastewater Engineer", "Water Treatment Specialist", "Air Quality Analyst",
+        "Solid Waste Manager", "Sustainability Analyst", "Climate Engineer"
+    ],
+    "Urban Planning": [
+        "Urban Designer", "Zoning Analyst", "GIS Specialist",
+        "Land Use Planner", "City Infrastructure Consultant", "Smart City Planner"
+    ],
+    "Surveying": [
+        "Surveyor", "GIS Technician", "Mapping Analyst",
+        "Remote Sensing Specialist", "Drone Survey Specialist", "Topographer"
+    ],
+    "VLSI Design": [
+        "VLSI Engineer", "ASIC Designer", "FPGA Engineer",
+        "RTL Designer", "Physical Design Engineer", "Verification Engineer"
+    ],
+    "Signal Processing": [
+        "DSP Engineer", "Audio Signal Processor", "Image Processing Specialist",
+        "Speech Processing Engineer", "RF Signal Analyst", "Waveform Developer"
+    ],
+    "Consumer Electronics": [
+        "Product Developer", "Testing Engineer", "Hardware Engineer",
+        "Quality Analyst", "Repair Specialist", "Field Support Engineer"
+    ],
+    "Instrumentation": [
+        "Instrumentation Engineer", "Measurement Analyst", "Sensor Integration Engineer",
+        "Calibration Engineer", "Control Systems Engineer", "Test Bench Developer"
+    ],
+    "Automation & Robotics": [
+        "Robotics Developer", "PLC Programmer", "Embedded Roboticist",
+        "Electronics Systems Integrator", "Mechatronics Developer", "System Designer"
+    ],
+    "Optoelectronics": [
+        "Optical Engineer", "Laser Systems Engineer", "Photonics Specialist",
+        "Fiber Optics Engineer", "Electro-Optics Technician", "Lidar Systems Engineer"
+    ],
+    "Process Engineering": [
+        "Process Engineer", "Chemical Plant Operator", "Simulation Analyst",
+        "Production Planner", "Plant Design Engineer", "Scale-up Engineer"
+    ],
+    "Pharmaceuticals": [
+        "Formulation Chemist", "Quality Control Analyst", "Regulatory Affairs Specialist",
+        "R&D Scientist", "Manufacturing Chemist", "Validation Engineer"
+    ],
+    "Petrochemicals": [
+        "Petroleum Engineer", "Refinery Operator", "Pipeline Engineer",
+        "Oil & Gas Analyst", "Downstream Process Engineer", "Reservoir Engineer"
+    ],
+    "Environmental": [
+        "Waste Treatment Engineer", "Air Emissions Analyst", "Green Chemistry Researcher",
+        "Compliance Officer", "Sustainability Engineer", "Hazardous Waste Specialist"
+    ],
+    "Food & Beverage": [
+        "Food Process Engineer", "Quality Assurance Manager", "Production Manager",
+        "Food Technologist", "Packaging Engineer", "Hygiene Specialist"
+    ],
+    "Polymers & Plastics": [
+        "Polymer Engineer", "Plastic Processing Technician", "Material Scientist",
+        "Injection Molding Engineer", "Extrusion Operator", "Composite Materials Engineer"
+    ],
+    "Fertilizers & Agrochemicals": [
+        "Agrochemical Developer", "Process Chemist", "Fertilizer Plant Operator",
+        "Soil Scientist", "Agronomist", "Field Application Engineer"
+    ],
+    "Energy & Fuel Cells": [
+        "Fuel Cell Engineer", "Battery Chemist", "Electrochemical Engineer",
+        "Energy Storage Specialist", "Hydrogen Systems Analyst", "Energy Systems Modeler"
+    ],
+    "Medical Devices": [
+        "Device Design Engineer", "Validation Specialist", "Biomedical Technician",
+        "Testing Engineer", "Clinical Engineer", "Regulatory Engineer"
+    ],
+    "Biomechanics": [
+        "Biomechanical Engineer", "Gait Analyst", "Orthopedic Design Engineer",
+        "Rehabilitation Engineer", "Ergonomics Specialist", "Motion Capture Analyst"
+    ],
+    "Medical Imaging": [
+        "MRI Specialist", "CT Imaging Technician", "Ultrasound Engineer",
+        "Radiology Technologist", "Imaging Software Developer", "Biomedical Signal Analyst"
+    ],
+    "Clinical Engineering": [
+        "Clinical Equipment Specialist", "Maintenance Engineer", "Clinical Trials Analyst",
+        "Hospital Systems Engineer", "Medical Equipment Planner", "Service Engineer"
+    ],
+    "Bioinformatics": [
+        "Genomics Analyst", "Biomedical Data Scientist", "Biostatistician",
+        "Molecular Modeler", "Database Curator", "Computational Biologist"
+    ],
+    "Tissue Engineering": [
+        "Biomaterials Scientist", "Tissue Engineer", "Stem Cell Researcher",
+        "Regenerative Medicine Specialist", "Biomedical Research Associate", "Histology Analyst"
+    ],
+    "Neuroengineering": [
+        "Neural Interface Engineer", "EEG Specialist", "BCI Developer",
+        "Neuroprosthetics Developer", "Brain Imaging Analyst", "Neurosignal Analyst"
+    ],
+    "Rehabilitation Engineering": [
+        "Assistive Tech Developer", "Prosthetics Engineer", "Rehab Equipment Designer",
+        "Mobility Solutions Specialist", "Accessibility Engineer", "Therapy Tech Innovator"
+    ],
+    "Aerodynamics": [
+        "CFD Analyst", "Wind Tunnel Specialist", "Flight Dynamics Engineer",
+        "Aircraft Performance Analyst", "Airflow Simulation Expert", "Aero Design Engineer"
+    ],
+    "Propulsion": [
+        "Jet Engine Designer", "Rocket Propulsion Engineer", "Combustion Analyst",
+        "Turbine Engineer", "Propellant Researcher", "Engine Systems Engineer"
+    ],
+    "Structures": [
+        "Aircraft Structures Analyst", "Stress Engineer", "Fatigue Analyst",
+        "Composite Materials Expert", "Crashworthiness Engineer", "Vibration Analyst"
+    ],
+    "Avionics": [
+        "Avionics Systems Engineer", "Navigation Systems Developer", "Flight Control Software Developer",
+        "Communication Systems Analyst", "Cockpit Interface Designer", "Radar Engineer"
+    ],
+    "Space Systems": [
+        "Satellite Engineer", "Orbital Analyst", "Launch Systems Designer",
+        "Spacecraft Systems Engineer", "Payload Integrator", "Ground Station Engineer"
+    ],
+    "Flight Testing": [
+        "Flight Test Engineer", "Instrumentation Engineer", "Telemetry Analyst",
+        "Flight Data Processor", "Pilot Support Engineer", "Airworthiness Analyst"
+    ],
+    "Defense Systems": [
+        "Weapons Systems Engineer", "Missile Design Engineer", "Guidance Systems Analyst",
+        "Radar Systems Engineer", "Surveillance Systems Developer", "Defense Integration Specialist"
+    ],
+    "Operations Research": [
+        "Operations Analyst", "Optimization Specialist", "Logistics Modeler",
+        "Supply Chain Analyst", "Simulation Engineer", "Systems Analyst"
+    ],
+    "Quality Engineering": [
+        "Quality Engineer", "Six Sigma Specialist", "QA/QC Inspector",
+        "Process Auditor", "Lean Manufacturing Consultant", "Standards Compliance Analyst"
+    ],
+    "Supply Chain Management": [
+        "Supply Chain Planner", "Procurement Officer", "Inventory Manager",
+        "Logistics Coordinator", "Vendor Manager", "Freight Analyst"
+    ],
+    "Manufacturing Systems": [
+        "Plant Layout Designer", "Process Engineer", "Factory Automation Expert",
+        "Industrial Systems Engineer", "Assembly Line Planner", "Maintenance Planner"
+    ],
+    "Human Factors": [
+        "Ergonomics Analyst", "User Experience Engineer", "Workplace Safety Specialist",
+        "Cognitive Systems Analyst", "Human-Machine Interface Designer", "Task Analyst"
+    ],
+    "Production Planning": [
+        "Production Planner", "Operations Scheduler", "Material Requirement Planner",
+        "Capacity Analyst", "Shop Floor Controller", "Workflow Coordinator"
+    ],
+    "Data Analytics": [
+        "Industrial Data Analyst", "Operations BI Developer", "Process Mining Analyst",
+        "Predictive Maintenance Engineer", "Dashboard Developer", "Decision Support Analyst"
+    ],
+    "Cost Engineering": [
+        "Cost Estimator", "Budget Analyst", "Value Engineer",
+        "Cost Controller", "Bid Analyst", "Profitability Analyst"
+    ],
+    "Water Treatment": [
+        "Water Treatment Engineer", "Hydrologist", "Filtration Specialist",
+        "Water Quality Analyst", "Desalination Expert", "Process Design Engineer"
+    ],
+    "Air Pollution Control": [
+        "Air Quality Engineer", "Emissions Analyst", "Stack Testing Technician",
+        "Carbon Capture Researcher", "Atmospheric Modeler", "Environmental Compliance Officer"
+    ],
+    "Waste Management": [
+        "Solid Waste Engineer", "Recycling Specialist", "Landfill Engineer",
+        "Hazardous Waste Manager", "Composting Facility Planner", "E-Waste Specialist"
+    ],
+    "Sustainability": [
+        "Sustainability Consultant", "Carbon Footprint Analyst", "Green Building Advisor",
+        "Environmental Strategist", "Sustainable Energy Planner", "ESG Analyst"
+    ],
+    "Environmental Impact Assessment": [
+        "EIA Consultant", "Biodiversity Analyst", "Ecological Surveyor",
+        "Impact Modeler", "Compliance Reporter", "Remediation Planner"
+    ],
+    "Climate Change": [
+        "Climate Data Analyst", "Carbon Credit Consultant", "Resilience Planner",
+        "Adaptation Specialist", "Global Climate Modeler", "Mitigation Strategist"
+    ],
+    "Regulations & Policy": [
+        "Environmental Policy Analyst", "Regulatory Affairs Specialist", "Compliance Auditor",
+        "Public Policy Advisor", "Sustainability Reporting Officer", "Environmental Law Associate"
+    ]
 }
-
 sessions = {}
 
 @app.route('/')
@@ -200,7 +536,7 @@ def generate_questions(session_id):
         def fetch_questions(prompt, category, count):
             try:
                 response = requests.post(
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyC0zJMleqDypa9VGFvjlpIT_WOsNMj29rE",
+                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAmuIQwWcC08ztzAoWV_URZ37n8DxMdGUs",
                     json={"contents": [{"parts": [{"text": prompt}]}]},
                     timeout=10
                 )

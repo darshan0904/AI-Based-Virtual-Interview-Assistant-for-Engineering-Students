@@ -1,0 +1,36 @@
+Question 1: Rakesh, could you tell me a little about yourself and your background?
+Domain: Introduction
+
+Question 2: What are some of your interests and passions outside of work?
+Domain: Introduction
+
+Question 3: Rakesh, describe your experience using co-simulation techniques to integrate vehicle dynamics models with powertrain and control system models, and how you addressed any challenges encountered in ensuring model fidelity and computational efficiency.
+Domain: Role-Specific
+
+Question 4: Rakesh, explain how you would approach the design and validation of a novel suspension system for improved vehicle handling in extreme low-friction conditions, detailing your choice of analytical and experimental methodologies.
+Domain: Role-Specific
+
+Question 5: Rakesh, considering the complexities of tire-road interaction, how would you design a robust control strategy to mitigate the effects of transient yaw moments and ensure vehicle stability during aggressive maneuvers, and how would you verify its performance using advanced testing techniques?
+Domain: Role-Specific
+
+Question 6: Rakesh,  explain your understanding of the limitations of linear tire models and describe a scenario where a non-linear tire model is crucial for accurate prediction of vehicle dynamics behavior, detailing the specific non-linear effects you would account for and the modelling approach you would adopt.
+Domain: Role-Specific
+
+Question 7: Describe a time you had to collaborate with a diverse team to solve a complex vehicle dynamics problem, and what your specific contribution was.
+Domain: Behavioral
+
+Question 8: Tell me about a time you had to adapt your approach to a vehicle dynamics simulation when unexpected results occurred, and how you resolved the discrepancy.
+Domain: Behavioral
+
+Question 9: Explain a situation where you had to troubleshoot a challenging vehicle handling issue, and detail how you systematically identified and solved the root cause.
+Domain: Behavioral
+
+Question 10: Describe how you would approach investigating and resolving a significant oversteer issue discovered during high-speed testing of a new vehicle platform.
+Domain: Situational
+
+Question 11: Explain your understanding of the trade-offs involved in designing a suspension system for both optimal handling performance and passenger comfort on a crossover SUV.
+Domain: Situational
+
+Question 12: How would you utilize simulation tools to predict and mitigate the potential for rollover in a vehicle design, considering different load cases and road conditions?
+Domain: Situational
+
