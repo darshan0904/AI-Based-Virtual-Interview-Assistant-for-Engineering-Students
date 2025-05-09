@@ -6,336 +6,13 @@
     <title>Aptitude Test</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
       rel="stylesheet"
     />
-    <style>
-      /* General Styling */
-      body {
-        font-family: 'Inter', sans-serif;
-        background: #111827; /* Dark background for contrast */
-        color: #1F2937; /* Gray-900 for primary text */
-        transition: all 0.3s ease;
-      }
-
-      /* Glassmorphism Effect for Cards */
-      #domain-selection,
-      #quiz-screen > div,
-      #result-screen {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      }
-
-      /* Domain Selection Screen */
-      #domain-selection {
-        padding: 2.5rem;
-        border-radius: 1.5rem;
-        max-width: 28rem;
-        width: 100%;
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      #domain-selection:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-      }
-
-      #domain-selection p {
-        font-size: 1.125rem;
-        color: #6B7280; /* Gray-600 */
-      }
-
-      #domain-selection h1 {
-        font-size: 2.25rem;
-        font-weight: 800;
-        color: #1F2937;
-      }
-
-      #domain-selection img {
-        transition: transform 0.3s ease;
-      }
-
-      #domain-selection img:hover {
-        transform: scale(1.1);
-      }
-
-      #domain-selection select {
-        padding: 0.75rem 2.5rem 0.75rem 2.5rem;
-        font-size: 1rem;
-        border-color: #D1D5DB; /* Gray-300 */
-        background: #F9FAFB; /* Gray-50 */
-        color: #1F2937;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      #domain-selection select:focus {
-        border-color: #4F46E5; /* Indigo-600 */
-        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
-      }
-
-      #domain-selection svg {
-        transition: transform 0.3s ease;
-      }
-
-      #domain-selection select:focus + svg {
-        transform: rotate(180deg);
-      }
-
-      #domain-selection button {
-        font-size: 1.125rem;
-        font-weight: 600;
-        padding: 0.875rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      #domain-selection button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
-      }
-
-      /* Loading Screen */
-      #loading-screen {
-        background: transparent;
-        color: #FFFFFF;
-      }
-
-      #loading-screen .loading-quote {
-        font-size: 2rem;
-        font-weight: 600;
-        text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-        animation: glow 2s ease-in-out infinite alternate;
-        padding: 1.5rem;
-        border-radius: 1rem;
-        max-width: 90%;
-      }
-
-      @keyframes glow {
-        from {
-          text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
-        }
-        to {
-          text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.4);
-        }
-      }
-
-      /* Spinning Loader Animation */
-      #loading-bg-canvas {
-        opacity: 0.8;
-      }
-
-      /* Quiz Screen */
-      #quiz-screen > div {
-        padding: 2rem;
-        border-radius: 1.5rem;
-        max-width: 48rem;
-        width: 100%;
-      }
-
-      #quiz-screen h1 {
-        font-size: 2.25rem;
-        font-weight: 800;
-        color: #1F2937;
-      }
-
-      #progress,
-      #timer {
-        font-size: 1.125rem;
-        font-weight: 600;
-        padding: 0.5rem 1.5rem;
-        transition: transform 0.3s ease;
-      }
-
-      #progress:hover,
-      #timer:hover {
-        transform: scale(1.05);
-      }
-
-      #timer {
-        animation: pulse 2s infinite;
-      }
-
-      @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
-      }
-
-      .question-card {
-        padding: 1.5rem;
-        border-radius: 1rem;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .question-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      }
-
-      .question-card label {
-        font-size: 1.125rem;
-        font-weight: 600;
-        color: #1F2937;
-      }
-
-      .option-box {
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        border: 1px solid #D1D5DB; /* Gray-300 */
-        background: #F9FAFB; /* Gray-50 */
-        transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-      }
-
-      .option-box:hover {
-        background: #E0E7FF; /* Indigo-100 */
-        border-color: #4F46E5; /* Indigo-600 */
-        transform: translateX(5px);
-      }
-
-      .option-box.bg-indigo-200 {
-        background: #C7D2FE; /* Indigo-200 */
-        border-color: #4F46E5;
-      }
-
-      .fill-effect {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(79, 70, 229, 0.1);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s ease;
-      }
-
-      .animate-fill {
-        transform: scaleX(1);
-      }
-
-      #quiz-screen button {
-        font-size: 1.125rem;
-        font-weight: 600;
-        padding: 1rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      #quiz-screen button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3);
-      }
-
-      /* Result Screen */
-      #result-screen {
-        padding: 2.5rem;
-        border-radius: 1.5rem;
-        max-width: 48rem;
-        width: 100%;
-        position: relative;
-      }
-
-      #result-screen h1 {
-        font-size: 2.25rem;
-        font-weight: 800;
-        color: #1F2937;
-      }
-
-      #result-details p {
-        font-size: 1.125rem;
-        color: #1F2937;
-        margin-bottom: 0.75rem;
-      }
-
-      #result-details p strong {
-        color: #4F46E5; /* Indigo-600 */
-      }
-
-      #incorrect-answers {
-        margin-top: 1.5rem;
-      }
-
-      #incorrect-answers .border-l-4 {
-        border-color: #4F46E5;
-      }
-
-      #incorrect-answers p {
-        font-size: 1rem;
-        color: #1F2937;
-        margin-bottom: 0.5rem;
-      }
-
-      #incorrect-answers .font-semibold {
-        color: #4F46E5;
-      }
-
-      #result-screen button {
-        font-size: 1.125rem;
-        font-weight: 600;
-        padding: 1rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      #result-screen button:first-of-type:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
-      }
-
-      #result-screen button:last-of-type:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(107, 114, 128, 0.3);
-      }
-
-      /* Background Canvas Animations */
-      canvas {
-        opacity: 0.7;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 640px) {
-        #domain-selection,
-        #quiz-screen > div,
-        #result-screen {
-          padding: 1.5rem;
-          max-width: 90%;
-        }
-
-        #domain-selection h1,
-        #quiz-screen h1,
-        #result-screen h1 {
-          font-size: 1.75rem;
-        }
-
-        #loading-screen .loading-quote {
-          font-size: 1.5rem;
-          max-width: 95%;
-        }
-
-        #progress,
-        #timer {
-          font-size: 1rem;
-          padding: 0.5rem 1rem;
-        }
-
-        .question-card label {
-          font-size: 1rem;
-        }
-
-        .option-box {
-          padding: 0.5rem;
-        }
-
-        #domain-selection button,
-        #quiz-screen button,
-        #result-screen button {
-          font-size: 1rem;
-          padding: 0.75rem;
-        }
-      }
-    </style>
   </head>
   <body
     class="flex flex-col items-center justify-start min-h-screen p-6 overflow-y-auto relative"
@@ -377,13 +54,12 @@
         Aptitude Test
       </h1>
       <p class="text-gray-600 mb-6 text-center text-lg">
-        Select or enter your domain to begin.
+        Select your domain to begin.
       </p>
       <div class="relative mb-4">
         <select
           id="domain"
           class="w-full p-3 pl-10 border rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-300 bg-gray-50 text-gray-800 appearance-none"
-          onchange="toggleInput('domain')"
         >
           <option value="" disabled selected>Choose a domain</option>
           {% for domain in domains %}
@@ -756,19 +432,8 @@
       setInterval(updateBackground, 100);
       updateBackground();
 
-      function toggleInput(activeInput) {
-        const domainSelect = document.getElementById("domain");
-        const domainInput = document.getElementById("domain_input");
-        if (activeInput === "domain" && domainSelect.value) {
-          domainInput.value = "";
-          domainInput.disabled = true;
-        } else if (activeInput === "domain_input" && domainInput.value) {
-          domainSelect.value = "";
-          domainSelect.disabled = true;
-        } else {
-          domainInput.disabled = false;
-          domainSelect.disabled = false;
-        }
+      function toggleInput() {
+        // No longer needed since domain_input is removed
       }
 
       function displayRandomQuote() {
@@ -783,14 +448,9 @@
       }
 
       async function startTest() {
-        const domainSelect = document.getElementById("domain").value;
-        const domainInput = document
-          .getElementById("domain_input")
-          .value.trim()
-          .toUpperCase();
-        const domain = domainInput || domainSelect;
+        const domain = document.getElementById("domain").value;
         if (!domain) {
-          alert("Please select or enter a valid domain (e.g., ISE)");
+          alert("Please select a valid domain (e.g., CSE)");
           return;
         }
         sessionStorage.setItem("domain", domain);
@@ -802,9 +462,7 @@
           const response = await fetch("/start_test", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `domain=${encodeURIComponent(
-              domain
-            )}&domain_input=${encodeURIComponent(domainInput)}`,
+            body: `domain=${encodeURIComponent(domain)}`
           });
           const data = await response.json();
           if (data.error) {
@@ -839,9 +497,7 @@
         timerInterval = setInterval(() => {
           const minutes = Math.floor(timeLeft / 60);
           const seconds = timeLeft % 60;
-          timerDisplay.textContent = `${minutes}:${
-            seconds < 10 ? "0" : ""
-          }${seconds}`;
+          timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
           if (timeLeft <= 0) {
             clearInterval(timerInterval);
@@ -909,7 +565,7 @@
         const response = await fetch("/submit_test", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ answers }),
+          body: JSON.stringify({ answers })
         });
         const result = await response.json();
         document.getElementById("quiz-screen").classList.add("hidden");
@@ -965,11 +621,8 @@
         document.getElementById("domain-selection").classList.remove("hidden");
         answers.fill("");
         document.getElementById("domain").value = "";
-        document.getElementById("domain_input").value = "";
-        document.getElementById("domain").disabled = false;
-        document.getElementById("domain_input").disabled = false;
         updateProgress();
       }
     </script>
-  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93c99c292d12b0c1',t:'MTc0NjcxNDE1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  </body>
 </html>

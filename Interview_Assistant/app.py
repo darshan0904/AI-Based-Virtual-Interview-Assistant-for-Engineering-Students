@@ -471,4 +471,4 @@ def generate_ai_answer(session_id, question):
         return "Unable to generate AI answer due to an error."
 
 if __name__ == '__main__':
-    app.run(debug=True,port=9393)
+    app.run(debug=True,port=5003)

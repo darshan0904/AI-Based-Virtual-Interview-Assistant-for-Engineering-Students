@@ -4,6 +4,10 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import io
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
 
 app = Flask(__name__)
 
@@ -47,75 +51,81 @@ def recommend_skills(job_title):
 # Define resume templates
 def apply_template(name, email, job_title, enhanced_experience, education, all_skills, template):
     if template == "professional":
-        resume_content = f"""
-{name.upper()}
-{email} | {job_title}
-
-PROFESSIONAL EXPERIENCE
-{'=' * 50}
-"""
+        resume_content = [
+            Paragraph(f"<b>{name.upper()}</b>", ParagraphStyle(name="Name", fontSize=16, spaceAfter=6)),
+            Paragraph(f"{email} | {job_title}", ParagraphStyle(name="Contact", fontSize=12, spaceAfter=12)),
+            Paragraph("<b>PROFESSIONAL EXPERIENCE</b>", ParagraphStyle(name="Heading", fontSize=14, spaceBefore=12, spaceAfter=6)),
+            Paragraph("=" * 50, ParagraphStyle(name="Divider", fontSize=10, spaceAfter=6))
+        ]
         for exp in enhanced_experience:
-            resume_content += f"{exp}\n\n"
-
-        resume_content += f"""
-EDUCATION
-{'=' * 50}
-"""
+            resume_content.append(Paragraph(exp, ParagraphStyle(name="Body", fontSize=12, spaceAfter=6)))
+            resume_content.append(Spacer(1, 0.2 * inch))
+        
+        resume_content.extend([
+            Paragraph("<b>EDUCATION</b>", ParagraphStyle(name="Heading", fontSize=14, spaceBefore=12, spaceAfter=6)),
+            Paragraph("=" * 50, ParagraphStyle(name="Divider", fontSize=10, spaceAfter=6))
+        ])
         for edu in education:
-            resume_content += f"{edu}\n\n"
-
-        resume_content += f"""
-SKILLS
-{'=' * 50}
-{', '.join(all_skills)}
-"""
+            resume_content.append(Paragraph(edu, ParagraphStyle(name="Body", fontSize=12, spaceAfter=6)))
+            resume_content.append(Spacer(1, 0.2 * inch))
+        
+        resume_content.extend([
+            Paragraph("<b>SKILLS</b>", ParagraphStyle(name="Heading", fontSize=14, spaceBefore=12, spaceAfter=6)),
+            Paragraph("=" * 50, ParagraphStyle(name="Divider", fontSize=10, spaceAfter=6)),
+            Paragraph(", ".join(all_skills), ParagraphStyle(name="Body", fontSize=12))
+        ])
+    
     elif template == "modern":
-        resume_content = f"""
-*** {name.upper()} ***
-{job_title}
-Contact: {email}
-
--- Work Experience --
-{'-' * 30}
-"""
+        resume_content = [
+            Paragraph(f"<b>{name.upper()}</b>", ParagraphStyle(name="Name", fontSize=16, spaceAfter=6)),
+            Paragraph(f"{job_title}", ParagraphStyle(name="Title", fontSize=12, spaceAfter=6)),
+            Paragraph(f"Contact: {email}", ParagraphStyle(name="Contact", fontSize=12, spaceAfter=12)),
+            Paragraph("<b>-- Work Experience --</b>", ParagraphStyle(name="Heading", fontSize=14, spaceBefore=12, spaceAfter=6)),
+            Paragraph("-" * 30, ParagraphStyle(name="Divider", fontSize=10, spaceAfter=6))
+        ]
         for exp in enhanced_experience:
-            resume_content += f"• {exp}\n\n"
-
-        resume_content += f"""
--- Education --
-{'-' * 30}
-"""
+            resume_content.append(Paragraph(f"• {exp}", ParagraphStyle(name="Body", fontSize=12, spaceAfter=6)))
+            resume_content.append(Spacer(1, 0.2 * inch))
+        
+        resume_content.extend([
+            Paragraph("<b>-- Education --</b>", ParagraphStyle(name="Heading", fontSize=14, spaceBefore=12, spaceAfter=6)),
+            Paragraph("-" * 30, ParagraphStyle(name="Divider", fontSize=10, spaceAfter=6))
+        ])
         for edu in education:
-            resume_content += f"• {edu}\n\n"
-
-        resume_content += f"""
--- Skills --
-{'-' * 30}
-{'; '.join(all_skills)}
-"""
+            resume_content.append(Paragraph(f"• {edu}", ParagraphStyle(name="Body", fontSize=12, spaceAfter=6)))
+            resume_content.append(Spacer(1, 0.2 * inch))
+        
+        resume_content.extend([
+            Paragraph("<b>-- Skills --</b>", ParagraphStyle(name="Heading", fontSize=14, spaceBefore=12, spaceAfter=6)),
+            Paragraph("-" * 30, ParagraphStyle(name="Divider", fontSize=10, spaceAfter=6)),
+            Paragraph("; ".join(all_skills), ParagraphStyle(name="Body", fontSize=12))
+        ])
+    
     else:  # creative
-        resume_content = f"""
-🌟 {name.upper()} 🌟
-{job_title} | {email}
-
-✨ Experience ✨
-{'*' * 40}
-"""
+        resume_content = [
+            Paragraph(f"<b>{name.upper()}</b>", ParagraphStyle(name="Name", fontSize=16, spaceAfter=6)),
+            Paragraph(f"{job_title} | {email}", ParagraphStyle(name="Contact", fontSize=12, spaceAfter=12)),
+            Paragraph("<b>✨ Experience ✨</b>", ParagraphStyle(name="Heading", fontSize=14, spaceBefore=12, spaceAfter=6)),
+            Paragraph("*" * 40, ParagraphStyle(name="Divider", fontSize=10, spaceAfter=6))
+        ]
         for exp in enhanced_experience:
-            resume_content += f"→ {exp}\n\n"
-
-        resume_content += f"""
-✨ Education ✨
-{'*' * 40}
-"""
+            resume_content.append(Paragraph(f"→ {exp}", ParagraphStyle(name="Body", fontSize=12, spaceAfter=6)))
+            resume_content.append(Spacer(1, 0.2 * inch))
+        
+        resume_content.extend([
+            Paragraph("<b>✨ Education ✨</b>", ParagraphStyle(name="Heading", fontSize=14, spaceBefore=12, spaceAfter=6)),
+            Paragraph("*" * 40, ParagraphStyle(name="Divider", fontSize=10, spaceAfter=6))
+        ])
         for edu in education:
-            resume_content += f"→ {edu}\n\n"
-
-        resume_content += f"""
-✨ Skills ✨
-{'*' * 40}
-{', '.join(all_skills)}
-"""
+            resume_content.append(Paragraph(f"→ {edu}", ParagraphStyle(name="Body", fontSize=12, spaceAfter=6)))
+            resume_content.append(Spacer(1, 0.2 * inch))
+        
+        resume_content.extend([
+            Paragraph("<b>✨ Skills ✨</b>", ParagraphStyle(name="Heading", fontSize=14, spaceBefore=12, spaceAfter=6)),
+            Paragraph("*" * 40, ParagraphStyle(name="Divider", fontSize=10, spaceAfter=6)),
+            Paragraph(", ".join(all_skills), ParagraphStyle(name="Body", fontSize=12))
+        ])
+    
     return resume_content
 
 @app.route('/')
@@ -143,15 +153,18 @@ def build_resume():
     # Generate resume content using selected template
     resume_content = apply_template(name, email, job_title, enhanced_experience, education, all_skills, template)
 
-    # Save resume to a temporary file
-    resume_file = io.StringIO(resume_content)
-    resume_file.seek(0)
+    # Create PDF
+    pdf_file = io.BytesIO()
+    doc = SimpleDocTemplate(pdf_file, pagesize=letter, topMargin=0.5*inch, bottomMargin=0.5*inch)
+    doc.build(resume_content)
+
+    pdf_file.seek(0)
 
     return send_file(
-        io.BytesIO(resume_content.encode()),
-        mimetype='text/plain',
+        pdf_file,
+        mimetype='application/pdf',
         as_attachment=True,
-        download_name=f"{name}_resume.txt"
+        download_name=f"{name}_resume.pdf"
     )
 
 if __name__ == '__main__':

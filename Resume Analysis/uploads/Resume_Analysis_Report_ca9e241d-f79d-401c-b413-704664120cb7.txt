@@ -1,0 +1,26 @@
+Resume Analysis Report
+Prepared for: Jon Doe
+Date: May 08, 2025
+Target Position: Software Engineer
+
+---
+
+1. Summary
+- Overall Score: 51.83/100
+- Semantic Alignment: 36.38% (contextual match with job requirements)
+- Keyword Match: 75.0% (12/16)
+
+2. Keywords
+- Job-Relevant Keywords: agile, algorithms, aws, azure, c++, data structures, docker, git, java, javascript, kubernetes, problem-solving, python, rest apis, scrum, sql
+- Matched: algorithms, azure, c++, data structures, docker, javascript, kubernetes, problem-solving, python, rest apis, scrum, sql
+- Missing: agile, aws, git, java
+
+3. Skills Detected
+- Resume Skills: c, css, cybersecurity, html, mongodb, python, r, sql, tableau
+
+4. Skillsets Needed and Recommendations
+- Missing Skills: agile, aws, git, java
+- Recommendations: The resume appears to lack Java and Agile experience. To address this, complete a Java-focused online course (e.g., Udemy, Coursera) and build a personal project showcasing Java skills.  Additionally, participate in a Scrum-based project (e.g., through a volunteer organization or open-source contribution) to demonstrate Agile proficiency.  Update the resume to highlight these newly acquired skills and projects.
+
+Best of luck with your application!
+AI Resume Analyzer Team
