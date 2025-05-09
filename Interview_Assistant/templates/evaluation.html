@@ -4,72 +4,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interview Evaluation Report</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Custom background and glassmorphism */
+        body {
+            background: linear-gradient(135deg, #6b7280 0%, #1e3a8a 100%);
+            position: relative;
+            overflow: auto;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
         .evaluation-container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            max-width: 48rem;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        .evaluation-container:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 48px rgba(0, 0, 0, 0.2);
+        }
+        /* Title styling */
         .evaluation-title {
-            font-size: 2.5em;
-            margin-bottom: 20px;
+            font-size: 2.25rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #1e40af, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             text-align: center;
-            color: #ffffff;
+            margin-bottom: 2rem;
         }
+        /* Candidate info */
         .candidate-info {
-            margin-bottom: 30px;
-            font-size: 1.2em;
-            color: #e2e8f0;
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+            color: #1f2937;
         }
         .candidate-info p {
-            margin-bottom: 8px;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
         }
+        .candidate-info strong {
+            color: #1e40af;
+        }
+        /* Score sections */
         .score-section {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
         .score-label {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e40af;
         }
         .score-value {
-            font-size: 1.2em;
-            color: #34d399;
-            margin-top: 4px;
+            font-size: 1.125rem;
+            color: #10b981;
+            margin-top: 0.25rem;
+            font-weight: 500;
         }
         .progress-bar {
-            height: 20px;
-            background: #4b5563;
-            border-radius: 10px;
+            height: 1.25rem;
+            background: #e5e7eb;
+            border-radius: 0.75rem;
             overflow: hidden;
-            margin-top: 10px;
+            margin-top: 0.5rem;
         }
         .progress-fill {
             height: 100%;
             background: linear-gradient(to right, #34d399, #10b981);
-            transition: width 0.5s ease-in-out;
+            transition: width 0.7s ease-in-out;
+        }
+        /* Back button */
+        .start-btn {
+            display: inline-block;
+            background: linear-gradient(to right, #1e40af, #7c3aed);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+        }
+        .start-btn:hover {
+            background: linear-gradient(to right, #1e3a8a, #6d28d9);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+        }
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .evaluation-container {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        /* Background particles */
+        .bg-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
     </style>
 </head>
 <body class="form-bg">
+    <!-- Background Particles Canvas -->
+    <canvas class="bg-particles"></canvas>
+
     <div class="evaluation-container glassmorphism">
         <h1 class="evaluation-title">Interview Evaluation Report</h1>
         <div class="candidate-info">
-<<<<<<< HEAD
-            <p><strong>Name:</strong> {{ results.name }}</p>
-            <p><strong>Role:</strong> {{ results.role }}</p>
-=======
             <p><strong>Name:</strong> {{ results.name|default('Not Provided') }}</p>
             <p><strong>Role:</strong> {{ results.role|default('Not Provided') }}</p>
-            <p><strong>Domain:</strong> {{ results.domain|default('Not Provided') }}</p>
-            <p><strong>Engineering Field:</strong> {{ results.engineering|default('Not Provided') }}</p>
             <input type="hidden" id="sessionId" value="{{ results.sessionId|default('') }}">
->>>>>>> 97c03f65916c23f5ca8baa6d11d1fe15d758194d
         </div>
         <div class="score-section">
             <div class="score-label">Communication Skills</div>
@@ -101,6 +165,7 @@
         </div>
         <a href="http://localhost:5000/" class="start-btn">Back to Home</a>
     </div>
+
     <script>
         // Ensure progress bars render correctly by validating the width values
         document.querySelectorAll('.progress-fill').forEach(bar => {
@@ -112,6 +177,56 @@
             }
             bar.style.width = `${width}%`;
         });
+
+        // Particle Animation
+        const canvas = document.querySelector('.bg-particles');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.radius = Math.random() * 2 + 1;
+                this.life = 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                this.life = Math.max(0, this.life - 0.002);
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * this.life, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.4})`;
+                ctx.fill();
+            }
+        }
+
+        let particles = [];
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (particles.length < 50) particles.push(new Particle());
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        animateParticles();
     </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93cd8f227a647b9c',t:'MTc0Njc1NTU2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

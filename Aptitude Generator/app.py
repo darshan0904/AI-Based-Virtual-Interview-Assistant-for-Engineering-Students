@@ -14,7 +14,7 @@ except Exception as e:
     print(f"Failed to configure Gemini API: {e}")
     sys.exit(1)
 
-preferred_models = ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-pro']
+preferred_models = ['gemini-1.5-flash', 'gemini-1.5-pro',  'gemini-pro']
 try:
     models = genai.list_models()
     available_models = [model.name for model in models]
@@ -318,4 +318,4 @@ def submit_test():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=9003)

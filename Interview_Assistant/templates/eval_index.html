@@ -4,22 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluate Your Interview</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom background and glassmorphism */
+        body {
+            background: linear-gradient(135deg, #6b7280 0%, #1e3a8a 100%);
+            position: relative;
+            overflow: auto;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            max-width: 32rem;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glassmorphism:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 48px rgba(0, 0, 0, 0.2);
+        }
+        /* Form title */
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #1e40af, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        /* Input and button styles */
+        .input-field {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.8);
+            width: 100%;
+            font-size: 1rem;
+        }
+        .input-field:focus {
+            border-color: #1e40af;
+            box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.25);
+            background: white;
+            outline: none;
+        }
+        .submit-btn {
+            background: linear-gradient(to right, #1e40af, #7c3aed);
+            color: white;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background: linear-gradient(to right, #1e3a8a, #6d28d9);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+        }
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .glassmorphism {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        /* Background particles */
+        .bg-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
 </head>
 <body class="form-bg">
+    <!-- Background Particles Canvas -->
+    <canvas class="bg-particles"></canvas>
+
     <div class="form-container glassmorphism">
         <h1 class="form-title">Evaluate Your Interview</h1>
-        <form method="POST" action="/evaluate">
+        <form method="POST" action="/">
             <input type="text" name="name" class="input-field" placeholder="Enter Your Full Name" required>
             <input type="hidden" name="sessionId" value="{{ sessionId }}">
             <button type="submit" class="submit-btn">Generate Evaluation</button>
         </form>
     </div>
+
     <script>
         // Extract sessionId from URL and set it in the form
         const urlParams = new URLSearchParams(window.location.search);
         const sessionId = urlParams.get('sessionId') || document.location.pathname.split('/').pop();
         document.querySelector('input[name="sessionId"]').value = sessionId;
+
+        // Particle Animation
+        const canvas = document.querySelector('.bg-particles');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.radius = Math.random() * 2 + 1;
+                this.life = 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                this.life = Math.max(0, this.life - 0.002);
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * this.life, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.4})`;
+                ctx.fill();
+            }
+        }
+
+        let particles = [];
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (particles.length < 50) particles.push(new Particle());
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        animateParticles();
     </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93cd8c2e48ff1389',t:'MTc0Njc1NTQ0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

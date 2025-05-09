@@ -1,0 +1,36 @@
+Question 1: Tell me a little about yourself, test.
+Domain: Introduction
+
+Question 2: Could you describe your career journey so far, test?
+Domain: Introduction
+
+Question 3: test, describe your experience optimizing large-scale React applications for performance, specifically addressing techniques for minimizing bundle size and improving initial load times.
+Domain: Role-Specific
+
+Question 4: How would you approach debugging a complex, intermittent rendering issue in a single-page application built with Vue.js, leveraging browser developer tools and profiling techniques effectively?
+Domain: Role-Specific
+
+Question 5: Explain your understanding of different state management solutions (Redux, Vuex, MobX, Zustand) and the tradeoffs involved in choosing the optimal solution for a specific frontend architecture.
+Domain: Role-Specific
+
+Question 6: test, outline a strategy for implementing a robust, accessible, and performant infinite scrolling feature in a React application, considering considerations for data fetching, pagination, and user experience.
+Domain: Role-Specific
+
+Question 7: Describe a time you had to debug a complex frontend issue collaboratively, highlighting your role in the solution and how you handled disagreements within the team.
+Domain: Behavioral
+
+Question 8: Tell me about a situation where you had to adapt your approach to a frontend project due to unexpected technical limitations or changing requirements, explaining the technical choices you made.
+Domain: Behavioral
+
+Question 9: Explain a time you had to explain a complex technical frontend concept to a non-technical team member, outlining the methods you used to ensure clear communication and understanding.
+Domain: Behavioral
+
+Question 10: Describe your approach to optimizing a complex React application experiencing performance bottlenecks due to inefficient state management and numerous re-renders.
+Domain: Situational
+
+Question 11: Explain how you would handle integrating a third-party library with a pre-existing component architecture that utilizes a different state management solution and styling framework.
+Domain: Situational
+
+Question 12: How would you design and implement a robust and accessible solution for handling dynamic content updates in a single-page application without requiring full page reloads or compromising user experience?
+Domain: Situational
+

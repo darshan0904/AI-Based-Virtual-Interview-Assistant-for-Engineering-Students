@@ -1,0 +1,47 @@
+xac
+
+Question 1: Fallback question 1 for Introduction
+User Answer: what's your name thank you for listening to me
+AI Answer: N/A
+Domain: Introduction
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 2: Fallback question 2 for Introduction
+User Answer: how are you today
+AI Answer: N/A
+Domain: Introduction
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 3: Fallback question 1 for Role-Specific
+User Answer: what do you mean by that could you repeat it
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 4: Fallback question 2 for Role-Specific
+User Answer: Listening...
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+
+Question 5: Fallback question 3 for Role-Specific
+User Answer: Listening...
+AI Answer: Unable to generate AI answer due to API error.
+Domain: Role-Specific
+Audio File: None
+Video File: None
+
+================================================================================
+

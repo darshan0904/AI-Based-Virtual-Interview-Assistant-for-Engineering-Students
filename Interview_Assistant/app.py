@@ -200,7 +200,7 @@ def generate_questions(session_id):
         def fetch_questions(prompt, category, count):
             try:
                 response = requests.post(
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCVyhDktWeeV7rvUxz1GBSKNQCPBTvK8uY",
+                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyC0zJMleqDypa9VGFvjlpIT_WOsNMj29rE",
                     json={"contents": [{"parts": [{"text": prompt}]}]},
                     timeout=10
                 )
@@ -463,8 +463,5 @@ def generate_ai_answer(session_id, question):
         return "Unable to generate AI answer due to an error."
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    app.run(debug=True,port=5003)
-=======
-    app.run(debug=True, port=9999, threaded=True)
->>>>>>> 8a9a5ef523a840655d56f689819a3048cc161e0a
+    app.run(debug=True,port=9999)
+

@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
 app.secret_key = 'main-app-secret-key-456'
 
-RESUME_HELP_URL = "http://localhost:5001/"
-APTITUDE_TEST_URL = "http://localhost:5002/"
-MOCK_INTERVIEW_URL = "http://localhost:5003/"
+RESUME_BUILDER_URL = "http://localhost:9001/"
+RESUME_ANALYSIS_URL = "http://localhost:9002/"
+APTITUDE_TEST_URL = "http://localhost:9003/"
+MOCK_INTERVIEW_URL = "http://localhost:9999/"
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -19,11 +20,15 @@ def index():
 @app.route('/options')
 def options():
     user_name = session.get('user_name', '')
-    aptitude_url_with_name = f"{APTITUDE_TEST_URL}?name={user_name}"
+    resume_builder_url = f"{RESUME_BUILDER_URL}?name={user_name}"
+    resume_analysis_url = f"{RESUME_ANALYSIS_URL}?name={user_name}"
+    aptitude_url = f"{APTITUDE_TEST_URL}?name={user_name}"
+    interview_url = f"{MOCK_INTERVIEW_URL}?name={user_name}"
     return render_template('options.html', 
-                         resume_url=RESUME_HELP_URL,
-                         aptitude_url=aptitude_url_with_name,
-                         interview_url=MOCK_INTERVIEW_URL)
+                         resume_builder_url=resume_builder_url,
+                         resume_analysis_url=resume_analysis_url,
+                         aptitude_url=aptitude_url,
+                         interview_url=interview_url)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

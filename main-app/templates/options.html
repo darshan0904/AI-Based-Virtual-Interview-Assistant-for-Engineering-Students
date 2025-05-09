@@ -210,6 +210,9 @@
         .option-card:nth-child(3) {
             animation: fadeIn 1.2s ease forwards 0.7s;
         }
+        .option-card:nth-child(4) {
+            animation: fadeIn 1.2s ease forwards 0.9s;
+        }
         body.dark .option-card {
             background: rgba(38, 52, 53, 0.8);
             border: 1px solid #4a90e2;
@@ -412,13 +415,18 @@
         <h1>Choose Your Interview Preparation Tool</h1>
         <div class="card-container">
             <div class="option-card">
-                <h5>Help with Resume</h5>
-                <p>Get assistance in crafting a professional resume.</p>
-                <a href="{{ resume_url }}">Go to Resume Help</a>
+                <h5>Resume Builder</h5>
+                <p>Create a professional resume from scratch.</p>
+                <a href="{{ resume_builder_url }}">Go to Resume Builder</a>
             </div>
             <div class="option-card">
-                <h5>Prepare for Aptitude Test</h5>
-                <p>Practice and improve your aptitude test skills.</p>
+                <h5>Resume Analysis</h5>
+                <p>Get feedback and improve your existing resume.</p>
+                <a href="{{ resume_analysis_url }}">Go to Resume Analysis</a>
+            </div>
+            <div class="option-card">
+                <h5>Aptitude Test</h5>
+                <p>Practice for Aptitude Test.</p>
                 <a href="{{ aptitude_url }}">Go to Aptitude Test</a>
             </div>
             <div class="option-card">
@@ -494,7 +502,7 @@
 
                 if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-            }
+                }
 
             draw() {
                 const theme = document.body.classList;
