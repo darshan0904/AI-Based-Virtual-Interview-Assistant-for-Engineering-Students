@@ -1,0 +1,45 @@
+Question 1: Tell me a little about yourself, Chandu.
+Domain: Introduction
+
+Question 2: Can you describe your career journey so far?
+Domain: Introduction
+
+Question 3: Given the resume's apparent nonsensical project and skill entries,  it's impossible to ask meaningful, technically focused interview questions about specific projects.  The provided information is insufficient to assess the candidate's technical expertise.  To formulate appropriate questions, accurate project details and skills are needed.
+Domain: Resume-Based
+
+Question 4: Fallback question 1 for Resume-Based
+Domain: Resume-Based
+
+Question 5: Fallback question 2 for Resume-Based
+Domain: Resume-Based
+
+Question 6: Chandru, can you explain the intricacies of implementing a performant virtual scrolling solution for a large dataset using a framework like React or Vue, detailing considerations for memory management and rendering optimization?
+Domain: Role-Specific
+
+Question 7: Chandru, describe your experience with optimizing the performance of a complex single-page application (SPA) by identifying and resolving performance bottlenecks, such as long task durations in the main thread,  using advanced profiling tools and techniques?
+Domain: Role-Specific
+
+Question 8: Chandru, how would you design and implement a custom React hook for managing asynchronous operations, such as fetching data from an API, while effectively handling loading states, error handling, and cancellation scenarios?
+Domain: Role-Specific
+
+Question 9: Chandru,  explain your understanding of web accessibility best practices and how you would ensure WCAG compliance when developing a complex, interactive frontend component using semantic HTML, ARIA attributes, and assistive technologies?
+Domain: Role-Specific
+
+Question 10: Describe a time you had to debug a complex frontend issue collaboratively, explaining your role and how you ensured a smooth workflow with your team.
+Domain: Behavioral
+
+Question 11: Tell me about a situation where you had to adapt your approach to a frontend project due to unexpected technical constraints or changes in requirements, highlighting how you maintained project quality.
+Domain: Behavioral
+
+Question 12: Explain a time you identified a significant performance bottleneck in a frontend application, detailing the problem-solving process you used, from identifying the root cause to implementing the solution and collaborating with your team for testing and deployment.
+Domain: Behavioral
+
+Question 13: Describe your approach to optimizing a complex React application experiencing performance bottlenecks, considering both code-level and architectural solutions.
+Domain: Situational
+
+Question 14: Explain how you would implement a secure and accessible form handling system, including validation, error handling, and accessibility considerations for users with disabilities, using your preferred framework.
+Domain: Situational
+
+Question 15: How would you approach debugging and resolving a cross-browser compatibility issue involving CSS rendering inconsistencies in a responsive web application?
+Domain: Situational
+
