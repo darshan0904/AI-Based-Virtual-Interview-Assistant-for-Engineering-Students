@@ -4,79 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Interview Assistant</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="form-bg">
-    <div id="form-container" class="container glassmorphism">
-        <form id="interview-form" style="display: grid; gap: 24px;">
-            <div class="fade-in-slide-up" style="animation-delay: 0.1s; position: relative;">
-                <input type="text" id="name" placeholder=" " style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
-                <label for="name" class="floating-label">Full Name</label>
+<body class="main-bg">
+    <div id="form-container" class="card slide-in-left">
+        <h1 class="card-title">Welcome to AI Interview</h1>
+        <form id="interview-form" class="form-grid">
+            <div class="input-group">
+                <input type="text" id="name" placeholder="Your Name" aria-label="Full Name">
             </div>
-            <div class="fade-in-slide-up" style="animation-delay: 0.2s; position: relative;">
-                <select id="engineering" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
+            <div class="input-group">
+                <select id="engineering" aria-label="Engineering Field">
                     <option value="" disabled selected>Select Engineering Field</option>
                     {% for field in engineering_fields %}
                         <option value="{{ field }}">{{ field }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="fade-in-slide-up" style="animation-delay: 0.3s; position: relative;">
-                <select id="domain" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
+            <div class="input-group">
+                <select id="domain" aria-label="Domain">
                     <option value="" disabled selected>Select Domain</option>
                 </select>
-                <input type="text" id="custom-domain" placeholder="Custom Domain" class="hidden" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
+                <input type="text" id="custom-domain" placeholder="Custom Domain" class="hidden" aria-label="Custom Domain">
             </div>
-            <div class="fade-in-slide-up" style="animation-delay: 0.4s; position: relative;">
-                <select id="role" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
+            <div class="input-group">
+                <select id="role" aria-label="Role">
                     <option value="" disabled selected>Select Role</option>
                 </select>
-                <input type="text" id="custom-role" placeholder="Custom Role" class="hidden" style="width: 100%; padding: 16px; background: transparent; border: 1px solid #d1d5db; border-radius: 8px; outline: none;">
+                <input type="text" id="custom-role" placeholder="Custom Role" class="hidden" aria-label="Custom Role">
             </div>
-            <div class="fade-in-slide-up" style="animation-delay: 0.5s; position: relative;">
+            <div class="input-group">
                 <input type="file" id="resume" accept=".pdf,.docx" class="hidden">
-                <label for="resume" id="resume-label" class="upload-label">
+                <label for="resume" id="resume-label" class="neon-btn upload-btn">
                     Upload Resume (Optional)
-                    <svg style="width: 24px; height: 24px; margin-left: 8px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
                 </label>
             </div>
-            <button type="submit" id="start-interview-btn" class="start-btn fade-in-slide-up" style="animation-delay: 0.6s;">Start Interview</button>
+            <button type="submit" id="start-interview-btn" class="neon-btn">Start Interview</button>
         </form>
     </div>
 
-    <div id="loading-container" class="hidden fixed-container loading-bg">
-        <div class="loading-content">
-            <div class="spinner"></div>
-            <p class="loading-text">Preparing your interview...</p>
+    <div id="loading-container" class="card hidden slide-in-right">
+        <div class="loader-container">
+            <div class="neon-loader"></div>
+            <p class="loader-text">Preparing Your Interview...</p>
         </div>
     </div>
 
-    <div id="transition-container" class="hidden fixed-container transition-bg">
-        <p class="transition-text">Please wait...</p>
+    <div id="transition-container" class="card hidden slide-in-left">
+        <p class="transition-text">Please Wait...</p>
     </div>
 
-    <div id="interview-container" class="hidden full-width full-height interview-bg">
-        <div class="gif-container">
+    <div id="interview-container" class="interview-card hidden slide-in-right">
+        <div class="ai-video-container">
             <img id="ai-animation" src="/static/talking.gif" alt="AI Animation">
         </div>
-        <div id="webcam-feed" class="webcam-feed">
-            <video id="user-video" autoplay style="width: 100%; height: 100%; object-fit: contain;"></video>
+        <div id="webcam-feed" class="webcam-container">
+            <video id="user-video" autoplay></video>
         </div>
-        <div class="button-bar">
-            <button id="repeat-btn" class="fab bg-indigo text-white">Repeat</button>
-            <div id="transcript-bar" class="youtube-captions"></div>
-            <button id="next-btn" class="fab bg-indigo text-white">Next</button>
+        <div class="control-panel">
+            <button id="repeat-btn" class="neon-btn repeat-btn">Repeat</button>
+            <div id="transcript-bar" class="neon-captions"></div>
+            <button id="next-btn" class="neon-btn next-btn">Next</button>
         </div>
     </div>
 
-    <div id="thank-you-container" class="hidden thankyou-bg">
-        <div class="container glassmorphism text-center">
-            <h2 class="thank-you-title">Thank You!</h2>
-            <p class="thank-you-text">"Success is not the absence of obstacles, but the courage to push through them."</p>
-            <a href="http://localhost:9394/" class="start-btn fade-in-slide-up" style="animation-delay: 0.7s; display: inline-block; margin-top: 20px;">Generate Evaluation</a>
-        </div>
+    <div id="thank-you-container" class="card hidden slide-in-left">
+        <h2 class="card-title">Thank You!</h2>
+        <p class="thank-you-text">"Success is not the absence of obstacles, but the courage to push through them."</p>
+        <a href="http://localhost:9394/" class="neon-btn">Generate Evaluation</a>
     </div>
 
     <script>
@@ -98,6 +97,7 @@
         let userAnswer = "";
         let aiAnswer = "";
         let subtitleInterval;
+        let isProcessing = false;
 
         function hideAllContainers() {
             document.getElementById('form-container').classList.add('hidden');
@@ -105,16 +105,16 @@
             document.getElementById('transition-container').classList.add('hidden');
             document.getElementById('interview-container').classList.add('hidden');
             document.getElementById('thank-you-container').classList.add('hidden');
-            document.body.classList.remove('form-bg', 'loading-bg', 'transition-bg', 'interview-bg', 'thankyou-bg');
         }
 
-        function showContainer(containerId, bgClass) {
+        function showContainer(containerId, animationClass) {
             hideAllContainers();
-            document.getElementById(containerId).classList.remove('hidden');
-            document.body.classList.add(bgClass);
+            const container = document.getElementById(containerId);
+            container.classList.remove('hidden');
+            container.classList.add(animationClass);
         }
 
-        showContainer('form-container', 'form-bg');
+        showContainer('form-container', 'slide-in-left');
 
         function initWebcam() {
             navigator.mediaDevices.getUserMedia({
@@ -123,7 +123,7 @@
                     echoCancellation: true,
                     noiseSuppression: true,
                     autoGainControl: true,
-                    sampleRate: 44100, // Standard for WAV compatibility
+                    sampleRate: 44100,
                     channelCount: 1
                 }
             })
@@ -133,22 +133,17 @@
                 const audioStream = new MediaStream(stream.getAudioTracks());
                 mediaRecorderAudio = new MediaRecorder(audioStream, { 
                     mimeType: 'audio/webm;codecs=opus',
-                    audioBitsPerSecond: 128000 // Higher bitrate for quality
+                    audioBitsPerSecond: 128000
                 });
                 mediaRecorderAudio.ondataavailable = e => {
                     if (e.data.size > 0) {
                         if (!allAudioChunks[currentQuestion]) allAudioChunks[currentQuestion] = [];
                         allAudioChunks[currentQuestion].push(e.data);
-                        console.log(`Audio chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}, type: ${e.data.type}`);
-                    } else {
-                        console.warn(`Empty audio chunk for question ${currentQuestion + 1}`);
+                        console.log(`Audio chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}`);
                     }
                 };
                 mediaRecorderAudio.onstop = () => {
-                    console.log(`Audio recording stopped for question ${currentQuestion + 1}, chunks: ${allAudioChunks[currentQuestion]?.length || 0}`);
-                };
-                mediaRecorderAudio.onerror = (e) => {
-                    console.error(`MediaRecorder audio error for question ${currentQuestion + 1}:`, e);
+                    console.log(`Audio recording stopped for question ${currentQuestion + 1}`);
                 };
 
                 const videoStream = new MediaStream(stream.getVideoTracks());
@@ -170,22 +165,25 @@
             .catch(err => {
                 console.error("Webcam access failed:", err);
                 alert("Please allow webcam and microphone access.");
-                mediaRecorderAudio = null;
-                mediaRecorderVideo = null;
             });
         }
 
         function initSpeechRecognition() {
             try {
-                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!window.SpeechRecognition) {
+                    alert("Speech recognition not supported in this browser. Please use Chrome or Edge.");
+                    return;
+                }
+                recognition = new window.SpeechRecognition();
                 recognition.continuous = true;
                 recognition.interimResults = true;
                 recognition.maxAlternatives = 1;
                 recognition.onstart = () => {
-                    console.log("Speech recognition started for question", currentQuestion + 1);
+                    console.log(`Speech recognition started for question ${currentQuestion + 1}`);
                     isRecording = true;
                     userAnswer = "";
-                    transcriptBar.textContent = "";
+                    transcriptBar.textContent = "Listening...";
                 };
                 recognition.onresult = event => {
                     let interimTranscript = '';
@@ -198,34 +196,41 @@
                             interimTranscript += transcript;
                         }
                     }
-                    userAnswer = (finalTranscript + interimTranscript).trim() || "No response recorded";
-                    transcriptBar.textContent = userAnswer;
-                    console.log(`Speech recognition result for question ${currentQuestion + 1} - Final:`, finalTranscript, "Interim:", interimTranscript);
+                    userAnswer = finalTranscript.trim() || interimTranscript.trim();
+                    transcriptBar.textContent = userAnswer || "Listening...";
+                    console.log(`Speech result for question ${currentQuestion + 1} - Final: ${finalTranscript}, Interim: ${interimTranscript}`);
                 };
                 recognition.onerror = event => {
-                    console.error("Speech recognition error for question", currentQuestion + 1, ":", event.error);
+                    console.error(`Speech recognition error for question ${currentQuestion + 1}: ${event.error}`);
                     isRecording = false;
                     if (event.error === "no-speech") {
-                        console.log("No speech detected, retrying...");
+                        transcriptBar.textContent = "No speech detected, please try again.";
                         setTimeout(() => {
-                            if (recognition && !isRecording) recognition.start();
+                            if (recognition && !isRecording) {
+                                try {
+                                    recognition.start();
+                                    console.log(`Restarted speech recognition for question ${currentQuestion + 1}`);
+                                } catch (e) {
+                                    console.error("Failed to restart recognition:", e);
+                                }
+                            }
                         }, 1000);
-                    }
-                    if (!userAnswer) {
-                        userAnswer = "Speech recognition failed";
-                        transcriptBar.textContent = userAnswer;
+                    } else {
+                        transcriptBar.textContent = `Speech recognition error: ${event.error}`;
                     }
                 };
                 recognition.onend = () => {
-                    console.log("Speech recognition ended for question", currentQuestion + 1);
+                    console.log(`Speech recognition ended for question ${currentQuestion + 1}`);
                     isRecording = false;
                     if (!userAnswer) {
-                        userAnswer = "No response recorded";
+                        transcriptBar.textContent = "No response recorded.";
+                    } else {
                         transcriptBar.textContent = userAnswer;
                     }
                 };
             } catch (err) {
                 console.error("Speech recognition initialization failed:", err);
+                alert("Failed to initialize speech recognition.");
                 recognition = null;
             }
         }
@@ -236,7 +241,6 @@
             const words = text.split(' ');
             let chunks = [];
             let currentChunk = '';
-
             for (let word of words) {
                 if ((currentChunk + word).length <= maxLength) {
                     currentChunk += (currentChunk ? ' ' : '') + word;
@@ -246,7 +250,6 @@
                 }
             }
             if (currentChunk) chunks.push(currentChunk);
-
             let index = 0;
             transcriptBar.textContent = chunks[0] || text;
             if (chunks.length > 1) {
@@ -260,22 +263,18 @@
         webcamFeed.addEventListener('click', () => {
             if (!isAISmall) {
                 aiAnimation.src = questionAudio && !questionAudio.ended ? TALKING_GIF : LISTENING_GIF;
-                aiAnimation.style.width = '128px';
-                aiAnimation.style.height = '96px';
-                aiAnimation.style.objectFit = 'contain';
+                aiAnimation.style.width = '160px';
+                aiAnimation.style.height = '120px';
                 userVideo.style.width = '100%';
                 userVideo.style.height = '100%';
-                userVideo.style.objectFit = 'contain';
                 webcamFeed.appendChild(aiAnimation);
                 document.getElementById('interview-container').insertBefore(userVideo, webcamFeed);
             } else {
                 aiAnimation.src = questionAudio && !questionAudio.ended ? TALKING_GIF : LISTENING_GIF;
                 aiAnimation.style.width = '100%';
                 aiAnimation.style.height = '100%';
-                aiAnimation.style.objectFit = 'contain';
                 userVideo.style.width = '100%';
                 userVideo.style.height = '100%';
-                userVideo.style.objectFit = 'contain';
                 webcamFeed.appendChild(userVideo);
                 document.getElementById('interview-container').insertBefore(aiAnimation, webcamFeed);
             }
@@ -287,12 +286,12 @@
             const resumeLabel = document.getElementById('resume-label');
             if (file) {
                 resumeLabel.textContent = `Resume: ${file.name}`;
-                resumeLabel.classList.remove('bg-indigo');
-                resumeLabel.classList.add('bg-green');
+                resumeLabel.classList.remove('neon-btn');
+                resumeLabel.classList.add('neon-success-btn');
             } else {
                 resumeLabel.textContent = 'Upload Resume (Optional)';
-                resumeLabel.classList.remove('bg-green');
-                resumeLabel.classList.add('bg-indigo');
+                resumeLabel.classList.remove('neon-success-btn');
+                resumeLabel.classList.add('neon-btn');
             }
         });
 
@@ -309,17 +308,12 @@
                 body: JSON.stringify({ engineering })
             })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error ${response.status}`);
                 return response.json();
             })
             .then(data => {
-                console.log('Domains received:', data.domains);
                 domainSelect.innerHTML = '<option value="" disabled selected>Select Domain</option>' +
-                    (data.domains && data.domains.length > 0
-                        ? data.domains.map(domain => `<option value="${domain}">${domain}</option>`).join('')
-                        : '<option value="" disabled>No domains available</option>') +
+                    data.domains.map(domain => `<option value="${domain}">${domain}</option>`).join('') +
                     '<option value="custom">Custom Domain</option>';
                 customDomain.classList.add('hidden');
                 roleSelect.innerHTML = '<option value="" disabled selected>Select Role</option>';
@@ -327,8 +321,7 @@
             })
             .catch(err => {
                 console.error("Error fetching domains:", err);
-                alert("Failed to load domains. Please try again.");
-                domainSelect.innerHTML = '<option value="" disabled selected>Error loading domains</option>';
+                alert("Failed to load domains.");
             });
         });
 
@@ -351,23 +344,17 @@
                     body: JSON.stringify({ domain })
                 })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Roles received:', data.roles);
                     roleSelect.innerHTML = '<option value="" disabled selected>Select Role</option>' +
-                        (data.roles && data.roles.length > 0
-                            ? data.roles.map(role => `<option value="${role}">${role}</option>`).join('')
-                            : '<option value="" disabled>No roles available</option>') +
+                        data.roles.map(role => `<option value="${role}">${role}</option>`).join('') +
                         '<option value="custom">Custom Role</option>';
                 })
                 .catch(err => {
                     console.error("Error fetching roles:", err);
-                    alert("Failed to load roles. Please try again.");
-                    roleSelect.innerHTML = '<option value="" disabled selected>Error loading roles</option>';
+                    alert("Failed to load roles.");
                 });
             }
         });
@@ -383,55 +370,53 @@
 
         document.getElementById('interview-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            showContainer('loading-container', 'loading-bg');
+            showContainer('loading-container', 'slide-in-right');
 
             const formData = new FormData();
             username = document.getElementById('name').value;
             if (!username) {
                 alert("Name is required");
-                showContainer('form-container', 'form-bg');
+                showContainer('form-container', 'slide-in-left');
                 return;
             }
-
             formData.append('name', username);
+
             engineering = document.getElementById('engineering').value;
             if (!engineering) {
                 alert("Engineering field is required");
-                showContainer('form-container', 'form-bg');
+                showContainer('form-container', 'slide-in-left');
                 return;
             }
-
             formData.append('engineering', engineering);
+
             const domainSelect = document.getElementById('domain').value;
             if (!domainSelect) {
                 alert("Domain is required");
-                showContainer('form-container', 'form-bg');
+                showContainer('form-container', 'slide-in-left');
                 return;
             }
-
             domain = domainSelect === 'custom' ? document.getElementById('custom-domain').value : domainSelect;
             if (domainSelect === 'custom' && !domain) {
                 alert("Custom domain is required");
-                showContainer('form-container', 'form-bg');
+                showContainer('form-container', 'slide-in-left');
                 return;
             }
-
             formData.append('domain', domain);
+
             const roleSelect = document.getElementById('role').value;
             if (!roleSelect) {
                 alert("Role is required");
-                showContainer('form-container', 'form-bg');
+                showContainer('form-container', 'slide-in-left');
                 return;
             }
-
             role = roleSelect === 'custom' ? document.getElementById('custom-role').value : roleSelect;
             if (roleSelect === 'custom' && !role) {
                 alert("Custom role is required");
-                showContainer('form-container', 'form-bg');
+                showContainer('form-container', 'slide-in-left');
                 return;
             }
-
             formData.append('role', role);
+
             const resume = document.getElementById('resume').files[0];
             if (resume) {
                 formData.append('resume', resume);
@@ -442,28 +427,26 @@
                 body: formData
             })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error ${response.status}`);
                 return response.json();
             })
             .then(data => {
                 sessionId = data.session_id;
                 transcriptContent = `\t\t\t${username}\n\n`;
-                allAudioChunks = [];
-                allVideoChunks = [];
+                allAudioChunks = Array(15).fill().map(() => []);
+                allVideoChunks = Array(15).fill().map(() => []);
                 return generateQuestions();
             })
             .then(() => {
-                showContainer('interview-container', 'interview-bg');
+                showContainer('interview-container', 'slide-in-right');
                 initWebcam();
                 initSpeechRecognition();
                 loadQuestion();
             })
             .catch(err => {
-                console.error("Error starting interview:", err.message);
-                alert("Failed to start interview: " + err.message);
-                showContainer('form-container', 'form-bg');
+                console.error("Error starting interview:", err);
+                alert("Failed to start interview.");
+                showContainer('form-container', 'slide-in-left');
             });
         });
 
@@ -473,17 +456,17 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ domain: domain, role: role, has_resume: !!document.getElementById('resume').files[0] })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                return response.json();
+            })
             .then(data => {
-                questions = data.questions.filter(q => !q.toLowerCase().includes("here are") && !q.toLowerCase().includes("questions") && !q.toLowerCase().includes("why"));
+                questions = data.questions.filter(q => q && !q.toLowerCase().includes("here are"));
                 console.log("Questions loaded:", questions);
-                for (let i = 0; i < 15; i++) {
-                    allAudioChunks[i] = allAudioChunks[i] || [];
-                    allVideoChunks[i] = allVideoChunks[i] || [];
-                }
             })
             .catch(err => {
                 console.error("Error generating questions:", err);
+                alert("Failed to generate questions.");
                 throw err;
             });
         }
@@ -491,19 +474,15 @@
         function loadQuestion() {
             if (currentQuestion >= questions.length || currentQuestion >= 15) {
                 saveAllRecordings();
-                showContainer('thank-you-container', 'thankyou-bg');
-                if (recognition) recognition.stop();
-                if (mediaRecorderAudio) mediaRecorderAudio.stop();
-                if (mediaRecorderVideo) mediaRecorderVideo.stop();
-                if (subtitleInterval) clearInterval(subtitleInterval);
+                showContainer('thank-you-container', 'slide-in-left');
+                cleanup();
                 return;
             }
 
             const questionText = questions[currentQuestion];
-            console.log(`Loading question ${currentQuestion + 1}/${questions.length}:`, questionText);
+            console.log(`Loading question ${currentQuestion + 1}: ${questionText}`);
             aiAnimation.src = TALKING_GIF;
-            const questionTextForAudio = questionText.replace(/[*"().,:;?!-]/g, ' ').trim();
-            startDynamicSubtitles(questionText);
+            isProcessing = true;
 
             if (questionAudio) {
                 questionAudio.pause();
@@ -513,104 +492,135 @@
             fetch(`/next_question/${sessionId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question: questionTextForAudio })
+                body: JSON.stringify({ question: questionText })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                return response.json();
+            })
             .then(data => {
                 if (data.end) {
                     saveAllRecordings();
-                    showContainer('thank-you-container', 'thankyou-bg');
-                    if (recognition) recognition.stop();
-                    if (mediaRecorderAudio) mediaRecorderAudio.stop();
-                    if (mediaRecorderVideo) mediaRecorderVideo.stop();
-                    if (subtitleInterval) clearInterval(subtitleInterval);
+                    showContainer('thank-you-container', 'slide-in-left');
+                    cleanup();
                     return;
                 }
 
                 aiAnswer = data.ai_answer;
-
-                console.log("Audio URL:", data.audio);
-                questionAudio = new Audio();
-                questionAudio.src = data.audio;
-                questionAudio.type = "audio/wav";
-                setTimeout(() => {
+                questionAudio = new Audio(data.audio);
+                questionAudio.onloadeddata = () => {
+                    startDynamicSubtitles(questionText);
                     questionAudio.play().catch(err => {
                         console.error("Audio playback failed:", err);
-                        alert("Audio playback failed: " + err.message + ". Please ensure your browser allows audio and supports WAV format.");
+                        alert("Failed to play question audio.");
+                        isProcessing = false;
                     });
-                }, 500);
-
+                };
                 questionAudio.onended = () => {
                     aiAnimation.src = LISTENING_GIF;
-                    if (recognition) recognition.start();
-                    if (mediaRecorderAudio) mediaRecorderAudio.start();
-                    if (mediaRecorderVideo) mediaRecorderVideo.start();
+                    startRecording();
                 };
             })
             .catch(err => {
                 console.error("Error loading question:", err);
+                alert("Failed to load question.");
+                isProcessing = false;
             });
         }
 
-        document.getElementById('repeat-btn').addEventListener('click', () => {
-            if (recognition) recognition.stop();
+        function startRecording() {
+            if (recognition && !isRecording) {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.error("Failed to start speech recognition:", e);
+                    transcriptBar.textContent = "Speech recognition failed.";
+                }
+            }
+            if (mediaRecorderAudio && mediaRecorderAudio.state !== "recording") {
+                try {
+                    mediaRecorderAudio.start(1000); // Timeslice for chunks
+                    console.log(`Started audio recording for question ${currentQuestion + 1}`);
+                } catch (e) {
+                    console.error("Failed to start audio recording:", e);
+                }
+            }
+            if (mediaRecorderVideo && mediaRecorderVideo.state !== "recording") {
+                try {
+                    mediaRecorderVideo.start(1000); // Timeslice for chunks
+                    console.log(`Started video recording for question ${currentQuestion + 1}`);
+                } catch (e) {
+                    console.error("Failed to start video recording:", e);
+                }
+            }
+            isProcessing = false;
+        }
+
+        function cleanup() {
+            if (recognition && isRecording) {
+                recognition.stop();
+                console.log(`Stopped speech recognition for question ${currentQuestion + 1}`);
+            }
             if (mediaRecorderAudio && mediaRecorderAudio.state === "recording") {
                 mediaRecorderAudio.stop();
+                console.log(`Stopped audio recording for question ${currentQuestion + 1}`);
             }
             if (mediaRecorderVideo && mediaRecorderVideo.state === "recording") {
                 mediaRecorderVideo.stop();
+                console.log(`Stopped video recording for question ${currentQuestion + 1}`);
             }
-            aiAnimation.src = TALKING_GIF;
-            const questionText = questions[currentQuestion];
-            const questionTextForAudio = questionText.replace(/[*"().,:;?!-]/g, ' ').trim();
-            console.log("Full question text on repeat:", questionText);
-            startDynamicSubtitles(questionText);
-
+            if (subtitleInterval) clearInterval(subtitleInterval);
             if (questionAudio) {
                 questionAudio.pause();
                 questionAudio.currentTime = 0;
-                setTimeout(() => {
+            }
+        }
+
+        document.getElementById('repeat-btn').addEventListener('click', () => {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            cleanup();
+            aiAnimation.src = TALKING_GIF;
+            const questionText = questions[currentQuestion];
+
+            if (questionAudio) {
+                questionAudio.currentTime = 0;
+                questionAudio.onloadeddata = () => {
+                    startDynamicSubtitles(questionText);
                     questionAudio.play().catch(err => {
                         console.error("Audio playback failed on repeat:", err);
-                        alert("Audio playback failed on repeat: " + err.message + ". Please ensure your browser allows audio and supports WAV format.");
+                        alert("Failed to replay question.");
+                        isProcessing = false;
                     });
-                }, 500);
+                };
+                questionAudio.onended = () => {
+                    aiAnimation.src = LISTENING_GIF;
+                    startRecording();
+                };
+                questionAudio.play().catch(err => {
+                    console.error("Audio playback failed:", err);
+                    isProcessing = false;
+                });
+            } else {
+                isProcessing = false;
             }
-            questionAudio.onended = () => {
-                aiAnimation.src = LISTENING_GIF;
-                if (recognition) recognition.start();
-                if (mediaRecorderAudio) mediaRecorderAudio.start();
-                if (mediaRecorderVideo) mediaRecorderVideo.start();
-            };
         });
 
         document.getElementById('next-btn').addEventListener('click', () => {
-            if (mediaRecorderAudio && mediaRecorderAudio.state === "recording") {
-                mediaRecorderAudio.stop();
-            }
-            if (mediaRecorderVideo && mediaRecorderVideo.state === "recording") {
-                mediaRecorderVideo.stop();
-            }
-            if (recognition && recognition.state === "recording") recognition.stop();
-            if (subtitleInterval) clearInterval(subtitleInterval);
+            if (isProcessing) return;
+            isProcessing = true;
 
-            isRecording = false;
-
-            if (questionAudio) {
-                questionAudio.pause();
-                questionAudio.currentTime = 0;
-            }
+            cleanup();
 
             const capturedAnswer = userAnswer || transcriptBar.textContent.trim() || "No response recorded";
-            console.log(`Final captured user answer for question ${currentQuestion + 1}:`, capturedAnswer);
+            console.log(`Captured answer for question ${currentQuestion + 1}: ${capturedAnswer}`);
 
-            showContainer('transition-container', 'transition-bg');
+            showContainer('transition-container', 'slide-in-left');
 
             setTimeout(() => {
-                showContainer('interview-container', 'interview-bg');
-
-                const audioFile = `${username}_q${currentQuestion + 1}_audio.webm`; // Note: Using .webm extension
-                const videoFile = `${username}_q${currentQuestion + 1}_video.webm`;
+                const audioFile = `${username}_q${currentQuestion + 1}_audio.wav`;
+                const videoFile = `${username}_q${currentQuestion + 1}_video.mp4`;
 
                 transcriptContent += `Question ${currentQuestion + 1}: ${questions[currentQuestion]}\n`;
                 transcriptContent += `User Answer: ${capturedAnswer}\n`;
@@ -623,104 +633,110 @@
                 const formData = new FormData();
                 if (allAudioChunks[currentQuestion] && allAudioChunks[currentQuestion].length > 0) {
                     const audioBlob = new Blob(allAudioChunks[currentQuestion], { type: 'audio/webm;codecs=opus' });
-                    if (audioBlob.size === 0) {
-                        console.error(`Empty audio blob for question ${currentQuestion + 1}`);
-                    } else {
-                        formData.append('audio', audioBlob, audioFile);
-                        console.log(`Audio saved for question ${currentQuestion + 1}, size: ${audioBlob.size}, type: ${audioBlob.type}`);
-                        // Note: Server should convert this WebM to WAV for NLP analysis
-                    }
+                    formData.append('audio', audioBlob, audioFile);
+                    console.log(`Sending audio for question ${currentQuestion + 1}, size: ${audioBlob.size}`);
                 } else {
-                    console.error(`No audio chunks recorded for question ${currentQuestion + 1}`);
-                    formData.append('audio', new Blob(), audioFile); // Empty blob to indicate failure
+                    console.warn(`No audio chunks for question ${currentQuestion + 1}`);
+                    formData.append('audio', new Blob(), audioFile);
                 }
                 if (allVideoChunks[currentQuestion] && allVideoChunks[currentQuestion].length > 0) {
                     const videoBlob = new Blob(allVideoChunks[currentQuestion], { type: 'video/webm' });
-                    if (videoBlob.size === 0) {
-                        console.error(`Empty video blob for question ${currentQuestion + 1}`);
-                    } else {
-                        formData.append('video', videoBlob, videoFile);
-                        console.log(`Video saved for question ${currentQuestion + 1}, size: ${videoBlob.size}`);
-                    }
+                    formData.append('video', videoBlob, videoFile);
+                    console.log(`Sending video for question ${currentQuestion + 1}, size: ${videoBlob.size}`);
                 } else {
-                    console.error(`No video chunks recorded for question ${currentQuestion + 1}`);
+                    console.warn(`No video chunks for question ${currentQuestion + 1}`);
+                    formData.append('video', new Blob(), videoFile);
                 }
-                formData.append('transcript', transcriptContent);
+                formData.append('transcript', capturedAnswer);
 
-                fetch(`/record_response/${sessionId}`, {
+                fetch(`/record_response/${sessionId}/${currentQuestion + 1}`, {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(`HTTP error ${response.status}: ${err.error}`); });
+                    }
+                    return response.json();
+                })
                 .then(result => {
                     if (result.status !== "success") {
                         console.error("Failed to record response:", result.error);
                         alert("Failed to record response: " + result.error);
-                        showContainer('interview-container', 'interview-bg');
+                        showContainer('interview-container', 'slide-in-right');
+                        isProcessing = false;
                         return;
                     }
 
                     transcriptBar.textContent = "";
                     userAnswer = "";
                     aiAnswer = "";
-                    console.log("Reset transcriptBar.textContent and userAnswer for next question");
+                    allAudioChunks[currentQuestion] = []; // Clear chunks after saving
+                    allVideoChunks[currentQuestion] = [];
                     currentQuestion++;
+                    showContainer('interview-container', 'slide-in-right');
                     loadQuestion();
                 })
                 .catch(err => {
                     console.error("Error recording response:", err);
                     alert("Error recording response: " + err.message);
-                    showContainer('interview-container', 'interview-bg');
+                    showContainer('interview-container', 'slide-in-right');
+                    isProcessing = false;
                 });
             }, 2000);
         });
 
         function saveAllRecordings() {
-            for (let i = 0; i < Math.min(questions.length, 15); i++) {
-                const formData = new FormData();
-                const audioFile = `${username}_q${i + 1}_audio.webm`;
-                const videoFile = `${username}_q${i + 1}_video.webm`;
+            const saveRecording = (index) => {
+                if (index >= Math.min(questions.length, 15)) return Promise.resolve();
 
-                if (allAudioChunks[i] && allAudioChunks[i].length > 0) {
-                    const audioBlob = new Blob(allAudioChunks[i], { type: 'audio/webm;codecs=opus' });
-                    if (audioBlob.size === 0) {
-                        console.error(`Empty audio blob for question ${i + 1} during final save`);
-                    } else {
-                        formData.append('audio', audioBlob, audioFile);
-                        console.log(`Final audio saved for question ${i + 1}, size: ${audioBlob.size}, type: ${audioBlob.type}`);
-                        // Note: Server should convert this WebM to WAV for NLP analysis
-                    }
+                const formData = new FormData();
+                const audioFile = `${username}_q${index + 1}_audio.wav`;
+                const videoFile = `${username}_q${index + 1}_video.mp4`;
+
+                if (allAudioChunks[index] && allAudioChunks[index].length > 0) {
+                    const audioBlob = new Blob(allAudioChunks[index], { type: 'audio/webm;codecs=opus' });
+                    formData.append('audio', audioBlob, audioFile);
+                    console.log(`Saving audio for question ${index + 1}, size: ${audioBlob.size}`);
                 } else {
-                    console.error(`No audio chunks for question ${i + 1} during final save`);
-                    formData.append('audio', new Blob(), audioFile); // Empty blob to indicate failure
+                    console.warn(`No audio chunks for question ${index + 1}`);
+                    formData.append('audio', new Blob(), audioFile);
                 }
-                if (allVideoChunks[i] && allVideoChunks[i].length > 0) {
-                    const videoBlob = new Blob(allVideoChunks[i], { type: 'video/webm' });
-                    if (videoBlob.size === 0) {
-                        console.error(`Empty video blob for question ${i + 1} during final save`);
-                    } else {
-                        formData.append('video', videoBlob, videoFile);
-                        console.log(`Final video saved for question ${i + 1}, size: ${videoBlob.size}`);
-                    }
+                if (allVideoChunks[index] && allVideoChunks[index].length > 0) {
+                    const videoBlob = new Blob(allVideoChunks[index], { type: 'video/webm' });
+                    formData.append('video', videoBlob, videoFile);
+                    console.log(`Saving video for question ${index + 1}, size: ${videoBlob.size}`);
                 } else {
-                    console.error(`No video chunks for question ${i + 1} during final save`);
+                    console.warn(`No video chunks for question ${index + 1}`);
+                    formData.append('video', new Blob(), videoFile);
                 }
                 formData.append('transcript', transcriptContent);
 
-                fetch(`/record_response/${sessionId}`, {
+                return fetch(`/record_response/${sessionId}/${index + 1}`, {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(`HTTP error ${response.status}: ${err.error}`); });
+                    }
+                    return response.json();
+                })
                 .then(result => {
                     if (result.status !== "success") {
-                        console.error(`Failed to save recording for question ${i + 1}:`, result.error);
+                        console.error(`Failed to save recording for question ${index + 1}:`, result.error);
                     }
+                    return saveRecording(index + 1);
                 })
                 .catch(err => {
-                    console.error(`Error saving recording for question ${i + 1}:`, err);
+                    console.error(`Error saving recording for question ${index + 1}:`, err);
+                    return saveRecording(index + 1);
                 });
-            }
+            };
+
+            saveRecording(0).then(() => {
+                console.log("All recordings saved");
+            });
         }
     </script>
 </body>
