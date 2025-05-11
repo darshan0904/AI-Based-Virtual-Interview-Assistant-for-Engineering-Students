@@ -91,4 +91,3 @@ Job seekers often struggle with interview preparation due to:
 ---
 
 **"When confidence meets preparation, magic happens—and our AI ensures you never walk into an interview unprepared again."**
-
