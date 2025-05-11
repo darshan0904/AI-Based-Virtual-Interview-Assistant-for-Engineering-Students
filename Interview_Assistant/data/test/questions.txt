@@ -1,36 +1,45 @@
-Question 1: Tell me a little about yourself and your background, Test.
+Question 1: Tell me a little about yourself, test.
 Domain: Introduction
 
-Question 2: What are some of your interests outside of work, Test?
+Question 2: Can you describe your career journey so far?
 Domain: Introduction
 
-Question 3: Test, describe a scenario where you had to handle missing data in a large, complex dataset, detailing your chosen imputation technique, its rationale, and the potential limitations you considered.
+Question 3: Given your resume lists Python and Machine Learning as skills, describe a situation where you used machine learning in a project to solve a specific problem, detailing your approach and the challenges you encountered.
+Domain: Resume-Based
+
+Question 4: Your resume mentions experience with SQL;  explain a scenario where you had to optimize a complex SQL query for performance, outlining the techniques you used and the resulting improvement.
+Domain: Resume-Based
+
+Question 5: Describe a challenging technical problem you faced in a project (assuming the placeholder work experience describes a project), how you approached debugging and resolving it, and what you learned from the experience.
+Domain: Resume-Based
+
+Question 6: test, describe a scenario where you had to optimize a database query for a high-traffic application and explain your chosen approach, including the performance metrics you tracked and the improvements achieved.
 Domain: Role-Specific
 
-Question 4: Test, explain how you would approach building a predictive model for a highly imbalanced dataset, outlining specific techniques you'd employ for both model building and evaluation to mitigate the class imbalance problem.
+Question 7: Explain the differences between RESTful and GraphQL APIs, outlining when you would choose one over the other and providing examples of scenarios where their strengths are most evident.
 Domain: Role-Specific
 
-Question 5: Test,  if presented with conflicting insights from different data sources, how would you systematically investigate the discrepancies, identify the root cause, and determine the most reliable data source for informed decision-making?
+Question 8: How would you design and implement a highly scalable and fault-tolerant microservices architecture for a complex e-commerce platform, considering aspects like service discovery, inter-service communication, and data consistency?
 Domain: Role-Specific
 
-Question 6: Test, articulate your experience with distributed computing frameworks like Spark or Hadoop; describe a complex data processing task you've tackled using these frameworks and the challenges you encountered in scaling and optimizing the process.
+Question 9: Describe your experience with implementing and troubleshooting complex asynchronous operations in a distributed system, including your approaches to managing concurrency, handling errors, and ensuring data integrity.
 Domain: Role-Specific
 
-Question 7: Describe a time you had to explain a complex technical issue to a non-technical stakeholder and how you ensured they understood.
+Question 10: Describe a time you had to debug a complex issue within a team, detailing your approach to collaboration and how you resolved the conflict in perspectives.
 Domain: Behavioral
 
-Question 8: Tell me about a situation where a team project encountered a significant technical roadblock; how did you contribute to finding a solution and what was the outcome?
+Question 11: Tell me about a situation where you had to adapt your coding style or approach to integrate with a pre-existing codebase that used different technologies or frameworks.
 Domain: Behavioral
 
-Question 9: Describe a time your data analysis approach had to change due to unexpected data limitations or shifting project priorities; how did you adapt, and what did you learn from the experience?
+Question 12: Explain a time you encountered a significant technical roadblock in a project; how did you identify the problem, propose a solution, and work with your team to implement it?
 Domain: Behavioral
 
-Question 10: Describe a scenario where you had to identify and address a significant data quality issue impacting model performance, outlining your troubleshooting steps and ultimate solution.
+Question 13: Describe how you would approach debugging a production issue impacting user authentication across multiple microservices, considering potential database inconsistencies and API gateway failures.
 Domain: Situational
 
-Question 11: Explain how you would approach building a robust data pipeline for a real-time streaming data application requiring low latency and high throughput, considering potential challenges like data drift and schema evolution.
+Question 14: Explain your strategy for designing and implementing a highly scalable and performant solution for handling real-time updates to a large number of concurrently connected users, considering factors like latency and data consistency.
 Domain: Situational
 
-Question 12: How would you design an experiment to evaluate the effectiveness of a new feature in a deployed machine learning model, accounting for potential confounding factors and ensuring statistically significant results while minimizing disruption to the live system?
+Question 15: How would you refactor a legacy monolithic application into a microservices architecture, prioritizing minimal disruption to existing functionality and ensuring smooth transition during the migration process, while addressing potential data migration challenges?
 Domain: Situational
 

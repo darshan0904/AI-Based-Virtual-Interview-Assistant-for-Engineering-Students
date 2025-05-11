@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interview Evaluation Report</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom background and glassmorphism */
+        /* Existing styles unchanged */
         body {
             background: linear-gradient(135deg, #6b7280 0%, #1e3a8a 100%);
             position: relative;
@@ -26,7 +27,7 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             border-radius: 1.5rem;
             padding: 2.5rem;
-            max-width: 48rem;
+            max-width: 72rem;
             width: 100%;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -34,7 +35,6 @@
             transform: translateY(-6px);
             box-shadow: 0 14px 48px rgba(0, 0, 0, 0.2);
         }
-        /* Title styling */
         .evaluation-title {
             font-size: 2.25rem;
             font-weight: 700;
@@ -45,11 +45,22 @@
             text-align: center;
             margin-bottom: 2rem;
         }
-        /* Candidate info */
         .candidate-info {
             margin-bottom: 2rem;
             font-size: 1.125rem;
             color: #1f2937;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .candidate-info:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
         }
         .candidate-info p {
             margin-bottom: 0.75rem;
@@ -58,38 +69,129 @@
         .candidate-info strong {
             color: #1e40af;
         }
-        /* Score sections */
+        /* New Name Tag Styles */
+        .name-tag {
+            background: linear-gradient(to right, #1e40af, #7c3aed);
+            color: white;
+            font-weight: 600;
+            font-size: 1.25rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 200px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .name-tag:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        .candidate-details {
+            flex: 1;
+        }
         .score-section {
             margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .score-section:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+        }
+        .score-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .score-item {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
         }
         .score-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e40af;
+            margin-top: 0.5rem;
+        }
+        .score-value {
+            font-size: 1rem;
+            color: #10b981;
+            font-weight: 500;
+            margin-top: 0.2rem;
+        }
+        .feedback-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .feedback-section:hover {
+            transform: translateY(-4px);
+        }
+        .feedback-title {
             font-size: 1.5rem;
             font-weight: 600;
             color: #1e40af;
+            text-align: center;
+            margin-bottom: 1.5rem;
         }
-        .score-value {
-            font-size: 1.125rem;
-            color: #10b981;
-            margin-top: 0.25rem;
-            font-weight: 500;
+        .feedback-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(243, 244, 246, 0.5);
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInItem 0.5s ease-out forwards;
         }
-        .progress-bar {
-            height: 1.25rem;
-            background: #e5e7eb;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            margin-top: 0.5rem;
+        .feedback-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
         }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, #34d399, #10b981);
-            transition: width 0.7s ease-in-out;
+        .feedback-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 0.3rem;
         }
-        /* Back button */
-        .start-btn {
+        .feedback-text {
+            font-size: 0.9rem;
+            color: #1f2937;
+            line-height: 1.4;
+            margin-bottom: 0.2rem;
+            white-space: pre-wrap;
+        }
+        .suggestion-text {
+            font-size: 0.9rem;
+            color: #4b5563;
+            font-style: italic;
+            line-height: 1.4;
+            white-space: pre-wrap;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .button-container.hidden {
+            display: none;
+        }
+        .start-btn, .download-btn {
             display: inline-block;
-            background: linear-gradient(to right, #1e40af, #7c3aed);
-            color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 0.75rem;
             font-size: 1rem;
@@ -97,22 +199,37 @@
             text-align: center;
             text-decoration: none;
             transition: all 0.3s ease;
-            margin-top: 1.5rem;
+            cursor: pointer;
+        }
+        .start-btn {
+            background: linear-gradient(to right, #1e40af, #7c3aed);
+            color: white;
         }
         .start-btn:hover {
             background: linear-gradient(to right, #1e3a8a, #6d28d9);
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
         }
-        /* Fade-in animation */
+        .download-btn {
+            background: linear-gradient(to right, #10b981, #34d399);
+            color: white;
+        }
+        .download-btn:hover {
+            background: linear-gradient(to right, #059669, #10b981);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInItem {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .evaluation-container {
             animation: fadeIn 0.6s ease-out forwards;
         }
-        /* Background particles */
         .bg-particles {
             position: absolute;
             top: 0;
@@ -125,96 +242,197 @@
     </style>
 </head>
 <body class="form-bg">
-    <!-- Background Particles Canvas -->
     <canvas class="bg-particles"></canvas>
 
     <div class="evaluation-container glassmorphism">
         <h1 class="evaluation-title">Interview Evaluation Report</h1>
         <div class="candidate-info">
-            <p><strong>Name:</strong> {{ results.name|default('Not Provided') }}</p>
-            <p><strong>Role:</strong> {{ results.role|default('Not Provided') }}</p>
-            <input type="hidden" id="sessionId" value="{{ results.sessionId|default('') }}">
-        </div>
-        <div class="score-section">
-            <div class="score-label">Communication Skills</div>
-            <div class="score-value">{{ results.communication_skills|default(0)|float }} / 10</div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ (results.communication_skills|default(0)|float) * 10 }}%"></div>
+            <div class="name-tag">{{ results.name|default('Candidate') }}</div>
+            <div class="candidate-details">
+                <p><strong>Name:</strong> {{ results.name|default('Not Provided') }}</p>
+                <p><strong>Role:</strong> {{ results.role|default('Not Provided') }}</p>
             </div>
         </div>
         <div class="score-section">
-            <div class="score-label">Confidence</div>
-            <div class="score-value">{{ results.confidence|default(0)|float }} / 10</div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ (results.confidence|default(0)|float) * 10 }}%"></div>
+            <div class="score-grid">
+                <div class="score-item">
+                    <div class="speedometer-container">
+                        <canvas id="communicationSpeedometer" class="speedometer-canvas"></canvas>
+                    </div>
+                    <div class="score-label">Communication Skills</div>
+                    <div class="score-value">{{ results.communication_skills|default(0)|float }} / 10</div>
+                </div>
+                <div class="score-item">
+                    <div class="speedometer-container">
+                        <canvas id="confidenceSpeedometer" class="speedometer-canvas"></canvas>
+                    </div>
+                    <div class="score-label">Confidence</div>
+                    <div class="score-value">{{ results.confidence|default(0)|float }} / 10</div>
+                </div>
+                <div class="score-item">
+                    <div class="speedometer-container">
+                        <canvas id="domainKnowledgeSpeedometer" class="speedometer-canvas"></canvas>
+                    </div>
+                    <div class="score-label">Domain Knowledge</div>
+                    <div class="score-value">{{ results.domain_knowledge|default(0)|float }} / 10</div>
+                </div>
+                <div class="score-item">
+                    <div class="speedometer-container">
+                        <canvas id="criticalThinkingSpeedometer" class="speedometer-canvas"></canvas>
+                    </div>
+                    <div class="score-label">Critical Thinking</div>
+                    <div class="score-value">{{ results.critical_thinking|default(0)|float }} / 10</div>
+                </div>
             </div>
         </div>
-        <div class="score-section">
-            <div class="score-label">Domain Knowledge</div>
-            <div class="score-value">{{ results.domain_knowledge|default(0)|float }} / 10</div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ (results.domain_knowledge|default(0)|float) * 10 }}%"></div>
+        <div class="feedback-section">
+            <h2 class="feedback-title">Feedback and Suggestions</h2>
+            <div class="feedback-item">
+                <div class="feedback-label">Communication Skills</div>
+                <div class="feedback-text">{{ results.communication_feedback|default('No feedback available.') }}</div>
+                <div class="suggestion-text">{{ results.communication_suggestion|default('No suggestion available.') }}</div>
+            </div>
+            <div class="feedback-item">
+                <div class="feedback-label">Confidence</div>
+                <div class="feedback-text">{{ results.confidence_feedback|default('No feedback available.') }}</div>
+                <div class="suggestion-text">{{ results.confidence_suggestion|default('No suggestion available.') }}</div>
+            </div>
+            <div class="feedback-item">
+                <div class="feedback-label">Domain Knowledge</div>
+                <div class="feedback-text">{{ results.domain_knowledge_feedback|default('No feedback available.') }}</div>
+                <div class="suggestion-text">{{ results.domain_knowledge_suggestion|default('No suggestion available.') }}</div>
+            </div>
+            <div class="feedback-item">
+                <div class="feedback-label">Critical Thinking</div>
+                <div class="feedback-text">{{ results.critical_thinking_feedback|default('No feedback available.') }}</div>
+                <div class="suggestion-text">{{ results.critical_thinking_suggestion|default('No suggestion available.') }}</div>
             </div>
         </div>
-        <div class="score-section">
-            <div class="score-label">Critical Thinking</div>
-            <div class="score-value">{{ results.critical_thinking|default(0)|float }} / 10</div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ (results.critical_thinking|default(0)|float) * 10 }}%"></div>
+        <div class="feedback-section">
+            <h2 class="feedback-title">Detailed Skills Analysis</h2>
+            <div class="feedback-item">
+                <div class="feedback-label">Current Skills Demonstrated</div>
+                <div class="feedback-text">{{ feedback.current_skills|default('No analysis available.') }}</div>
+            </div>
+            <div class="feedback-item">
+                <div class="feedback-label">Knowledge Level for the Role</div>
+                <div class="feedback-text">{{ feedback.knowledge_level|default('No analysis available.') }}</div>
+            </div>
+            <div class="feedback-item">
+                <div class="feedback-label">Skills to Improve for the Role</div>
+                <div class="feedback-text">{{ feedback.skills_to_improve|default('No analysis available.') }}</div>
+            </div>
+            <div class="feedback-item">
+                <div class="feedback-label">General Transcript Analysis</div>
+                <div class="feedback-text">{{ feedback.general_analysis|default('No analysis available.') }}</div>
+            </div>
+            <div class="feedback-item">
+                <div class="feedback-label">Suggested Courses</div>
+                <div class="feedback-text">{{ feedback.suggested_courses|default('No suggestions available.') }}</div>
             </div>
         </div>
-        <a href="http://localhost:5000/" class="start-btn">Back to Home</a>
+        <div class="button-container">
+            <a href="http://localhost:5000/" class="start-btn">Back to Home</a>
+            <button class="download-btn" onclick="downloadAsImage('{{ results.name }}')">Download as Image</button>
+        </div>
     </div>
 
     <script>
-        // Ensure progress bars render correctly by validating the width values
-        document.querySelectorAll('.progress-fill').forEach(bar => {
-            let width = parseFloat(bar.style.width) || 0;
-            if (width < 0 || isNaN(width)) {
-                width = 0;
-            } else if (width > 100) {
-                width = 100;
-            }
-            bar.style.width = `${width}%`;
+        function drawSpeedometer(canvasId, value) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width / 2;
+            const centerY = height;
+            const radius = Math.min(width, height) * 0.5;
+            const startAngle = Math.PI;
+            const endAngle = 2 * Math.PI;
+            const maxValue = 10;
+            const minValue = 0;
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = '#d1d5db';
+            ctx.stroke();
+            const valueAngle = startAngle + ((value - minValue) / (maxValue - minValue)) * (endAngle - startAngle);
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, startAngle, valueAngle);
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = '#3b82f6';
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            const needleLength = radius - 10;
+            const needleX = centerX + needleLength * Math.cos(valueAngle);
+            const needleY = centerY + needleLength * Math.sin(valueAngle);
+            ctx.lineTo(needleX, needleY);
+            ctx.strokeStyle = '#1e40af';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI);
+            ctx.fillStyle = '#1e40af';
+            ctx.fill();
+        }
+
+        const communication = parseFloat('{{ results.communication_skills|default(0) }}') || 0;
+        const confidence = parseFloat('{{ results.confidence|default(0) }}') || 0;
+        const domainKnowledge = parseFloat('{{ results.domain_knowledge|default(0) }}') || 0;
+        const criticalThinking = parseFloat('{{ results.critical_thinking|default(0) }}') || 0;
+
+        const canvases = [
+            { id: 'communicationSpeedometer', value: communication },
+            { id: 'confidenceSpeedometer', value: confidence },
+            { id: 'domainKnowledgeSpeedometer', value: domainKnowledge },
+            { id: 'criticalThinkingSpeedometer', value: criticalThinking }
+        ];
+
+        canvases.forEach(canvasInfo => {
+            const canvas = document.getElementById(canvasInfo.id);
+            canvas.width = 200;
+            canvas.height = 120;
+            drawSpeedometer(canvasInfo.id, canvasInfo.value);
         });
 
-        // Particle Animation
-        const canvas = document.querySelector('.bg-particles');
-        const ctx = canvas.getContext('2d');
+        const particleCanvas = document.querySelector('.bg-particles');
+        const particleCtx = particleCanvas.getContext('2d');
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        function resizeParticleCanvas() {
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
         }
 
         class Particle {
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                this.radius = Math.random() * 2 + 1;
+                this.x = Math.random() * particleCanvas.width;
+                this.y = Math.random() * particleCanvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 3 + 1;
                 this.life = 1;
             }
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-                this.life = Math.max(0, this.life - 0.002);
+                if (this.x < 0 || this.x > particleCanvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > particleCanvas.height) this.vy *= -1;
+                this.life = Math.max(0, this.life - 0.0015);
             }
             draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius * this.life, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.4})`;
-                ctx.fill();
+                particleCtx.beginPath();
+                particleCtx.arc(this.x, this.y, this.radius * this.life, 0, Math.PI * 2);
+                particleCtx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.5})`;
+                particleCtx.fill();
             }
         }
 
         let particles = [];
         function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (particles.length < 50) particles.push(new Particle());
+            particleCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+            if (particles.length < 60) particles.push(new Particle());
             particles = particles.filter(p => p.life > 0);
             particles.forEach(p => {
                 p.update();
@@ -223,10 +441,140 @@
             requestAnimationFrame(animateParticles);
         }
 
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        resizeParticleCanvas();
+        window.addEventListener('resize', resizeParticleCanvas);
         animateParticles();
+
+        function downloadAsImage(name) {
+            const element = document.querySelector('.evaluation-container');
+            const buttonContainer = document.querySelector('.button-container');
+            const candidateInfo = document.querySelector('.candidate-info');
+            const nameTag = document.querySelector('.name-tag');
+            const scoreSection = document.querySelector('.score-section');
+            const feedbackSections = document.querySelectorAll('.feedback-section');
+            const feedbackItems = document.querySelectorAll('.feedback-item');
+            const scoreItems = document.querySelectorAll('.score-item');
+            const title = document.querySelector('.evaluation-title');
+
+            const originalStyles = {
+                containerBackground: element.style.background,
+                containerBackdropFilter: element.style.backdropFilter,
+                containerBoxShadow: element.style.boxShadow,
+                candidateInfoBackground: candidateInfo.style.background,
+                candidateInfoBoxShadow: candidateInfo.style.boxShadow,
+                nameTagBackground: nameTag.style.background,
+                nameTagBoxShadow: nameTag.style.boxShadow,
+                scoreSectionBackground: scoreSection.style.background,
+                scoreSectionBoxShadow: scoreSection.style.boxShadow,
+                feedbackSections: Array.from(feedbackSections).map(section => ({
+                    background: section.style.background,
+                    boxShadow: section.style.boxShadow,
+                    border: section.style.border
+                })),
+                feedbackItems: Array.from(feedbackItems).map(item => ({
+                    background: item.style.background,
+                    boxShadow: item.style.boxShadow
+                })),
+                scoreItems: Array.from(scoreItems).map(item => ({
+                    background: item.style.background,
+                    boxShadow: item.style.boxShadow
+                })),
+                titleColor: title.style.color,
+                titleBackground: title.style.background
+            };
+
+            element.style.background = '#ffffff';
+            element.style.backdropFilter = 'none';
+            element.style.boxShadow = 'none';
+            candidateInfo.style.background = '#ffffff';
+            candidateInfo.style.boxShadow = 'none';
+            nameTag.style.background = '#1e40af';
+            nameTag.style.boxShadow = 'none';
+            scoreSection.style.background = '#ffffff';
+            scoreSection.style.boxShadow = 'none';
+            feedbackSections.forEach(section => {
+                section.style.background = '#ffffff';
+                section.style.boxShadow = 'none';
+                section.style.border = 'none';
+            });
+            feedbackItems.forEach(item => {
+                item.style.background = '#f9fafb';
+                item.style.boxShadow = 'none';
+            });
+            scoreItems.forEach(item => {
+                item.style.background = '#f9fafb';
+                item.style.boxShadow = 'none';
+            });
+            title.style.background = 'none';
+            title.style.color = '#1e40af';
+
+            buttonContainer.classList.add('hidden');
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2
+            }).then(canvas => {
+                buttonContainer.classList.remove('hidden');
+                element.style.background = originalStyles.containerBackground;
+                element.style.backdropFilter = originalStyles.containerBackdropFilter;
+                element.style.boxShadow = originalStyles.containerBoxShadow;
+                candidateInfo.style.background = originalStyles.candidateInfoBackground;
+                candidateInfo.style.boxShadow = originalStyles.candidateInfoBoxShadow;
+                nameTag.style.background = originalStyles.nameTagBackground;
+                nameTag.style.boxShadow = originalStyles.nameTagBoxShadow;
+                scoreSection.style.background = originalStyles.scoreSectionBackground;
+                scoreSection.style.boxShadow = originalStyles.scoreSectionBoxShadow;
+                feedbackSections.forEach((section, index) => {
+                    section.style.background = originalStyles.feedbackSections[index].background;
+                    section.style.boxShadow = originalStyles.feedbackSections[index].boxShadow;
+                    section.style.border = originalStyles.feedbackSections[index].border;
+                });
+                feedbackItems.forEach((item, index) => {
+                    item.style.background = originalStyles.feedbackItems[index].background;
+                    item.style.boxShadow = originalStyles.feedbackItems[index].boxShadow;
+                });
+                scoreItems.forEach((item, index) => {
+                    item.style.background = originalStyles.scoreItems[index].background;
+                    item.style.boxShadow = originalStyles.scoreItems[index].boxShadow;
+                });
+                title.style.background = originalStyles.titleBackground;
+                title.style.color = originalStyles.titleColor;
+
+                const link = document.createElement('a');
+                link.download = `evaluation_report_${name}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(err => {
+                buttonContainer.classList.remove('hidden');
+                element.style.background = originalStyles.containerBackground;
+                element.style.backdropFilter = originalStyles.containerBackdropFilter;
+                element.style.boxShadow = originalStyles.containerBoxShadow;
+                candidateInfo.style.background = originalStyles.candidateInfoBackground;
+                candidateInfo.style.boxShadow = originalStyles.candidateInfoBoxShadow;
+                nameTag.style.background = originalStyles.nameTagBackground;
+                nameTag.style.boxShadow = originalStyles.nameTagBoxShadow;
+                scoreSection.style.background = originalStyles.scoreSectionBackground;
+                scoreSection.style.boxShadow = originalStyles.scoreSectionBoxShadow;
+                feedbackSections.forEach((section, index) => {
+                    section.style.background = originalStyles.feedbackSections[index].background;
+                    section.style.boxShadow = originalStyles.feedbackSections[index].boxShadow;
+                    section.style.border = originalStyles.feedbackSections[index].border;
+                });
+                feedbackItems.forEach((item, index) => {
+                    item.style.background = originalStyles.feedbackItems[index].background;
+                    item.style.boxShadow = originalStyles.feedbackItems[index].boxShadow;
+                });
+                scoreItems.forEach((item, index) => {
+                    item.style.background = originalStyles.scoreItems[index].background;
+                    item.style.boxShadow = originalStyles.scoreItems[index].boxShadow;
+                });
+                title.style.background = originalStyles.titleBackground;
+                title.style.color = originalStyles.titleColor;
+
+                console.error('Error capturing screenshot:', err);
+                alert('Failed to capture screenshot. Please try again.');
+            });
+        }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93cd8f227a647b9c',t:'MTc0Njc1NTU2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

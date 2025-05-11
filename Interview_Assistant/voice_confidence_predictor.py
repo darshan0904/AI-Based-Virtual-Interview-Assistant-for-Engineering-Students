@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 class VoiceConfidencePredictor:
-    def __init__(self, audio_path: str, model_path: str = 'C:\\Users\\rahul\\Desktop\\AI-Based-Virtual-Interview-Preparation-Assistant\\Ml Models\\Confidence Prediction\\voice_confidence_model.h5', max_len: int = 500):
+    def __init__(self, audio_path: str, model_path: str = 'voice_confidence_model.h5', max_len: int = 500):
         self.audio_path = audio_path
         self.model_path = model_path
         self.max_len = max_len

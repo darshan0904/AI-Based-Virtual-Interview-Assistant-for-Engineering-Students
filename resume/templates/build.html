@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a0a23 0%, #1a1a3d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 20px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .container {
+            max-width: 900px; /* Increased width */
+            min-height: 900px; /* Maintained height */
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 50px 40px; /* Slightly increased padding for balance */
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            animation: glowIn 1.5s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes glowIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 2.4em; /* Slightly larger for wider container */
+            margin-bottom: 25px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #ffe66d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        h2 {
+            color: #e5e7eb;
+            font-size: 1.5em; /* Slightly larger for balance */
+            margin: 25px 0 15px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            color: #e5e7eb;
+            font-size: 1.1em; /* Slightly larger for readability */
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 12px rgba(255, 107, 107, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px;
+            padding-right: 35px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 107, 107, 0.6);
+            background: linear-gradient(45deg, #ff4757, #ff6b6b);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button[type="button"] {
+            background: linear-gradient(45deg, #4b5eAA, #6b7280);
+            box-shadow: 0 0 15px rgba(107, 114, 128, 0.4);
+        }
+
+        button[type="button"]:hover {
+            background: linear-gradient(45deg, #6b7280, #4b5eAA);
+            box-shadow: 0 0 25px rgba(107, 114, 128, 0.6);
+        }
+
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1em;
+            text-align: center;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .report {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #e5e7eb;
+            font-size: 1em;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            margin: 25px auto;
+            padding: 14px 20px;
+            background: linear-gradient(45deg, #34d399, #10b981);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+            background: linear-gradient(45deg, #22c55e, #059669);
+        }
+
+        .download-btn svg {
+            margin-left: 10px;
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+            transition: transform 0.3s ease;
+        }
+
+        .download-btn:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Starfield Background Effect */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: twinkle 5s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1); }
+        }
+
+        #experience,
+        #education,
+        #skills {
+            margin-bottom: 15px;
+        }
+
+        #experience textarea,
+        #education input,
+        #skills input {
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                max-width: 700px; /* Adjusted for tablet */
+                min-height: 800px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            label {
+                font-size: 1em;
+            }
+
+            button,
+            .download-btn {
+                font-size: 1em;
+                padding: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+                max-width: 100%;
+                min-height: 700px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            label {
+                font-size: 0.9em;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            select,
+            textarea {
+                font-size: 0.9em;
+                padding: 12px;
+            }
+
+            button,
+            .download-btn {
+                font-size: 0.9em;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="starfield" id="starfield"></div>
+    <div class="container">
+        <h1>Build Resume</h1>
+        <form method="POST" action="{{ url_for('build') }}">
+            <div class="form-group">
+                <h2>Personal Information</h2>
+                <label>Name: <input type="text" name="name" required></label>
+                <label>Email: <input type="email" name="email" required></label>
+                <label>Job Title: <input type="text" name="job_title" required></label>
+            </div>
+            <div class="form-group">
+                <h2>Choose Template</h2>
+                <label>Template:
+                    <select name="template" required>
+                        <option value="professional">Professional</option>
+                        <option value="modern">Modern</option>
+                        <option value="creative">Creative</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <h2>Work Experience</h2>
+                <div id="experience">
+                    <textarea name="experience[]" placeholder="Enter job description" rows="4"></textarea>
+                </div>
+                <button type="button" onclick="addField('experience', 'textarea')">Add Experience</button>
+            </div>
+            <div class="form-group">
+                <h2>Education</h2>
+                <div id="education">
+                    <input type="text" name="education[]" placeholder="Enter education details">
+                </div>
+                <button type="button" onclick="addField('education', 'input')">Add Education</button>
+            </div>
+            <div class="form-group">
+                <h2>Skills</h2>
+                <div id="skills">
+                    <input type="text" name="skills[]" placeholder="Enter a skill">
+                </div>
+                <button type="button" onclick="addField('skills', 'input')">Add Skill</button>
+            </div>
+            <button type="submit">Generate Resume</button>
+        </form>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if report_content %}
+            <div class="report">
+                {{ report_content }}
+            </div>
+            {% if resume_generated %}
+                <a href="{{ url_for('download_resume') }}" class="download-btn">
+                    Download Resume
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        function addField(section, type) {
+            const container = document.getElementById(section);
+            const newField = document.createElement(type === 'textarea' ? 'textarea' : 'input');
+            newField.name = `${section}[]`;
+            newField.placeholder = `Enter ${section} details`;
+            if (type === 'textarea') {
+                newField.rows = 4;
+                newField.style.width = '100%';
+            } else {
+                newField.type = 'text';
+            }
+            container.appendChild(newField);
+        }
+
+        // Starfield effect
+        const starfieldContainer = document.getElementById('starfield');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = `${Math.random() * 2 + 1}px`;
+            star.style.height = star.style.width;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 5}s`;
+            starfieldContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>

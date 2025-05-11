@@ -4,8 +4,6 @@ Question 1: Rahul, tell me a little about yourself and your background.
 User Answer: myself Rahul I am I am currently engineering and I am little type forward for data science opportunity
 AI Answer: N/A
 Domain: Introduction
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -13,8 +11,6 @@ Question 2: Can you describe your career journey so far and what's driven your c
 User Answer: and I have participated
 AI Answer: N/A
 Domain: Introduction
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -22,8 +18,6 @@ Question 3: Rahul, describe a scenario where you had to deal with imbalanced cla
 User Answer: I have chat GPT and and crop crop to solve the issue for me and that help me thank you
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Role-Specific
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -31,8 +25,6 @@ Question 4: Rahul, explain how you would approach building a predictive model us
 User Answer: I would be using using the recurrent your network we as it is efficient in working with 10 series data
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Role-Specific
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -40,8 +32,6 @@ Question 5: Rahul, let's say you're tasked with analyzing a large dataset with m
 User Answer: to solve anything values or replacement with null
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Role-Specific
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -49,8 +39,6 @@ Question 6: Rahul, explain your understanding of different dimensionality reduct
 User Answer: generally used when you have I have to classify the different that's it about PCA
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Role-Specific
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -58,8 +46,6 @@ Question 7: Describe a time you had to explain a complex technical issue to a no
 User Answer: delete
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Behavioral
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -67,8 +53,6 @@ Question 8: Tell me about a time you had to adapt your analytical approach when 
 User Answer: incomplete data can leave to leave sir understanding in the building a model so I would read to minimise the incomplete
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Behavioral
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -76,8 +60,6 @@ Question 9: Explain a situation where a technical disagreement arose within your
 User Answer: it's a very wonderful platform to help feel with deal with
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Behavioral
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -85,8 +67,6 @@ Question 10: Describe a scenario where you identified a significant discrepancy 
 User Answer: it was a very challenging star and I took it in a very salary in way and finally I was able to solve the issue
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Situational
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -94,8 +74,6 @@ Question 11: Explain how you would approach identifying and mitigating the impac
 User Answer: I would be using
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Situational
-Audio File: None
-Video File: None
 
 ================================================================================
 
@@ -103,8 +81,6 @@ Question 12: How would you handle a situation where your model's performance une
 User Answer: I try to reduce the size of the model without compromise
 AI Answer: Unable to generate AI answer due to API error.
 Domain: Situational
-Audio File: None
-Video File: None
 
 ================================================================================
 

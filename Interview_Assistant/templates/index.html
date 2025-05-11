@@ -38,7 +38,7 @@
 
     <!-- Form Container -->
     <div id="form-container" class="container mx-auto px-4 py-8 flex items-center justify-center min-h-screen">
-        <div class="bg-white dark:bg-gray-800 p-8 AscendantList p-8 rounded-2xl shadow-2xl w-full max-w-md fade-in">
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-md fade-in">
             <h1 class="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-teal-500">AI Interview Assistant</h1>
             <form id="interview-form" class="space-y-6">
                 <div class="relative">
@@ -239,17 +239,20 @@
                     if (e.data.size > 0) {
                         if (!allAudioChunks[currentQuestion]) allAudioChunks[currentQuestion] = [];
                         allAudioChunks[currentQuestion].push(e.data);
-                        console.log(`Audio chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}`);
+                        console.log(`Audio chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}, total chunks: ${allAudioChunks[currentQuestion].length}`);
+                    } else {
+                        console.warn(`Empty audio chunk received for question ${currentQuestion + 1}`);
                     }
                 };
                 mediaRecorderAudio.onstop = () => {
                     console.log(`Audio recording stopped for question ${currentQuestion + 1}, chunks: ${allAudioChunks[currentQuestion]?.length || 0}`);
                 };
+                mediaRecorderAudio.onerror = e => console.error(`Audio recorder error for question ${currentQuestion + 1}:`, e);
 
                 const videoStream = new MediaStream(stream.getVideoTracks());
                 mediaRecorderVideo = new MediaRecorder(videoStream, { 
                     mimeType: videoMimeType,
-                    videoBitsPerSecond: 500000  // Reduced for testing
+                    videoBitsPerSecond: 500000
                 });
                 mediaRecorderVideo.onstart = () => {
                     console.log(`Video recording started for question ${currentQuestion + 1}, state: ${mediaRecorderVideo.state}`);
@@ -258,12 +261,15 @@
                     if (e.data.size > 0) {
                         if (!allVideoChunks[currentQuestion]) allVideoChunks[currentQuestion] = [];
                         allVideoChunks[currentQuestion].push(e.data);
-                        console.log(`Video chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}`);
+                        console.log(`Video chunk captured for question ${currentQuestion + 1}, size: ${e.data.size}, total chunks: ${allVideoChunks[currentQuestion].length}`);
+                    } else {
+                        console.warn(`Empty video chunk received for question ${currentQuestion + 1}`);
                     }
                 };
                 mediaRecorderVideo.onstop = () => {
                     console.log(`Video recording stopped for question ${currentQuestion + 1}, chunks: ${allVideoChunks[currentQuestion]?.length || 0}`);
                 };
+                mediaRecorderVideo.onerror = e => console.error(`Video recorder error for question ${currentQuestion + 1}:`, e);
             })
             .catch(err => {
                 console.error("Webcam access failed:", err);
@@ -286,6 +292,11 @@
                     console.log(`Speech recognition started for question ${currentQuestion + 1}`);
                     isRecording = true;
                     userAnswer = "";
+                    if (subtitleInterval) {
+                        clearInterval(subtitleInterval);
+                        subtitleInterval = null;
+                        console.log("Cleared subtitle interval on speech recognition start");
+                    }
                     transcriptBar.textContent = "Listening...";
                 };
                 recognition.onresult = event => {
@@ -339,7 +350,11 @@
         }
 
         function startDynamicSubtitles(text) {
-            if (subtitleInterval) clearInterval(subtitleInterval);
+            if (subtitleInterval) {
+                clearInterval(subtitleInterval);
+                subtitleInterval = null;
+                console.log("Cleared existing subtitle interval");
+            }
             const maxLength = 50;
             const words = text.split(' ');
             let chunks = [];
@@ -353,12 +368,20 @@
                 }
             }
             if (currentChunk) chunks.push(currentChunk);
+            if (chunks.length === 0) {
+                transcriptBar.textContent = text;
+                console.log("No chunks created, displaying full text:", text);
+                return;
+            }
             let index = 0;
-            transcriptBar.textContent = chunks[0] || text;
+            transcriptBar.textContent = chunks[index];
+            console.log(`Starting subtitles with ${chunks.length} chunks:`, chunks);
             if (chunks.length > 1) {
                 subtitleInterval = setInterval(() => {
+                    if (!subtitleInterval) return;
                     index = (index + 1) % chunks.length;
                     transcriptBar.textContent = chunks[index];
+                    console.log(`Subtitle updated to chunk ${index + 1}/${chunks.length}: ${chunks[index]}`);
                 }, 3000);
             }
         }
@@ -519,8 +542,8 @@
             .then(data => {
                 sessionId = data.session_id;
                 transcriptContent = `\t\t\t${username}\n\n`;
-                allAudioChunks = Array(15).fill().map(() => []);
-                allVideoChunks = Array(15).fill().map(() => []);
+                allAudioChunks = [];
+                allVideoChunks = [];
                 return generateQuestions();
             })
             .then(() => {
@@ -559,7 +582,6 @@
 
         function loadQuestion() {
             if (currentQuestion >= questions.length || currentQuestion >= 15) {
-                saveAllRecordings();
                 showContainer('thank-you-container', 'slide-in-left');
                 cleanup();
                 document.getElementById('eval-btn').href = `http://127.0.0.1:9394/`;
@@ -587,10 +609,9 @@
             })
             .then(data => {
                 if (data.end) {
-                    saveAllRecordings();
                     showContainer('thank-you-container', 'slide-in-left');
                     cleanup();
-                    document.getElementById('eval-btn').href = `http://127.0.0.1:9394/`;
+                    document.getElementById('eval-btn').href = `http://127.0.0.1:9999/`;
                     return;
                 }
 
@@ -617,6 +638,12 @@
         }
 
         function startRecording() {
+            if (!userVideo.srcObject) {
+                console.error("Webcam stream lost, reinitializing...");
+                initWebcam();
+                setTimeout(startRecording, 1000);
+                return;
+            }
             if (recognition && !isRecording) {
                 try {
                     recognition.start();
@@ -657,7 +684,11 @@
                 mediaRecorderVideo.stop();
                 console.log(`Stopped video recording for question ${currentQuestion + 1}`);
             }
-            if (subtitleInterval) clearInterval(subtitleInterval);
+            if (subtitleInterval) {
+                clearInterval(subtitleInterval);
+                subtitleInterval = null;
+                console.log("Cleared subtitle interval during cleanup");
+            }
             if (questionAudio) {
                 questionAudio.pause();
                 questionAudio.currentTime = 0;
@@ -703,12 +734,19 @@
 
             const capturedAnswer = userAnswer || transcriptBar.textContent.trim() || "No response recorded";
             console.log(`Captured answer for question ${currentQuestion + 1}: ${capturedAnswer}`);
+            console.log(`Audio chunks for question ${currentQuestion + 1}: ${allAudioChunks[currentQuestion]?.length || 0}`);
+            console.log(`Video chunks for question ${currentQuestion + 1}: ${allVideoChunks[currentQuestion]?.length || 0}`);
 
             showContainer('transition-container', 'slide-in-left');
 
             setTimeout(() => {
-                const audioFile = `${username}_q${currentQuestion + 1}_audio.wav`;
-                const videoFile = `${username}_q${currentQuestion + 1}_video.mp4`;
+                const sanitizedUsername = username
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]/g, '_')
+                    .replace(/_+/g, '_')
+                    .replace(/^_+|_+$/g, '');
+                const audioFile = `${sanitizedUsername}_${currentQuestion + 1}_audio.wav`;
+                const videoFile = `${sanitizedUsername}_${currentQuestion + 1}_video.mp4`;
 
                 transcriptContent += `Question ${currentQuestion + 1}: ${questions[currentQuestion]}\n`;
                 transcriptContent += `User Answer: ${capturedAnswer}\n`;
@@ -721,11 +759,11 @@
                 const formData = new FormData();
                 let audioValid = false, videoValid = false;
 
-                if (allAudioChunks[currentQuestion] && allAudioChunks[currentQuestion].length > 0) {
+                if (allAudioChunks[currentQuestion]?.length > 0) {
                     const audioBlob = new Blob(allAudioChunks[currentQuestion], { type: 'audio/webm;codecs=opus' });
                     if (audioBlob.size > 0) {
                         formData.append('audio', audioBlob, audioFile);
-                        console.log(`Sending audio for question ${currentQuestion + 1}, size: ${audioBlob.size}`);
+                        console.log(`Sending audio for question ${currentQuestion + 1}, size: ${audioBlob.size}, filename: ${audioFile}`);
                         audioValid = true;
                     } else {
                         console.warn(`Audio blob is empty for question ${currentQuestion + 1}`);
@@ -735,13 +773,14 @@
                 }
                 if (!audioValid) {
                     formData.append('audio', new Blob(), audioFile);
+                    console.log(`Sending empty audio placeholder for question ${currentQuestion + 1}, filename: ${audioFile}`);
                 }
 
-                if (allVideoChunks[currentQuestion] && allVideoChunks[currentQuestion].length > 0) {
+                if (allVideoChunks[currentQuestion]?.length > 0) {
                     const videoBlob = new Blob(allVideoChunks[currentQuestion], { type: 'video/webm' });
                     if (videoBlob.size > 0) {
                         formData.append('video', videoBlob, videoFile);
-                        console.log(`Sending video for question ${currentQuestion + 1}, size: ${videoBlob.size}`);
+                        console.log(`Sending video for question ${currentQuestion + 1}, size: ${videoBlob.size}, filename: ${videoFile}`);
                         videoValid = true;
                     } else {
                         console.warn(`Video blob is empty for question ${currentQuestion + 1}`);
@@ -751,6 +790,7 @@
                 }
                 if (!videoValid) {
                     formData.append('video', new Blob(), videoFile);
+                    console.log(`Sending empty video placeholder for question ${currentQuestion + 1}, filename: ${videoFile}`);
                 }
 
                 formData.append('transcript', capturedAnswer);
@@ -774,6 +814,8 @@
                         return;
                     }
 
+                    console.log(`Response recorded successfully for question ${currentQuestion + 1}`);
+
                     transcriptBar.textContent = "";
                     userAnswer = "";
                     aiAnswer = "";
@@ -793,59 +835,8 @@
         });
 
         function saveAllRecordings() {
-            const saveRecording = (index) => {
-                if (index >= Math.min(questions.length, 15)) return Promise.resolve();
-                if (!allAudioChunks[index]?.length && !allVideoChunks[index]?.length) {
-                    console.log(`Skipping question ${index + 1}: No audio or video chunks`);
-                    return saveRecording(index + 1);
-                }
-
-                const formData = new FormData();
-                const audioFile = `${username}_q${index + 1}_audio.wav`;
-                const videoFile = `${username}_q${index + 1}_video.mp4`;
-
-                if (allAudioChunks[index]?.length > 0) {
-                    const audioBlob = new Blob(allAudioChunks[index], { type: 'audio/webm;codecs=opus' });
-                    formData.append('audio', audioBlob, audioFile);
-                    console.log(`Saving audio for question ${index + 1}, size: ${audioBlob.size}`);
-                } else {
-                    formData.append('audio', new Blob(), audioFile);
-                }
-                if (allVideoChunks[index]?.length > 0) {
-                    const videoBlob = new Blob(allVideoChunks[index], { type: 'video/webm' });
-                    formData.append('video', videoBlob, videoFile);
-                    console.log(`Saving video for question ${index + 1}, size: ${videoBlob.size}`);
-                } else {
-                    formData.append('video', new Blob(), videoFile);
-                }
-                formData.append('transcript', transcriptContent);
-
-                return fetch(`/record_response/${sessionId}/${index + 1}`, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(err => { throw new Error(`HTTP error ${response.status}: ${err.error}`); });
-                    }
-                    return response.json();
-                })
-                .then(result => {
-                    if (result.status !== "success") {
-                        console.error(`Failed to save recording for question ${index + 1}:`, result.error);
-                    }
-                    return saveRecording(index + 1);
-                })
-                .catch(err => {
-                    console.error(`Error saving recording for question ${index + 1}:`, err);
-                    return saveRecording(index + 1);
-                });
-            };
-
-            saveRecording(0).then(() => {
-                console.log("All recordings saved");
-            });
+            console.log("saveAllRecordings called but not needed, as recordings are saved after each question.");
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93ce0c919e4fc020',t:'MTc0Njc2MDcwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
