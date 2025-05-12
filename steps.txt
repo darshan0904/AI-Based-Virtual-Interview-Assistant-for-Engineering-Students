@@ -19,7 +19,7 @@ Firstly,
 Then,
     Open 5 Seperate Terminals to run 5 seperate app.py.
         Terminal 1:
-            cd "Aptitude Generator"
+            cd Aptitude_Generator
             python app.py
         
         Terminal 2:
