@@ -1,4 +1,4 @@
-# AI-Powered Virtual Interview Preparation Assistant
+# AI-Based-Virtual-Interview-Assistant-for-Engineering-Students
 
 ## Project Overview
 The **AI-Powered Virtual Interview Preparation Assistant** is designed to help job seekers, particularly students, excel in technical interviews. It addresses the challenge of limited access to personalized, role-specific interview practice by providing an AI-driven platform that simulates realistic interviews, evaluates performance, and offers real-time, data-driven feedback.
