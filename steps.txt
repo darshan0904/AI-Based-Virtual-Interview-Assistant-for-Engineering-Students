@@ -11,7 +11,7 @@ Firstly,
     
     Create a virtual env inside the resume folder as:
         cd resume
-        python3.8 -m venv env
+        python3.10 -m venv env
         env/Scripts/activate
         pip install -r requirements.txt
     
